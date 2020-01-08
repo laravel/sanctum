@@ -65,7 +65,13 @@ Route::middleware('auth:airlock,passport')->get('/user', function (Request $requ
 
 ### SPA Authentication
 
-To authenticate your SPA, you should make a `POST` request to the typical Laravel `/login` route. If the request is successful, you will be authenticated and subsequent requests to your API routes will automatically be authenticated.
+To authenticate your SPA, your SPA's login page should first make a request to the `/airlock/csrf-cookie` route to initialize CSRF protection for the application:
+
+```js
+axios.get('/airlock/csrf-token');
+```
+
+Once CSRF protection has been initialized, you should make a `POST` request to the typical Laravel `/login` route. If the request is successful, you will be authenticated and subsequent requests to your API routes will automatically be authenticated.
 
 ## Issuing API Tokens
 
