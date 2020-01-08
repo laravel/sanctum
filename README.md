@@ -138,7 +138,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-Route::post('/airlock/login', function (Request $request) {
+Route::post('/airlock/token', function (Request $request) {
     $request->validate([
         'email' => 'required|email',
         'password' => 'required'
