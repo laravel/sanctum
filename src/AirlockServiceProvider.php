@@ -91,7 +91,7 @@ class AirlockServiceProvider extends ServiceProvider
     protected function configureGuard()
     {
         Auth::resolved(function ($auth) {
-            $auth->viaRequest('airlock', new Guard($auth, config('airlock.tokens', true)));
+            $auth->viaRequest('airlock', new Guard($auth));
         });
     }
 
