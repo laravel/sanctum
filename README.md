@@ -27,7 +27,7 @@ Finally, you should run your database migrations:
 
 ## Configuration
 
-### Configuration Your Domains
+### Configuring Your Domains
 
 If you are using Laravel Airlock to authenticate your single page application (SPA), you should configure which domains your SPA will be making requests from. You may configure these domains using the `stateful` configuration option in your `config/airlock.php` configuration file. This configuration setting determines which domains will maintain "stateful" authentication in order to make requests to your API.
 
@@ -90,7 +90,7 @@ $token = $user->createToken('token-name');
 return $token->plainTextToken;
 ```
 
-You may all of the user's tokens using the `tokens` Eloquent relationship provided by the `HasApiTokens` trait:
+You may access all of the user's tokens using the `tokens` Eloquent relationship provided by the `HasApiTokens` trait:
 
 ```php
 foreach ($user->tokens as $token) {
