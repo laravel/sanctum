@@ -94,7 +94,7 @@ class User extends Authenticatable
 }
 ```
 
-To issue a token, you may use the `createToken` method. The `createToken` method returns a `Laravel\Airlock\NewAccessToken` instance. API tokens are hashed using SHA-256 hashing before being stored in your database, but you may access the plain-text value of the token using the `plainTextToken` property of the `NewAccessToken` instance:
+To issue a token, you may use the `createToken` method. The `createToken` method returns a `Laravel\Airlock\NewAccessToken` instance. API tokens are hashed using SHA-256 hashing before being stored in your database, but you may access the plain-text value of the token using the `plainTextToken` property of the `NewAccessToken` instance. You should display this value to the user once:
 
 ```php
 $token = $user->createToken('token-name');
