@@ -18,7 +18,7 @@ class Airlock
      *
      * @var bool
      */
-    public static $runsMigrations;
+    public static $runsMigrations = true;
 
     /**
      * Get the name of the user model used by Airlock.
@@ -50,7 +50,7 @@ class Airlock
      */
     public static function shouldRunMigrations()
     {
-        if (! is_null(static::$runsMigrations)) {
+        if (! static::$runsMigrations) {
             return static::$runsMigrations;
         }
 
