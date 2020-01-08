@@ -41,7 +41,7 @@ class PersonalAccessToken extends Model
      */
     public function user()
     {
-        return $this->belongsTo(Airlock::userModel(), 'user_id');
+        return $this->belongsTo(Airlock::userModel());
     }
 
     /**
