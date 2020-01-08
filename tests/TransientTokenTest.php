@@ -13,5 +13,7 @@ class TransientTokenTest extends TestCase
 
         $this->assertTrue($token->can('foo'));
         $this->assertTrue($token->can('bar'));
+        $this->assertFalse($token->cant('foo'));
+        $this->assertFalse($token->cant('bar'));
     }
 }
