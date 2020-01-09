@@ -18,7 +18,7 @@ trait HasApiTokens
      */
     public function tokens()
     {
-        return $this->hasMany(PersonalAccessToken::class);
+        return $this->hasMany(Airlock::$personalAccessTokenModel);
     }
 
     /**

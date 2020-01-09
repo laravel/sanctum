@@ -14,6 +14,13 @@ class Airlock
     public static $userModel = 'App\\User';
 
     /**
+     * The personal access client model class name.
+     *
+     * @var string
+     */
+    public static $personalAccessTokenModel = 'Laravel\\Airlock\\PersonalAccessToken';
+
+    /**
      * Indicates if Airlock's migrations will be run.
      *
      * @var bool
@@ -41,6 +48,17 @@ class Airlock
         static::$userModel = $model;
 
         return new static;
+    }
+
+    /**
+     * Set the personal access token model name.
+     *
+     * @param  string  $model
+     * @return void
+     */
+    public static function usePersonalAccessTokenModel($model)
+    {
+        static::$personalAccessTokenModel = $model;
     }
 
     /**

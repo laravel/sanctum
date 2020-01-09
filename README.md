@@ -162,6 +162,25 @@ $user->tokens->each->delete();
 
 Within your web application's UI, you may wish to list each of the user's tokens and allow the user to revoke the tokens individually as needed.
 
+## Extending the Personal Access Token model
+
+You might want to extend the default `Laravel\Airlock\PersonalAccessToken` model and use
+your own model. You can do so by using the `usePersonalAccessTokenModel()` method in your `AppServiceProvider.php`:
+
+```php
+use Laravel\Airlock\Airlock;
+use App\Airlock\CustomPersonalAccessToken;
+
+public function boot()
+{
+    //
+
+    Airlock::usePersonalAccessTokenModel(
+        CustomPersonalAccessToken::class
+    );
+}
+```
+
 ## Contributing
 
 Thank you for considering contributing to Airlock! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
