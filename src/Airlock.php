@@ -59,6 +59,8 @@ class Airlock
     public static function usePersonalAccessTokenModel($model)
     {
         static::$personalAccessTokenModel = $model;
+
+        return new static;
     }
 
     /**
