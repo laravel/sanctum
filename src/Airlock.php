@@ -54,7 +54,7 @@ class Airlock
             return static::$runsMigrations;
         }
 
-        $model = config('auth.providers.users.model', 'App\\User');
+        $model = config('auth.providers.users.model', static::userModel());
 
         return class_exists($model)
                     ? in_array(HasApiTokens::class, class_uses_recursive($model))
