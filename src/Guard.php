@@ -42,6 +42,7 @@ class Guard
 
         if ($this->supportsTokens() && $token = $request->bearerToken()) {
             $model = Airlock::$personalAccessTokenModel;
+
             $accessToken = $model::where('token', hash('sha256', $token))->first();
 
             if (! $accessToken) {
