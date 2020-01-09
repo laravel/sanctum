@@ -82,6 +82,48 @@ class GuardTest extends TestCase
         $this->assertNull($user);
     }
 
+    public function test_authentication_with_token_fails_if_expired()
+    {
+        Airlock::useUserModel(User::class);
+
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+
+        $factory = Mockery::mock(AuthFactory::class);
+
+        $guard = new Guard($factory, 1);
+
+        $webGuard = Mockery::mock(stdClass::class);
+
+        $factory->shouldReceive('guard')
+                ->with('web')
+                ->andReturn($webGuard);
+
+        $webGuard->shouldReceive('user')->once()->andReturn(null);
+        $webGuard->shouldReceive('getProvider->getModel')->andReturn(User::class);
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer test');
+
+        $user = User::forceCreate([
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@laravel.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+        ]);
+
+        $token = PersonalAccessToken::forceCreate([
+            'user_id' => $user->id,
+            'name' => 'Test',
+            'token' => hash('sha256', 'test'),
+            'created_at' => now()->subMinutes(60),
+        ]);
+
+        $user = $guard->__invoke($request);
+
+        $this->assertNull($user);
+    }
+
     public function test_authentication_is_successful_with_token_if_no_session_present()
     {
         Airlock::useUserModel(User::class);
