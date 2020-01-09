@@ -11,7 +11,7 @@ class Airlock
      *
      * @var string
      */
-    public static $userModel = 'App\\User';
+    public static $userModel;
 
     /**
      * The personal access client model class name.
@@ -34,7 +34,11 @@ class Airlock
      */
     public static function userModel()
     {
-        return config('auth.providers.users.model', static::$userModel);
+        if (static::$userModel) {
+            return static::$userModel;
+        }
+
+        return config('auth.providers.users.model', 'App\\User');
     }
 
     /**

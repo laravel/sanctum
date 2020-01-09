@@ -16,14 +16,23 @@ class Guard
     protected $auth;
 
     /**
+     * The number of minutes tokens should be allowed to remain valid.
+     *
+     * @var int
+     */
+    protected $expiration;
+
+    /**
      * Create a new guard instance.
      *
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
+     * @param  int  $expiration
      * @return void
      */
-    public function __construct(AuthFactory $auth)
+    public function __construct(AuthFactory $auth, $expiration = null)
     {
         $this->auth = $auth;
+        $this->expiration = $expiration;
     }
 
     /**
@@ -45,7 +54,9 @@ class Guard
 
             $accessToken = $model::where('token', hash('sha256', $token))->first();
 
-            if (! $accessToken) {
+            if (! $accessToken ||
+                ($this->expiration &&
+                 $accessToken->created_at->lte(now()->subMinutes($this->expiration)))) {
                 return;
             }
 
