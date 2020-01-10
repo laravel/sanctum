@@ -19,7 +19,7 @@ You may install Laravel Airlock via Composer:
 
 Next, you should publish the Airlock configuration and migration files using the `vendor:publish` Artisan command. The `airlock` configuration file will be placed in your `config` directory:
 
-    php artisan vendor:publish
+    php artisan vendor:publish --provider="Laravel\Airlock\AirlockServiceProvider"
 
 Finally, you should run your database migrations:
 
