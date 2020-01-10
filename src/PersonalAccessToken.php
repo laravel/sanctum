@@ -14,7 +14,6 @@ class PersonalAccessToken extends Model
     protected $casts = [
         'abilities' => 'json',
         'last_used_at' => 'datetime',
-        'expires_at' => 'datetime',
     ];
 
     /**
