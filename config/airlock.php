@@ -30,4 +30,15 @@ return [
 
     'expiration' => null,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Airlock Prefix
+    |--------------------------------------------------------------------------
+    |
+    | This prefix will be used when hiting initialize CSRF protection route for the application.
+    |
+    */
+
+    'prefix' => env('AIRLOCK_PREFIX'),
+
 ];
