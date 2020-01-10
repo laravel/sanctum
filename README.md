@@ -181,6 +181,18 @@ public function boot()
 }
 ```
 
+## Prune Expired Tokens
+
+If you want to prune expired tokens from personal_access_tokens table. Laravel Airlock provides the job implementation needed to accomplish this:
+
+```php
+use Laravel\Airlock\PruneExpiredTokens;
+
+$schedule->call(function () {
+    (new PruneExpiredTokens)();
+})->daily();
+```
+
 ## Contributing
 
 Thank you for considering contributing to Airlock! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
