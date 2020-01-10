@@ -26,6 +26,7 @@ class PersonalAccessToken extends Model
         'name',
         'token',
         'abilities',
+        'expires_at',
     ];
 
     /**

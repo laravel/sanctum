@@ -5,7 +5,7 @@ namespace Laravel\Airlock\Tests;
 use Laravel\Airlock\HasApiTokens;
 use Laravel\Airlock\PersonalAccessToken;
 use Laravel\Airlock\TransientToken;
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\TestCase;
 
 class HasApiTokensTest extends TestCase
 {
@@ -28,6 +28,17 @@ class HasApiTokensTest extends TestCase
         $class->withAccessToken(new TransientToken);
 
         $this->assertTrue($class->tokenCan('foo'));
+    }
+
+    public function test_can_be_created_with_expiration()
+    {
+        $this->app['config']->set('airlock.expiration', 1);
+
+        $class = new ClassThatHasApiTokens;
+
+        $newToken = $class->createToken('test');
+
+        $this->assertNotEmpty($newToken->accessToken->expires_at);
     }
 }
 

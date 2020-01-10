@@ -45,6 +45,7 @@ trait HasApiTokens
             'name' => $name,
             'token' => hash('sha256', $plainTextToken = Str::random(80)),
             'abilities' => $abilities,
+            'expires_at' => config('airlock.expiration') ?  now()->addMinutes(config('airlock.expiration')) : null,
         ]);
 
         return new NewAccessToken($token, $plainTextToken);
