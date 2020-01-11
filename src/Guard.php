@@ -43,7 +43,7 @@ class Guard
      */
     public function __invoke(Request $request)
     {
-        if ($user = $this->auth->guard('web')->user()) {
+        if ($user = $this->auth->guard(config('airlock.guard', 'web'))->user()) {
             return $this->supportsTokens()
                         ? $user->withAccessToken(new TransientToken)
                         : $user;
@@ -74,7 +74,7 @@ class Guard
     protected function supportsTokens()
     {
         return in_array(HasApiTokens::class, class_uses_recursive(
-            $this->auth->guard('web')->getProvider()->getModel()
+            $this->auth->guard(config('airlock.guard', 'web'))->getProvider()->getModel()
         ));
     }
 }
