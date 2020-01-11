@@ -29,5 +29,7 @@ return [
     */
 
     'expiration' => null,
-
+    'guard' => 'api',
+    'prefix' => 'api',
+    
 ];
