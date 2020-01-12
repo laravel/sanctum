@@ -3,8 +3,9 @@
 namespace Laravel\Airlock;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Airlock\Contracts\HasAbilities;
 
-class PersonalAccessToken extends Model
+class PersonalAccessToken extends Model implements HasAbilities
 {
     /**
      * The attributes that should be cast to native types.
