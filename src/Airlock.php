@@ -34,11 +34,7 @@ class Airlock
      */
     public static function userModel()
     {
-        if (static::$userModel) {
-            return static::$userModel;
-        }
-
-        return config('auth.providers.users.model', 'App\\User');
+        return static::$userModel ?: config('auth.providers.users.model', 'App\\User');
     }
 
     /**
