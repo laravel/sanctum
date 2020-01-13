@@ -126,7 +126,7 @@ The `tokenCan` method will always return `true` if the incoming authenticated re
 
 ### Authenticating Mobile Applications
 
-You may use Airlock tokens to authenticate your mobile application's requests to your API. To get started, create a route that accepts the user's email / username, password, and device_name, then exchanges them for a new Airlock token. You may then store the token on your device and use it to make additional API requests:
+You may use Airlock tokens to authenticate your mobile application's requests to your API. To get started, create a route that accepts the user's email / username, password, and device name, then exchanges them for a new Airlock token. You may then store the token on your device and use it to make additional API requests:
 
 ```php
 use App\User;
