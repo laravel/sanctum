@@ -49,7 +49,6 @@ class GuardTest extends TestCase
                 ->andReturn($webGuard);
 
         $webGuard->shouldReceive('user')->once()->andReturn($fakeUser = new User);
-        $webGuard->shouldReceive('getProvider->getModel')->once()->andReturn(User::class);
 
         $user = $guard->__invoke(Request::create('/', 'GET'));
 
@@ -59,6 +58,8 @@ class GuardTest extends TestCase
 
     public function test_authentication_is_attempted_with_token_if_no_session_present()
     {
+        Airlock::useUserModel(User::class);
+
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
 
         $factory = Mockery::mock(AuthFactory::class);
@@ -72,7 +73,6 @@ class GuardTest extends TestCase
                 ->andReturn($webGuard);
 
         $webGuard->shouldReceive('user')->once()->andReturn(null);
-        $webGuard->shouldReceive('getProvider->getModel')->andReturn(User::class);
 
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
@@ -100,7 +100,6 @@ class GuardTest extends TestCase
                 ->andReturn($webGuard);
 
         $webGuard->shouldReceive('user')->once()->andReturn(null);
-        $webGuard->shouldReceive('getProvider->getModel')->andReturn(User::class);
 
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
@@ -142,7 +141,6 @@ class GuardTest extends TestCase
                 ->andReturn($webGuard);
 
         $webGuard->shouldReceive('user')->once()->andReturn(null);
-        $webGuard->shouldReceive('getProvider->getModel')->andReturn(User::class);
 
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
