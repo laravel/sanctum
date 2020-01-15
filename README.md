@@ -68,12 +68,22 @@ Route::middleware('auth:airlock,passport')->get('/user', function (Request $requ
 To authenticate your SPA, your SPA's login page should first make a request to the `/airlock/csrf-cookie` route to initialize CSRF protection for the application:
 
 ```js
+axios.defaults.withCredentials = true;
+
 axios.get('/airlock/csrf-cookie').then(response => {
     // Login...
 });
 ```
 
 Once CSRF protection has been initialized, you should make a `POST` request to the typical Laravel `/login` route. If the request is successful, you will be authenticated and subsequent requests to your API routes will automatically be authenticated.
+
+#### CORS & Cookies
+
+If you are having trouble authenticating with your application from an SPA that executes on a separate subdomain, you have likely misconfigured your CORS or session cookie settings. You should ensure that your application's CORS configuration is returning the `Access-Control-Allow-Credentials` header with a value of `True`.
+
+In addition, you should ensure your application's session cookie domain configuration supports any subdomain of your root domain. You may do this by prefixing the domain with a leading `.`:
+
+    'domain' => '.domain.com',
 
 ## Issuing API Tokens
 
