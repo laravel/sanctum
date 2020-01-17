@@ -30,4 +30,14 @@ return [
 
     'expiration' => null,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Session Driver
+    |--------------------------------------------------------------------------
+    |
+    | This option allows you to select which session driver should be used
+    |
+    */
+    'session_driver' => 'cookie'
+
 ];
