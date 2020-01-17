@@ -16,7 +16,7 @@ class EnsureFrontendRequestsAreStateful
      */
     public function handle($request, $next)
     {
-        $this->configureSecureCookieSessions();
+        $this->configureSecureSessions();
 
         return (new Pipeline(app()))->send($request)->through(static::fromFrontend($request) ? [
             function ($request, $next) {
@@ -38,10 +38,10 @@ class EnsureFrontendRequestsAreStateful
      *
      * @return void
      */
-    protected function configureSecureCookieSessions()
+    protected function configureSecureSessions()
     {
         config([
-            'session.driver' => 'cookie',
+            'session.driver' => config('airlock.session_driver', 'cookie'),
             'session.http_only' => true,
             'session.same_site' => 'lax',
         ]);
