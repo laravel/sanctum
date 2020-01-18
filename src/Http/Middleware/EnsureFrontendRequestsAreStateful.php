@@ -41,7 +41,7 @@ class EnsureFrontendRequestsAreStateful
     protected function configureSecureSessions()
     {
         config([
-            'session.driver' => config('airlock.session_driver', 'cookie'),
+            'session.driver' => config('session.driver', 'cookie'),
             'session.http_only' => true,
             'session.same_site' => 'lax',
         ]);
