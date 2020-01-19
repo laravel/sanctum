@@ -42,7 +42,7 @@ class PersonalAccessToken extends Model implements HasAbilities
      */
     public function user()
     {
-        return $this->belongsTo(Airlock::userModel());
+        return $this->morphTo('model');
     }
 
     /**

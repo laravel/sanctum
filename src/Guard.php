@@ -49,7 +49,7 @@ class Guard
                         : $user;
         }
 
-        if ($this->supportsTokens() && $token = $request->bearerToken()) {
+        if ($token = $request->bearerToken()) {
             $model = Airlock::$personalAccessTokenModel;
 
             $accessToken = $model::where('token', hash('sha256', $token))->first();
@@ -60,9 +60,9 @@ class Guard
                 return;
             }
 
-            return $accessToken->user->withAccessToken(
+            return $this->supportsTokens($accessToken->user) ? $accessToken->user->withAccessToken(
                 tap($accessToken->forceFill(['last_used_at' => now()]))->save()
-            );
+            ) : null;
         }
     }
 
@@ -75,7 +75,7 @@ class Guard
     protected function supportsTokens($user = null)
     {
         return in_array(HasApiTokens::class, class_uses_recursive(
-            $user ? get_class($user) : Airlock::userModel()
+            $user ? get_class($user) : null
         ));
     }
 }
