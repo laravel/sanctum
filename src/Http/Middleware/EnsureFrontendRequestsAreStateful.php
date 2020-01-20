@@ -41,7 +41,6 @@ class EnsureFrontendRequestsAreStateful
     protected function configureSecureCookieSessions()
     {
         config([
-            'session.driver' => 'cookie',
             'session.http_only' => true,
             'session.same_site' => 'lax',
         ]);
