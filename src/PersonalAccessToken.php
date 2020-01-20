@@ -38,11 +38,11 @@ class PersonalAccessToken extends Model implements HasAbilities
     ];
 
     /**
-     * Get the user that the access token belongs to.
+     * Get the tokenable model that the access token belongs to.
      */
-    public function user()
+    public function tokenable()
     {
-        return $this->morphTo('model');
+        return $this->morphTo('tokenable');
     }
 
     /**

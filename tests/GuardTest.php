@@ -107,8 +107,8 @@ class GuardTest extends TestCase
         ]);
 
         $token = PersonalAccessToken::forceCreate([
-            'model_id' => $user->id,
-            'model_type' => get_class($user),
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
             'name' => 'Test',
             'token' => hash('sha256', 'test'),
             'created_at' => now()->subMinutes(60),
@@ -148,8 +148,8 @@ class GuardTest extends TestCase
         ]);
 
         $token = PersonalAccessToken::forceCreate([
-            'model_id' => $user->id,
-            'model_type' => get_class($user),
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
             'name' => 'Test',
             'token' => hash('sha256', 'test'),
         ]);

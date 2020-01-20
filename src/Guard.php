@@ -60,22 +60,22 @@ class Guard
                 return;
             }
 
-            return $this->supportsTokens($accessToken->user) ? $accessToken->user->withAccessToken(
+            return $this->supportsTokens($accessToken->tokenable) ? $accessToken->tokenable->withAccessToken(
                 tap($accessToken->forceFill(['last_used_at' => now()]))->save()
             ) : null;
         }
     }
 
     /**
-     * Determine if the user model supports API tokens.
+     * Determine if the tokenable model supports API tokens.
      *
      * @param \Illuminate\Contracts\Auth\Authenticatable|null $user
      * @return bool
      */
-    protected function supportsTokens($user = null)
+    protected function supportsTokens($tokenable = null)
     {
         return in_array(HasApiTokens::class, class_uses_recursive(
-            $user ? get_class($user) : null
+            $tokenable ? get_class($tokenable) : null
         ));
     }
 }

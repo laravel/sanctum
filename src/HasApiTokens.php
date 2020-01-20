@@ -14,11 +14,11 @@ trait HasApiTokens
     protected $accessToken;
 
     /**
-     * Get the access tokens that belong to the user.
+     * Get the access tokens that belong to model.
      */
     public function tokens()
     {
-        return $this->morphMany(Airlock::$personalAccessTokenModel, 'model');
+        return $this->morphMany(Airlock::$personalAccessTokenModel, 'tokenable');
     }
 
     /**
