@@ -175,7 +175,7 @@ Within your web application's UI, you may wish to list each of the user's tokens
 
 ## Customization
 
-You may customize the "user" model and the personal access token model used by Airlock via the `useUserModel` and `usePersonalAccessTokenModel` methods. Typically, you should call these methods from the `boot` method of your `AppServiceProvider`:
+You may customize the the personal access token model used by Airlock via the `usePersonalAccessTokenModel` methods. Typically, you should call this method from the `boot` method of your `AppServiceProvider`:
 
 ```php
 use App\Airlock\CustomPersonalAccessToken;
@@ -184,8 +184,6 @@ use Laravel\Airlock\Airlock;
 
 public function boot()
 {
-    Airlock::useUserModel(CustomUser::class);
-
     Airlock::usePersonalAccessTokenModel(
         CustomPersonalAccessToken::class
     );

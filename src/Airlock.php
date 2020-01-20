@@ -7,13 +7,6 @@ use Laravel\Airlock\HasApiTokens;
 class Airlock
 {
     /**
-     * The user model that should be used.
-     *
-     * @var string
-     */
-    public static $userModel;
-
-    /**
      * The personal access client model class name.
      *
      * @var string
@@ -25,30 +18,7 @@ class Airlock
      *
      * @var bool
      */
-    public static $runsMigrations;
-
-    /**
-     * Get the name of the user model used by Airlock.
-     *
-     * @return string
-     */
-    public static function userModel()
-    {
-        return static::$userModel ?: config('auth.providers.users.model', 'App\\User');
-    }
-
-    /**
-     * Specify the user model that should be used.
-     *
-     * @param  string  $model
-     * @return static
-     */
-    public static function useUserModel(string $model)
-    {
-        static::$userModel = $model;
-
-        return new static;
-    }
+    public static $runsMigrations = true;
 
     /**
      * Set the personal access token model name.
@@ -68,15 +38,7 @@ class Airlock
      */
     public static function shouldRunMigrations()
     {
-        if (! is_null(static::$runsMigrations)) {
-            return static::$runsMigrations;
-        }
-
-        $model = static::userModel();
-
-        return class_exists($model)
-                    ? in_array(HasApiTokens::class, class_uses_recursive($model))
-                    : true;
+       return static::$runsMigrations;
     }
 
     /**

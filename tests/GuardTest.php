@@ -7,7 +7,6 @@ use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Laravel\Airlock\Airlock;
 use Laravel\Airlock\AirlockServiceProvider;
 use Laravel\Airlock\Guard;
 use Laravel\Airlock\HasApiTokens;
@@ -58,8 +57,6 @@ class GuardTest extends TestCase
 
     public function test_authentication_is_attempted_with_token_if_no_session_present()
     {
-        Airlock::useUserModel(User::class);
-
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
 
         $factory = Mockery::mock(AuthFactory::class);
@@ -84,8 +81,6 @@ class GuardTest extends TestCase
 
     public function test_authentication_with_token_fails_if_expired()
     {
-        Airlock::useUserModel(User::class);
-
         $this->loadLaravelMigrations(['--database' => 'testbench']);
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
 
@@ -112,7 +107,8 @@ class GuardTest extends TestCase
         ]);
 
         $token = PersonalAccessToken::forceCreate([
-            'user_id' => $user->id,
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
             'name' => 'Test',
             'token' => hash('sha256', 'test'),
             'created_at' => now()->subMinutes(60),
@@ -125,7 +121,6 @@ class GuardTest extends TestCase
 
     public function test_authentication_is_successful_with_token_if_no_session_present()
     {
-        Airlock::useUserModel(User::class);
 
         $this->loadLaravelMigrations(['--database' => 'testbench']);
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
@@ -153,7 +148,8 @@ class GuardTest extends TestCase
         ]);
 
         $token = PersonalAccessToken::forceCreate([
-            'user_id' => $user->id,
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
             'name' => 'Test',
             'token' => hash('sha256', 'test'),
         ]);
