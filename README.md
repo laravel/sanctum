@@ -190,6 +190,27 @@ public function boot()
 }
 ```
 
+## Testing
+
+Similar to [Laravel Passport](https://laravel.com/docs/6.x/passport#testing), this method may be used to specify the currently authenticated user.
+
+```php
+use App\User;
+use Laravel\Airlock\Airlock;
+
+public function testingTaskList()
+{
+    Airlock::actingAs(
+        factory(User::class)->create(),
+        ['view-tasks']
+    );
+
+    $response = $this->get('/api/task');
+
+    $response->assertOk();
+}
+```
+
 ## Contributing
 
 Thank you for considering contributing to Airlock! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).

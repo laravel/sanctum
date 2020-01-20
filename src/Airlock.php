@@ -3,6 +3,7 @@
 namespace Laravel\Airlock;
 
 use Laravel\Airlock\HasApiTokens;
+use Mockery;
 
 class Airlock
 {
@@ -19,6 +20,35 @@ class Airlock
      * @var bool
      */
     public static $runsMigrations = true;
+
+    /**
+     * Set the current user for the application with the given scopes.
+     *
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Passport\HasApiTokens  $user
+     * @param  array  $scopes
+     * @param  string  $guard
+     * @return \Illuminate\Contracts\Auth\Authenticatable
+     */
+    public static function actingAs($user, $abilities = [], $guard = 'api')
+    {
+        $token = Mockery::mock(self::personalAccessTokenModel())->shouldIgnoreMissing(false);
+
+        foreach ($abilities as $ability) {
+            $token->shouldReceive('can')->with($ability)->andReturn(true);
+        }
+
+        $user->withAccessToken($token);
+
+        if (isset($user->wasRecentlyCreated) && $user->wasRecentlyCreated) {
+            $user->wasRecentlyCreated = false;
+        }
+
+        app('auth')->guard($guard)->setUser($user);
+
+        app('auth')->shouldUse($guard);
+
+        return $user;
+    }
 
     /**
      * Set the personal access token model name.
@@ -51,5 +81,15 @@ class Airlock
         static::$runsMigrations = false;
 
         return new static;
+    }
+
+    /**
+     * Get the token model class name.
+     *
+     * @return string
+     */
+    public static function personalAccessTokenModel()
+    {
+        return static::$personalAccessTokenModel;
     }
 }
