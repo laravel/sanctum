@@ -69,7 +69,7 @@ class Guard
     /**
      * Determine if the tokenable model supports API tokens.
      *
-     * @param \Illuminate\Contracts\Auth\Authenticatable|null $user
+     * @param  mixed  $tokenable
      * @return bool
      */
     protected function supportsTokens($tokenable = null)
