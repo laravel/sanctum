@@ -22,10 +22,10 @@ class Airlock
     public static $runsMigrations = true;
 
     /**
-     * Set the current user for the application with the given scopes.
+     * Set the current user for the application with the given abilities.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Passport\HasApiTokens  $user
-     * @param  array  $scopes
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Airlock\HasApiTokens  $user
+     * @param  array  $abilities
      * @param  string  $guard
      * @return \Illuminate\Contracts\Auth\Authenticatable
      */
