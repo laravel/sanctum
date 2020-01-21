@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Airlock\Tests\Feature;
+namespace Laravel\Airlock\Tests;
 
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
