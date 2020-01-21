@@ -2,7 +2,6 @@
 
 namespace Laravel\Airlock\Tests\Feature;
 
-use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -32,7 +31,8 @@ class ActingAsTest extends TestCase
             return 'bar';
         })->middleware('auth:airlock');
 
-        Airlock::actingAs(new AirlockUser);
+        Airlock::actingAs($user = new AirlockUser);
+        $user->id = 1;
 
         $response = $this->get('/foo');
 
@@ -55,10 +55,9 @@ class ActingAsTest extends TestCase
         })->middleware('auth:airlock');
 
         $user = new AirlockUser;
+        $user->id = 1;
 
-        $user->createToken('test-token', ['baz'])->plainTextToken;
-
-        Airlock::actingAs($user);
+        Airlock::actingAs($user, ['baz']);
 
         $response = $this->get('/foo');
 
