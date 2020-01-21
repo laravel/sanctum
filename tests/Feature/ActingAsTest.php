@@ -4,7 +4,10 @@ namespace Laravel\Airlock\Tests\Feature;
 
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Laravel\Airlock\Airlock;
+use Laravel\Airlock\AirlockServiceProvider;
 use Laravel\Airlock\HasApiTokens;
 use Orchestra\Testbench\TestCase;
 
@@ -25,17 +28,15 @@ class ActingAsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        /** @var Registrar $router */
-        $router = $this->app->make(Registrar::class);
-
-        $router->get('/foo', function () {
+        Route::get('/foo', function () {
             return 'bar';
         })->middleware('auth:airlock');
 
-        Airlock::actingAs(new AirlockUser());
+        Airlock::actingAs(new AirlockUser);
 
         $response = $this->get('/foo');
-        $response->assertSuccessful();
+
+        $response->assertStatus(200);
         $response->assertSee('bar');
     }
 
@@ -45,25 +46,29 @@ class ActingAsTest extends TestCase
 
         $this->withoutExceptionHandling();
 
-        /** @var Registrar $router */
-        $router = $this->app->make(Registrar::class);
-
-        $router->get('/foo', function () {
-            if (auth()->user()->tokenCan('baz')) {
+        Route::get('/foo', function () {
+            if (Auth::user()->tokenCan('baz')) {
                 return 'bar';
             }
 
             return response(403);
         })->middleware('auth:airlock');
 
-        $user = new AirlockUser();
+        $user = new AirlockUser;
+
         $user->createToken('test-token', ['baz'])->plainTextToken;
 
         Airlock::actingAs($user);
 
         $response = $this->get('/foo');
-        $response->assertSuccessful();
+
+        $response->assertStatus(200);
         $response->assertSee('bar');
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [AirlockServiceProvider::class];
     }
 }
 
