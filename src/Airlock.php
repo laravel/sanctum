@@ -29,7 +29,7 @@ class Airlock
      * @param  string  $guard
      * @return \Illuminate\Contracts\Auth\Authenticatable
      */
-    public static function actingAs($user, $abilities = [], $guard = 'api')
+    public static function actingAs($user, $abilities = [], $guard = 'airlock')
     {
         $token = Mockery::mock(self::personalAccessTokenModel())->shouldIgnoreMissing(false);
 
