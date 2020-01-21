@@ -30,7 +30,7 @@ class ActingAsTest extends TestCase
 
         $router->get('/foo', function () {
             return 'bar';
-        })->middleware('auth:api');
+        })->middleware('auth:airlock');
 
         Airlock::actingAs(new AirlockUser());
 
@@ -54,7 +54,7 @@ class ActingAsTest extends TestCase
             }
 
             return response(403);
-        })->middleware('auth:api');
+        })->middleware('auth:airlock');
 
         $user = new AirlockUser();
         $user->createToken('test-token', ['baz'])->plainTextToken;
