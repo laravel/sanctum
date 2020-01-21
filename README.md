@@ -192,13 +192,13 @@ public function boot()
 
 ## Testing
 
-Similar to [Laravel Passport](https://laravel.com/docs/6.x/passport#testing), this method may be used to specify the currently authenticated user.
+While testing, the `Airlock::actingAs` method may be used to authenticate a user and specify which abilities are granted to their token:
 
 ```php
 use App\User;
 use Laravel\Airlock\Airlock;
 
-public function testingTaskList()
+public function test_task_list_can_be_retrieved()
 {
     Airlock::actingAs(
         factory(User::class)->create(),
@@ -209,6 +209,15 @@ public function testingTaskList()
 
     $response->assertOk();
 }
+```
+
+If you would like to grant all abilities to the token, you should include `*` in your ability list:
+
+```php
+Airlock::actingAs(
+    factory(User::class)->create(),
+    ['*']
+);
 ```
 
 ## Contributing
