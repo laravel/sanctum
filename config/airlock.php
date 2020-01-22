@@ -30,4 +30,19 @@ return [
 
     'expiration' => null,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Airlock Middleware
+    |--------------------------------------------------------------------------
+    |
+    | When authenticating your first-party SPA with Airlock you may need to
+    | customize some of the middleware Airlock uses while processing the
+    | request. You may change the middleware listed below as required.
+    |
+    */
+
+    'middleware' => [
+        'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
+    ],
+
 ];
