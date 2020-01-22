@@ -30,15 +30,4 @@ return [
 
     'expiration' => null,
 
-    /*
-    |--------------------------------------------------------------------------
-    | CSRF Middleware Class
-    |--------------------------------------------------------------------------
-    |
-    | TBD
-    |
-    */
-
-    'csrfMiddleware' => App\Http\Middleware\VerifyCsrfToken::class,
-
 ];
