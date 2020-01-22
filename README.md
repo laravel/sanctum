@@ -175,7 +175,7 @@ Within your web application's UI, you may wish to list each of the user's tokens
 
 ## Customization
 
-You may customize the the personal access token model used by Airlock via the `usePersonalAccessTokenModel` methods. Typically, you should call this method from the `boot` method of your `AppServiceProvider`:
+You may customize the personal access token model used by Airlock via the `usePersonalAccessTokenModel` methods. Typically, you should call this method from the `boot` method of your `AppServiceProvider`:
 
 ```php
 use App\Airlock\CustomPersonalAccessToken;
