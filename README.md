@@ -58,7 +58,7 @@ Route::middleware('auth:airlock')->get('/user', function (Request $request) {
 If you are using Passport to authenticate other portions of your application using OAuth2, you are welcome to also use Airlock. The `auth` middleware allows you to specify multiple guards that will be used in sequence when attempting to authenticate incoming requests:
 
 ```php
-Route::middleware('auth:airlock,passport')->get('/user', function (Request $request) {
+Route::middleware('auth:airlock,api')->get('/user', function (Request $request) {
     return $request->user();
 });
 ```
