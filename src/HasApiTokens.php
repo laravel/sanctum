@@ -15,6 +15,8 @@ trait HasApiTokens
 
     /**
      * Get the access tokens that belong to model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function tokens()
     {

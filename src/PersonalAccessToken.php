@@ -39,6 +39,8 @@ class PersonalAccessToken extends Model implements HasAbilities
 
     /**
      * Get the tokenable model that the access token belongs to.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function tokenable()
     {
