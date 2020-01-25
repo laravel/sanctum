@@ -141,7 +141,7 @@ You may use Airlock tokens to authenticate your mobile application's requests to
 ```php
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 Route::post('/airlock/token', function (Request $request) {
@@ -153,7 +153,7 @@ Route::post('/airlock/token', function (Request $request) {
 
     $user = User::where('email', $request->email)->first();
 
-    if (! $user || ! Hash::check($request->password, $user->password)) {
+    if (! Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
         throw ValidationException::withMessages([
             'email' => ['The provided credentials are incorrect.'],
         ]);
