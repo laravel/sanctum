@@ -85,6 +85,40 @@ In addition, you should ensure your application's session cookie domain configur
 
     'domain' => '.domain.com',
 
+### Broadcasting auth
+
+In order for your app to occupy a private channel, please follow the instructions to [Configure Broadcasting in Laravel](https://laravel.com/docs/6.x/broadcasting#configuration).
+Once complete, please verify that the Broadcast route is protected only by the `web` middleware. You must not specify the `auth:airlock` middleware here.
+
+In order for Pusher to request authorization correctly, you will need to provide your own `authorizer` option to Pusher:
+```VueJS
+window.Echo = new Echo({
+  authorizer: function(channel, options) {
+    return {
+      authorize: function(socketId, callback) {
+        axios.post("/broadcasting/auth", {
+          socket_id: socketId,
+          channel_name: channel.name
+        })      
+          .then(response => {
+            callback(false, response.data);
+          })
+          .catch(error => {
+            callback(true, error);
+          });
+      }    
+    };  
+  },
+  broadcaster: "pusher",
+  cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+  encrypted: true,
+  key: process.env.MIX_PUSHER_APP_KEY
+})
+``` 
+The mentioned `axios` instance is your `axios` instance with which you verified the login credentials earlier, because that `axios` instance is already aware of the CSRF protection.
+
+Please note that fetching a new `/airlock/csrf-cookie` will not suffice with regards to `broadcasting/auth`: The sequence of requests made to the API is unpredictable, and it is thus unpredictable as to whether to just-fetched CSRF cookie is still valid by the time you submit the POST request to `broadcasting/auth`.
+
 ## Issuing API Tokens
 
 Airlock also allows you to issue API tokens / personal access tokens that may be used to authenticate API requests. The token should be included in the `Authorization` header as a `Bearer` token.
