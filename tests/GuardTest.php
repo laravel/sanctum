@@ -28,7 +28,7 @@ class GuardTest extends TestCase
         ]);
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -121,7 +121,6 @@ class GuardTest extends TestCase
 
     public function test_authentication_is_successful_with_token_if_no_session_present()
     {
-
         $this->loadLaravelMigrations(['--database' => 'testbench']);
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
 
