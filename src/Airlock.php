@@ -2,7 +2,6 @@
 
 namespace Laravel\Airlock;
 
-use Laravel\Airlock\HasApiTokens;
 use Mockery;
 
 class Airlock
@@ -68,7 +67,7 @@ class Airlock
      */
     public static function shouldRunMigrations()
     {
-       return static::$runsMigrations;
+        return static::$runsMigrations;
     }
 
     /**

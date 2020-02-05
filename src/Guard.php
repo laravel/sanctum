@@ -4,7 +4,6 @@ namespace Laravel\Airlock;
 
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Http\Request;
-use Laravel\Airlock\HasApiTokens;
 
 class Guard
 {
