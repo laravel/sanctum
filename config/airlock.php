@@ -13,9 +13,7 @@ return [
     |
     */
 
-    'stateful' => [
-        'localhost',
-    ],
+    'stateful' => explode(',', env('AIRLOCK_STATEFUL_DOMAINS', 'localhost')),
 
     /*
     |--------------------------------------------------------------------------
