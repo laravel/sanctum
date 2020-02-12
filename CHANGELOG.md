@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/airlock/compare/v0.2.0...master)
+## [Unreleased](https://github.com/laravel/airlock/compare/v0.2.1...master)
+
+
+## [v0.2.1 (2020-02-12)](https://github.com/laravel/airlock/compare/v0.2.0...v0.2.1)
+
+### Changed
+- Allow .env configuration of airlock stateful domains ([#70](https://github.com/laravel/airlock/pull/70))
 
 
 ## [v0.2.0 (2020-01-28)](https://github.com/laravel/airlock/compare/v0.1.0...v0.2.0)
