@@ -1,6 +1,7 @@
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-airlock.svg"></p>
 
 <p align="center">
+<a href="https://github.com/laravel/airlock/actions"><img src="https://github.com/laravel/airlock/workflows/tests/badge.svg" alt="Build Status"></a>
 <a href="https://travis-ci.org/laravel/airlock"><img src="https://travis-ci.org/laravel/airlock.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/laravel/airlock"><img src="https://poser.pugx.org/laravel/airlock/d/total.svg" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/laravel/airlock"><img src="https://poser.pugx.org/laravel/airlock/v/stable.svg" alt="Latest Stable Version"></a>
