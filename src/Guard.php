@@ -42,7 +42,7 @@ class Guard
      */
     public function __invoke(Request $request)
     {
-        if ($user = $this->auth->guard('web')->user()) {
+        if ($user = $this->auth->guard('api')->user()) {
             return $this->supportsTokens($user)
                         ? $user->withAccessToken(new TransientToken)
                         : $user;
