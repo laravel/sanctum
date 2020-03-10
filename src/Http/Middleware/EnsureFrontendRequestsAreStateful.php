@@ -54,11 +54,11 @@ class EnsureFrontendRequestsAreStateful
      */
     public static function fromFrontend($request)
     {
-        $referer = Str::replaceFirst('https://', '', $request->headers->get('referer'));
+        $url = \parse_url($request->headers->get('referer'));
 
-        $referer = Str::replaceFirst('http://', '', $referer);
+        $referer = $url['host'];
 
-        return Str::startsWith(
+        return Str::endsWith(
             $referer,
             config('airlock.stateful', [])
         );
