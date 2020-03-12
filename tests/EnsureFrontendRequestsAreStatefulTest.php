@@ -22,21 +22,36 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         $request->headers->set('referer', 'https://wrong.com');
 
         $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+
+        $request = Request::create('/');
+        $request->headers->set('referer', 'https://subdomain.test.com');
+
+        $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
     }
 
-    public function test_request_referer_is_parsed_against_wildcard_configuration()
+    public function test_request_referer_allows_subdomains()
     {
-        config()->set('airlock.stateful', '*');
+        config()->set('airlock.stateful', '*.test.com');
 
         $request = Request::create('/');
         $request->headers->set('referer', 'https://test.com');
 
-        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+        $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
 
         $request = Request::create('/');
         $request->headers->set('referer', 'https://wrong.com');
 
+        $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+
+        $request = Request::create('/');
+        $request->headers->set('referer', 'https://subdomain.test.com');
+
         $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+
+        $request = Request::create('/');
+        $request->headers->set('referer', 'https://subdomain.subdomain.test.com');
+
+        $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
     }
 
     protected function getPackageProviders($app)

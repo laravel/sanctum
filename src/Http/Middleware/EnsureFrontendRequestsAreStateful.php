@@ -60,6 +60,10 @@ class EnsureFrontendRequestsAreStateful
 
         $stateful = config('airlock.stateful', []);
 
-        return $stateful === '*' || Str::startsWith($referer, $stateful);
+        if (strpos($stateful, '*.') === 0) {
+            return Str::startsWith(strstr($referer, '.'), strstr($stateful, '.'));
+        }
+
+        return Str::startsWith($referer, $stateful);
     }
 }
