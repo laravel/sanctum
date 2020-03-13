@@ -81,7 +81,7 @@ class AirlockServiceProvider extends ServiceProvider
             Route::get(
                 '/csrf-cookie',
                 CsrfCookieController::class.'@show'
-            )->middleware('web');
+            )->middleware('web')->name(config('airlock.name', 'airlock.csrf'));
         });
     }
 
