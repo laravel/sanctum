@@ -43,6 +43,6 @@ return [
         'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
     ],
 
-    'name' => 'airlock.csrf',
+    'name' => env('AIRLOCK_ROUTE_NAME', 'airlock.csrf'),
 
 ];
