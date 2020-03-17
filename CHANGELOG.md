@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/airlock/compare/v1.0.0...master)
+## [Unreleased](https://github.com/laravel/airlock/compare/v1.0.1...master)
 
 
 ## [v1.0.1 (2020-03-12)](https://github.com/laravel/airlock/compare/v1.0.0...v1.0.1)
