@@ -3,6 +3,14 @@
 ## [Unreleased](https://github.com/laravel/airlock/compare/v1.0.0...1.x)
 
 
+## [v1.0.1 (2020-03-12)](https://github.com/laravel/airlock/compare/v1.0.0...v1.0.1)
+
+### Fixed
+- Allow localhost ip access by default ([#81](https://github.com/laravel/airlock/pull/81))
+- Update minimum Laravel version to ^6.9 ([#89](https://github.com/laravel/airlock/pull/89))
+- Fix wildcard matching ([d8de232](https://github.com/laravel/airlock/commit/d8de2323b49e9e408c7e5e302bcad392ed0989cb), [9a66e76](https://github.com/laravel/airlock/commit/9a66e767e203bbee83cd5fcda7ce265835468f84))
+
+
 ## [v1.0.0 (2020-03-03)](https://github.com/laravel/airlock/compare/v0.2.1...v1.0.0)
 
 First stable release.
