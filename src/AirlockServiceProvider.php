@@ -107,6 +107,5 @@ class AirlockServiceProvider extends ServiceProvider
         $kernel = $this->app->make(Kernel::class);
 
         $kernel->prependToMiddlewarePriority(EnsureFrontendRequestsAreStateful::class);
-        // $kernel->prependMiddlewareToGroup('api', EnsureFrontendRequestsAreStateful::class);
     }
 }
