@@ -3,8 +3,8 @@
 namespace Laravel\Sanctum\Tests;
 
 use Illuminate\Http\Request;
-use Laravel\Sanctum\SanctumServiceProvider;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use Laravel\Sanctum\SanctumServiceProvider;
 use Orchestra\Testbench\TestCase;
 
 class EnsureFrontendRequestsAreStatefulTest extends TestCase
