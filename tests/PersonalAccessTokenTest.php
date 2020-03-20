@@ -1,8 +1,8 @@
 <?php
 
-namespace Laravel\Airlock\Tests;
+namespace Laravel\Sanctum\Tests;
 
-use Laravel\Airlock\PersonalAccessToken;
+use Laravel\Sanctum\PersonalAccessToken;
 use PHPUnit\Framework\TestCase;
 
 class PersonalAccessTokenTest extends TestCase

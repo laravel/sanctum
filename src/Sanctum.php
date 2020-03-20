@@ -1,20 +1,20 @@
 <?php
 
-namespace Laravel\Airlock;
+namespace Laravel\Sanctum;
 
 use Mockery;
 
-class Airlock
+class Sanctum
 {
     /**
      * The personal access client model class name.
      *
      * @var string
      */
-    public static $personalAccessTokenModel = 'Laravel\\Airlock\\PersonalAccessToken';
+    public static $personalAccessTokenModel = 'Laravel\\Sanctum\\PersonalAccessToken';
 
     /**
-     * Indicates if Airlock's migrations will be run.
+     * Indicates if Sanctum's migrations will be run.
      *
      * @var bool
      */
@@ -23,12 +23,12 @@ class Airlock
     /**
      * Set the current user for the application with the given abilities.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Airlock\HasApiTokens  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Sanctum\HasApiTokens  $user
      * @param  array  $abilities
      * @param  string  $guard
      * @return \Illuminate\Contracts\Auth\Authenticatable
      */
-    public static function actingAs($user, $abilities = [], $guard = 'airlock')
+    public static function actingAs($user, $abilities = [], $guard = 'sanctum')
     {
         $token = Mockery::mock(self::personalAccessTokenModel())->shouldIgnoreMissing(false);
 
@@ -61,7 +61,7 @@ class Airlock
     }
 
     /**
-     * Determine if Airlock's migrations should be run.
+     * Determine if Sanctum's migrations should be run.
      *
      * @return bool
      */
@@ -71,7 +71,7 @@ class Airlock
     }
 
     /**
-     * Configure Airlock to not register its migrations.
+     * Configure Sanctum to not register its migrations.
      *
      * @return static
      */

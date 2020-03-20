@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Airlock\Http\Controllers;
+namespace Laravel\Sanctum\Http\Controllers;
 
 use Illuminate\Http\Response;
 

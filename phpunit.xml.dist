@@ -11,7 +11,7 @@
          stopOnFailure="false"
 >
     <testsuites>
-        <testsuite name="Airlock Test Suite">
+        <testsuite name="Sanctum Test Suite">
             <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>

@@ -1,8 +1,8 @@
 <?php
 
-namespace Laravel\Airlock;
+namespace Laravel\Sanctum;
 
-use Laravel\Airlock\Contracts\HasAbilities;
+use Laravel\Sanctum\Contracts\HasAbilities;
 
 class TransientToken implements HasAbilities
 {

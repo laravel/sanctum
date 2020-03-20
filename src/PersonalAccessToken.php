@@ -1,9 +1,9 @@
 <?php
 
-namespace Laravel\Airlock;
+namespace Laravel\Sanctum;
 
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Airlock\Contracts\HasAbilities;
+use Laravel\Sanctum\Contracts\HasAbilities;
 
 class PersonalAccessToken extends Model implements HasAbilities
 {

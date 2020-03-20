@@ -1,16 +1,16 @@
 <?php
 
-namespace Laravel\Airlock\Tests;
+namespace Laravel\Sanctum\Tests;
 
 use DateTimeInterface;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Laravel\Airlock\AirlockServiceProvider;
-use Laravel\Airlock\Guard;
-use Laravel\Airlock\HasApiTokens;
-use Laravel\Airlock\PersonalAccessToken;
+use Laravel\Sanctum\Guard;
+use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
+use Laravel\Sanctum\SanctumServiceProvider;
 use Mockery;
 use Orchestra\Testbench\TestCase;
 use stdClass;
@@ -162,7 +162,7 @@ class GuardTest extends TestCase
 
     protected function getPackageProviders($app)
     {
-        return [AirlockServiceProvider::class];
+        return [SanctumServiceProvider::class];
     }
 }
 

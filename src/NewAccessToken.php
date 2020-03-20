@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Airlock;
+namespace Laravel\Sanctum;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -10,7 +10,7 @@ class NewAccessToken implements Arrayable, Jsonable
     /**
      * The access token instance.
      *
-     * @var \Laravel\Airlock\PersonalAccessToken
+     * @var \Laravel\Sanctum\PersonalAccessToken
      */
     public $accessToken;
 
@@ -24,7 +24,7 @@ class NewAccessToken implements Arrayable, Jsonable
     /**
      * Create a new access token result.
      *
-     * @param  \Laravel\Airlock\PersonalAccessToken  $accessToken
+     * @param  \Laravel\Sanctum\PersonalAccessToken  $accessToken
      * @param  string  $plainTextToken
      * @return void
      */

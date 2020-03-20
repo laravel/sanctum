@@ -1,15 +1,15 @@
 <?php
 
-namespace Laravel\Airlock;
+namespace Laravel\Sanctum;
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Airlock\Http\Controllers\CsrfCookieController;
-use Laravel\Airlock\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
-class AirlockServiceProvider extends ServiceProvider
+class SanctumServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -19,14 +19,14 @@ class AirlockServiceProvider extends ServiceProvider
     public function register()
     {
         config([
-            'auth.guards.airlock' => array_merge([
-                'driver' => 'airlock',
+            'auth.guards.sanctum' => array_merge([
+                'driver' => 'sanctum',
                 'provider' => 'users',
-            ], config('auth.guards.airlock', [])),
+            ], config('auth.guards.sanctum', [])),
         ]);
 
         if (! $this->app->configurationIsCached()) {
-            $this->mergeConfigFrom(__DIR__.'/../config/airlock.php', 'airlock');
+            $this->mergeConfigFrom(__DIR__.'/../config/sanctum.php', 'sanctum');
         }
     }
 
@@ -42,11 +42,11 @@ class AirlockServiceProvider extends ServiceProvider
 
             $this->publishes([
                 __DIR__.'/../database/migrations' => database_path('migrations'),
-            ], 'airlock-migrations');
+            ], 'sanctum-migrations');
 
             $this->publishes([
-                __DIR__.'/../config/airlock.php' => config_path('airlock.php'),
-            ], 'airlock-config');
+                __DIR__.'/../config/sanctum.php' => config_path('sanctum.php'),
+            ], 'sanctum-config');
         }
 
         $this->defineRoutes();
@@ -55,19 +55,19 @@ class AirlockServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register Airlock's migration files.
+     * Register Sanctum's migration files.
      *
      * @return void
      */
     protected function registerMigrations()
     {
-        if (Airlock::shouldRunMigrations()) {
+        if (Sanctum::shouldRunMigrations()) {
             return $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         }
     }
 
     /**
-     * Define the Airlock routes.
+     * Define the Sanctum routes.
      *
      * @return void
      */
@@ -77,7 +77,7 @@ class AirlockServiceProvider extends ServiceProvider
             return;
         }
 
-        Route::group(['prefix' => config('airlock.prefix', 'airlock')], function () {
+        Route::group(['prefix' => config('sanctum.prefix', 'sanctum')], function () {
             Route::get(
                 '/csrf-cookie',
                 CsrfCookieController::class.'@show'
@@ -86,19 +86,19 @@ class AirlockServiceProvider extends ServiceProvider
     }
 
     /**
-     * Configure the Airlock authentication guard.
+     * Configure the Sanctum authentication guard.
      *
      * @return void
      */
     protected function configureGuard()
     {
         Auth::resolved(function ($auth) {
-            $auth->viaRequest('airlock', new Guard($auth, config('airlock.expiration')));
+            $auth->viaRequest('sanctum', new Guard($auth, config('sanctum.expiration')));
         });
     }
 
     /**
-     * Configure the Airlock middleware and priority.
+     * Configure the Sanctum middleware and priority.
      *
      * @return void
      */
@@ -107,6 +107,5 @@ class AirlockServiceProvider extends ServiceProvider
         $kernel = $this->app->make(Kernel::class);
 
         $kernel->prependToMiddlewarePriority(EnsureFrontendRequestsAreStateful::class);
-        // $kernel->prependMiddlewareToGroup('api', EnsureFrontendRequestsAreStateful::class);
     }
 }
