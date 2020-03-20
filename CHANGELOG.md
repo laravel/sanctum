@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v1.0.1...1.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.0.0...2.x)
+
+
+## [v2.0.0 (2020-03-20)](https://github.com/laravel/sanctum/compare/v1.0.1...v2.0.0)
+
+### Changed
+- Renamed package to Sanctum
 
 
 ## [v1.0.1 (2020-03-12)](https://github.com/laravel/sanctum/compare/v1.0.0...v1.0.1)
