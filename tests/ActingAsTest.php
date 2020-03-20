@@ -5,9 +5,9 @@ namespace Laravel\Sanctum\Tests;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\Sanctum;
 use Laravel\Sanctum\SanctumServiceProvider;
-use Laravel\Sanctum\HasApiTokens;
 use Orchestra\Testbench\TestCase;
 
 class ActingAsTest extends TestCase
