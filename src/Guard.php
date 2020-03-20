@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Airlock;
+namespace Laravel\Sanctum;
 
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Http\Request;
@@ -49,7 +49,7 @@ class Guard
         }
 
         if ($token = $request->bearerToken()) {
-            $model = Airlock::$personalAccessTokenModel;
+            $model = Sanctum::$personalAccessTokenModel;
 
             $accessToken = $model::where('token', hash('sha256', $token))->first();
 

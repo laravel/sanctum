@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Airlock\Http\Middleware;
+namespace Laravel\Sanctum\Http\Middleware;
 
 use Illuminate\Routing\Pipeline;
 use Illuminate\Support\Str;
@@ -20,14 +20,14 @@ class EnsureFrontendRequestsAreStateful
 
         return (new Pipeline(app()))->send($request)->through(static::fromFrontend($request) ? [
             function ($request, $next) {
-                $request->attributes->set('airlock', true);
+                $request->attributes->set('sanctum', true);
 
                 return $next($request);
             },
             \Illuminate\Cookie\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
-            config('airlock.middleware.verify_csrf_token', \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class),
+            config('sanctum.middleware.verify_csrf_token', \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class),
         ] : [])->then(function ($request) use ($next) {
             return $next($request);
         });
@@ -58,7 +58,7 @@ class EnsureFrontendRequestsAreStateful
 
         $referer = Str::replaceFirst('http://', '', $referer);
 
-        return Str::startsWith($referer, config('airlock.stateful', [])) ||
-               Str::is(config('airlock.stateful', []), $referer);
+        return Str::startsWith($referer, config('sanctum.stateful', [])) ||
+               Str::is(config('sanctum.stateful', []), $referer);
     }
 }

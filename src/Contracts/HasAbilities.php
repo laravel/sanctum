@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Airlock\Contracts;
+namespace Laravel\Sanctum\Contracts;
 
 interface HasAbilities
 {

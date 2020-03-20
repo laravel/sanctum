@@ -1,17 +1,17 @@
 <?php
 
-namespace Laravel\Airlock\Tests;
+namespace Laravel\Sanctum\Tests;
 
 use Illuminate\Http\Request;
-use Laravel\Airlock\AirlockServiceProvider;
-use Laravel\Airlock\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use Laravel\Sanctum\SanctumServiceProvider;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Orchestra\Testbench\TestCase;
 
 class EnsureFrontendRequestsAreStatefulTest extends TestCase
 {
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('airlock.stateful', ['test.com', '*.test.com']);
+        $app['config']->set('sanctum.stateful', ['test.com', '*.test.com']);
     }
 
     public function test_request_referer_is_parsed_against_configuration()
@@ -37,6 +37,6 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
 
     protected function getPackageProviders($app)
     {
-        return [AirlockServiceProvider::class];
+        return [SanctumServiceProvider::class];
     }
 }

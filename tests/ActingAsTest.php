@@ -1,13 +1,13 @@
 <?php
 
-namespace Laravel\Airlock\Tests;
+namespace Laravel\Sanctum\Tests;
 
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Laravel\Airlock\Airlock;
-use Laravel\Airlock\AirlockServiceProvider;
-use Laravel\Airlock\HasApiTokens;
+use Laravel\Sanctum\Sanctum;
+use Laravel\Sanctum\SanctumServiceProvider;
+use Laravel\Sanctum\HasApiTokens;
 use Orchestra\Testbench\TestCase;
 
 class ActingAsTest extends TestCase
@@ -29,9 +29,9 @@ class ActingAsTest extends TestCase
 
         Route::get('/foo', function () {
             return 'bar';
-        })->middleware('auth:airlock');
+        })->middleware('auth:sanctum');
 
-        Airlock::actingAs($user = new AirlockUser);
+        Sanctum::actingAs($user = new SanctumUser);
         $user->id = 1;
 
         $response = $this->get('/foo');
@@ -52,12 +52,12 @@ class ActingAsTest extends TestCase
             }
 
             return response(403);
-        })->middleware('auth:airlock');
+        })->middleware('auth:sanctum');
 
-        $user = new AirlockUser;
+        $user = new SanctumUser;
         $user->id = 1;
 
-        Airlock::actingAs($user, ['baz']);
+        Sanctum::actingAs($user, ['baz']);
 
         $response = $this->get('/foo');
 
@@ -67,11 +67,11 @@ class ActingAsTest extends TestCase
 
     protected function getPackageProviders($app)
     {
-        return [AirlockServiceProvider::class];
+        return [SanctumServiceProvider::class];
     }
 }
 
-class AirlockUser extends User
+class SanctumUser extends User
 {
     use HasApiTokens;
 }

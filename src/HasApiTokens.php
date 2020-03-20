@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Airlock;
+namespace Laravel\Sanctum;
 
 use Illuminate\Support\Str;
 
@@ -9,7 +9,7 @@ trait HasApiTokens
     /**
      * The access token the user is using for the current request.
      *
-     * @var \Laravel\Airlock\Contracts\HasAbilities
+     * @var \Laravel\Sanctum\Contracts\HasAbilities
      */
     protected $accessToken;
 
@@ -20,7 +20,7 @@ trait HasApiTokens
      */
     public function tokens()
     {
-        return $this->morphMany(Airlock::$personalAccessTokenModel, 'tokenable');
+        return $this->morphMany(Sanctum::$personalAccessTokenModel, 'tokenable');
     }
 
     /**
@@ -39,7 +39,7 @@ trait HasApiTokens
      *
      * @param  string  $name
      * @param  array  $abilities
-     * @return \Laravel\Airlock\NewAccessToken
+     * @return \Laravel\Sanctum\NewAccessToken
      */
     public function createToken(string $name, array $abilities = ['*'])
     {
@@ -55,7 +55,7 @@ trait HasApiTokens
     /**
      * Get the access token currently associated with the user.
      *
-     * @return \Laravel\Airlock\Contracts\HasAbilities
+     * @return \Laravel\Sanctum\Contracts\HasAbilities
      */
     public function currentAccessToken()
     {
@@ -65,7 +65,7 @@ trait HasApiTokens
     /**
      * Set the current access token for the user.
      *
-     * @param  \Laravel\Airlock\Contracts\HasAbilities  $accessToken
+     * @param  \Laravel\Sanctum\Contracts\HasAbilities  $accessToken
      * @return $this
      */
     public function withAccessToken($accessToken)

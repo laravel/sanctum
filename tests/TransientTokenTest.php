@@ -1,8 +1,8 @@
 <?php
 
-namespace Laravel\Airlock\Tests;
+namespace Laravel\Sanctum\Tests;
 
-use Laravel\Airlock\TransientToken;
+use Laravel\Sanctum\TransientToken;
 use PHPUnit\Framework\TestCase;
 
 class TransientTokenTest extends TestCase
