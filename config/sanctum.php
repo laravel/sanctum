@@ -17,19 +17,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Guard
-    |--------------------------------------------------------------------------
-    |
-    | Requests which are authenticated stateful will run through the Laravel's
-    | Authentication guard. Typically this will be the web Guard. However,
-    | you are free to configure the value to your needs.
-    |
-    */
-
-    'guard' => 'web',
-
-    /*
-    |--------------------------------------------------------------------------
     | Expiration Minutes
     |--------------------------------------------------------------------------
     |
