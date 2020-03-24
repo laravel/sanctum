@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.0.0...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.1.0...2.x)
+
+
+## [v2.1.0 (2020-03-24)](https://github.com/laravel/sanctum/compare/v2.0.0...v2.1.0)
+
+### Added
+- Make the guard configurable ([#110](https://github.com/laravel/sanctum/pull/110))
 
 
 ## [v2.0.0 (2020-03-20)](https://github.com/laravel/sanctum/compare/v1.0.1...v2.0.0)
