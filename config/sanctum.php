@@ -42,8 +42,7 @@ return [
     'middleware' => [
         'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
     ],
-
-
+    
     /*
     |--------------------------------------------------------------------------
     | Sanctum Authentication Guard
