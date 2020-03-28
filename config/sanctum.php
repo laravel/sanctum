@@ -43,4 +43,18 @@ return [
         'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
     ],
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sanctum Authentication Guard
+    |--------------------------------------------------------------------------
+    |
+    | This configuration option defines the authentication guard that will
+    | be used to protect your sanctum routes. This option should match one
+    | of the authentication guards defined in the "auth" config file.
+    |
+    */
+
+    'guard' => env('SANCTUM_GUARD', null),
+
 ];
