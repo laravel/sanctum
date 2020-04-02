@@ -65,6 +65,31 @@ class ActingAsTest extends TestCase
         $response->assertSee('bar');
     }
 
+    public function testActingAsWhenKeyHasAnyAbility()
+    {
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+
+        $this->withoutExceptionHandling();
+
+        Route::get('/foo', function () {
+            if (Auth::user()->tokenCan('baz')) {
+                return 'bar';
+            }
+
+            return response(403);
+        })->middleware('auth:sanctum');
+
+        $user = new SanctumUser;
+        $user->id = 1;
+
+        Sanctum::actingAs($user, ['*']);
+
+        $response = $this->get('/foo');
+
+        $response->assertStatus(200);
+        $response->assertSee('bar');
+    }
+
     protected function getPackageProviders($app)
     {
         return [SanctumServiceProvider::class];

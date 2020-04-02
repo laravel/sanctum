@@ -32,8 +32,12 @@ class Sanctum
     {
         $token = Mockery::mock(self::personalAccessTokenModel())->shouldIgnoreMissing(false);
 
-        foreach ($abilities as $ability) {
-            $token->shouldReceive('can')->with($ability)->andReturn(true);
+        if (in_array('*', $abilities)) {
+            $token->shouldReceive('can')->withAnyArgs()->andReturn(true);
+        } else {
+            foreach ($abilities as $ability) {
+                $token->shouldReceive('can')->with($ability)->andReturn(true);
+            }
         }
 
         $user->withAccessToken($token);
