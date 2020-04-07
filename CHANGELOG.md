@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.1.0...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.1.1...2.x)
+
+
+## [v2.1.1 (2020-04-07)](https://github.com/laravel/sanctum/compare/v2.1.0...v2.1.1)
+
+### Fixed
+- `actingAs` any ability ([#120](https://github.com/laravel/sanctum/pull/120))
 
 
 ## [v2.1.0 (2020-03-24)](https://github.com/laravel/sanctum/compare/v2.0.0...v2.1.0)
