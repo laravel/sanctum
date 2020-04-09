@@ -73,8 +73,8 @@ class Guard
      */
     protected function supportsTokens($tokenable = null)
     {
-        return in_array(HasApiTokens::class, class_uses_recursive(
-            $tokenable ? get_class($tokenable) : null
+        return $tokenable && in_array(HasApiTokens::class, class_uses_recursive(
+            get_class($tokenable)
         ));
     }
 }
