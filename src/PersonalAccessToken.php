@@ -69,4 +69,15 @@ class PersonalAccessToken extends Model implements HasAbilities
     {
         return ! $this->can($ability);
     }
+
+    /**
+     * Find a token.
+     *
+     * @param  string  $token
+     * @return static
+     */
+    public static function findToken($token)
+    {
+        return static::where('token', hash('sha256', $token))->first();
+    }
 }
