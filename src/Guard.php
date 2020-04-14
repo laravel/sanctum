@@ -51,7 +51,7 @@ class Guard
         if ($token = $request->bearerToken()) {
             $model = Sanctum::$personalAccessTokenModel;
 
-            $accessToken = $model::where('token', hash('sha256', $token))->first();
+            $accessToken = $model::findToken($token);
 
             if (! $accessToken ||
                 ($this->expiration &&
@@ -73,8 +73,8 @@ class Guard
      */
     protected function supportsTokens($tokenable = null)
     {
-        return in_array(HasApiTokens::class, class_uses_recursive(
-            $tokenable ? get_class($tokenable) : null
+        return $tokenable && in_array(HasApiTokens::class, class_uses_recursive(
+            get_class($tokenable)
         ));
     }
 }

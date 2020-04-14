@@ -1,6 +1,18 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/airlock/compare/v2.1.1...master)
+## [Unreleased](https://github.com/laravel/airlock/compare/v2.2.0...master)
+
+
+## [v2.2.0 (2020-04-14)](https://github.com/laravel/sanctum/compare/v2.1.2...v2.2.0)
+
+### Added
+- Allow customizing the query used to get the token ([#124](https://github.com/laravel/sanctum/pull/124))
+
+
+## [v2.1.2 (2020-04-09)](https://github.com/laravel/sanctum/compare/v2.1.1...v2.1.2)
+
+### Fixed
+- Enhance supportsTokens check ([#123](https://github.com/laravel/sanctum/pull/123))
 
 
 ## [v2.1.1 (2020-04-07)](https://github.com/laravel/sanctum/compare/v2.1.0...v2.1.1)
