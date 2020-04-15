@@ -1,13 +1,13 @@
 <?php
 
 return [
-    
+
     /*
     |--------------------------------------------------------------------------
     | SPA Authentication Guard
     |--------------------------------------------------------------------------
     |
-    | You can specify which authentication guard should be used to retrieve 
+    | You can specify which authentication guard should be used to retrieve
     | the authenticed user when for the protected routes: `auth:sanctum`
     |
     */
