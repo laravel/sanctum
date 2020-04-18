@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'localhost,127.0.0.1')),
+    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'localhost,127.0.0.1,' . parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST))),
 
     /*
     |--------------------------------------------------------------------------
