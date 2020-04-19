@@ -17,12 +17,12 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
     public function test_request_referer_is_parsed_against_configuration()
     {
         $request = Request::create('/');
-        $request->headers->set('referer', 'https://test.com');
+        $request->headers->set('origin', 'https://test.com');
 
         $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
 
         $request = Request::create('/');
-        $request->headers->set('referer', 'https://wrong.com');
+        $request->headers->set('origin', 'https://wrong.com');
 
         $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
     }
@@ -30,7 +30,7 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
     public function test_wildcard_matching()
     {
         $request = Request::create('/');
-        $request->headers->set('referer', 'https://foo.test.com');
+        $request->headers->set('origin', 'https://foo.test.com');
 
         $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
     }
