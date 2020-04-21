@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.2.0...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.2.1...2.x)
+
+
+## [v2.2.1 (2020-04-21)](https://github.com/laravel/sanctum/compare/v2.2.0...v2.2.1)
+
+### Fixed
+- No need to specify a provider ([#129](https://github.com/laravel/sanctum/pull/129))
 
 
 ## [v2.2.0 (2020-04-14)](https://github.com/laravel/sanctum/compare/v2.1.2...v2.2.0)
