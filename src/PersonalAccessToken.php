@@ -62,7 +62,7 @@ class PersonalAccessToken extends Model implements HasAbilities
         [$id, $token] = explode('|', $token);
 
         if ($instance = static::find($id)) {
-            return $instance->token == hash('sha256', $token) ? $instance : null;
+            return $instance->token === hash('sha256', $token) ? $instance : null;
         }
     }
 
