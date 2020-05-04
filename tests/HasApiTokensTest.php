@@ -15,9 +15,16 @@ class HasApiTokensTest extends TestCase
 
         $newToken = $class->createToken('test', ['foo']);
 
+        [$id, $token] = explode('|', $newToken->plainTextToken);
+
         $this->assertEquals(
             $newToken->accessToken->token,
-            hash('sha256', $newToken->plainTextToken)
+            hash('sha256', $token)
+        );
+
+        $this->assertEquals(
+            $newToken->accessToken->id,
+            $id
         );
     }
 

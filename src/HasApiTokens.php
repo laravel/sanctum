@@ -49,7 +49,7 @@ trait HasApiTokens
             'abilities' => $abilities,
         ]);
 
-        return new NewAccessToken($token, $plainTextToken);
+        return new NewAccessToken($token, $token->id.'|'.$plainTextToken);
     }
 
     /**
