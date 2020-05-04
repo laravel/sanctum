@@ -55,7 +55,7 @@ class PersonalAccessToken extends Model implements HasAbilities
      */
     public static function findToken($token)
     {
-        if (! strpos($token, '|')) {
+        if (strpos($token, '|') === false) {
             return static::where('token', hash('sha256', $token))->first();
         }
 
