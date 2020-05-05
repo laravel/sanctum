@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.2.1...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.3.0...2.x)
+
+
+## [v2.3.0 (2020-05-05)](https://github.com/laravel/sanctum/compare/v2.2.0...v2.3.0)
+
+### Changed
+- More performant tokens lookup ([#136](https://github.com/laravel/sanctum/pull/136))
 
 
 ## [v2.2.1 (2020-04-21)](https://github.com/laravel/sanctum/compare/v2.2.0...v2.2.1)
