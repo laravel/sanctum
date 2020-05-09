@@ -35,6 +35,15 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
     }
 
+    public function test_requests_are_not_stateful_without_referer()
+    {
+        $this->app['config']->set('sanctum.stateful', ['']);
+
+        $request = Request::create('/');
+
+        $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+    }
+
     protected function getPackageProviders($app)
     {
         return [SanctumServiceProvider::class];
