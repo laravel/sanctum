@@ -58,7 +58,9 @@ class EnsureFrontendRequestsAreStateful
 
         $referer = Str::replaceFirst('http://', '', $referer);
 
-        return Str::startsWith($referer, config('sanctum.stateful', [])) ||
-               Str::is(config('sanctum.stateful', []), $referer);
+        $stateful = array_filter(config('sanctum.stateful', []));
+
+        return Str::startsWith($referer, $stateful) ||
+               Str::is($stateful, $referer);
     }
 }
