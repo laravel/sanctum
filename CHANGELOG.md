@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.3.0...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.3.1...2.x)
+
+
+## [v2.3.1 (2020-05-12)](https://github.com/laravel/sanctum/compare/v2.3.0...v2.3.1)
+
+### Fixed
+- 419 Exception with requests without referrer ([#139](https://github.com/laravel/sanctum/pull/139))
 
 
 ## [v2.3.0 (2020-05-05)](https://github.com/laravel/sanctum/compare/v2.2.0...v2.3.0)
