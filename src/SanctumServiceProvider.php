@@ -72,7 +72,7 @@ class SanctumServiceProvider extends ServiceProvider
      */
     protected function defineRoutes()
     {
-        if ($this->app->routesAreCached()) {
+        if ($this->app->routesAreCached() || config('sanctum.routes') === false) {
             return;
         }
 
