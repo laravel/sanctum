@@ -21,6 +21,13 @@ class Sanctum
     public static $runsMigrations = true;
 
     /**
+     * Indicates if Sanctum's routes will be added.
+     *
+     * @var bool
+     */
+    public static $hasRoutes = true;
+
+    /**
      * Set the current user for the application with the given abilities.
      *
      * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Sanctum\HasApiTokens  $user
@@ -82,6 +89,28 @@ class Sanctum
     public static function ignoreMigrations()
     {
         static::$runsMigrations = false;
+
+        return new static;
+    }
+
+    /**
+     * Determine if Sanctum's routes should be added.
+     *
+     * @return bool
+     */
+    public static function hasRoutes()
+    {
+        return static::$hasRoutes;
+    }
+
+    /**
+     * Configure Sanctum to not register its routes.
+     *
+     * @return static
+     */
+    public static function disableRoutes()
+    {
+        static::$hasRoutes = false;
 
         return new static;
     }
