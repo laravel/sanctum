@@ -1,6 +1,24 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/airlock/compare/v2.3.0...master)
+## [Unreleased](https://github.com/laravel/airlock/compare/v2.3.3...master)
+
+
+## [v2.3.3 (2020-05-26)](https://github.com/laravel/sanctum/compare/v2.3.2...v2.3.3)
+
+### Fixed
+- EncryptCookies middleware option in config/sanctum.php ([#147](https://github.com/laravel/sanctum/pull/147))
+
+
+## [v2.3.2 (2020-05-21)](https://github.com/laravel/sanctum/compare/v2.3.1...v2.3.2)
+
+### Added
+- Add routes config option ([6cf798f](https://github.com/laravel/sanctum/commit/6cf798ff69d43fb2a714986cf028b5b5fa5612f2))
+
+
+## [v2.3.1 (2020-05-12)](https://github.com/laravel/sanctum/compare/v2.3.0...v2.3.1)
+
+### Fixed
+- 419 Exception with requests without referrer ([#139](https://github.com/laravel/sanctum/pull/139))
 
 
 ## [v2.3.0 (2020-05-05)](https://github.com/laravel/sanctum/compare/v2.2.0...v2.3.0)
