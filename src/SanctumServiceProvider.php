@@ -2,6 +2,7 @@
 
 namespace Laravel\Sanctum;
 
+use Illuminate\Auth\RequestGuard;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -92,8 +93,19 @@ class SanctumServiceProvider extends ServiceProvider
     protected function configureGuard()
     {
         Auth::resolved(function ($auth) {
-            $auth->viaRequest('sanctum', new Guard($auth, config('sanctum.expiration')));
+            $auth->extend('sanctum', function ($app, $name, array $config) use ($auth) {
+                return tap($this->registerGuard($auth, $config), function ($guard) {
+                        $this->app->refresh('request', $guard, 'setRequest');
+                });
+            });
         });
+    }
+
+    protected function registerGuard($auth, $config) {
+        return new RequestGuard(
+                new Guard($auth, $config['provider'], config('sanctum.expiration')),
+                $this->app['request'],
+                $auth->createUserProvider());
     }
 
     /**
