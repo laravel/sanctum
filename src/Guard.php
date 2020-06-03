@@ -15,13 +15,6 @@ class Guard
     protected $auth;
 
     /**
-     * The provider name.
-     *
-     * @var string
-     */
-    protected $provider;
-
-    /**
      * The number of minutes tokens should be allowed to remain valid.
      *
      * @var int
@@ -29,11 +22,18 @@ class Guard
     protected $expiration;
 
     /**
+     * The provider name.
+     *
+     * @var string
+     */
+    protected $provider;
+
+    /**
      * Create a new guard instance.
      *
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @param  int  $expiration
-     * @param  string $provider
+     * @param  string  $provider
      * @return void
      */
     public function __construct(AuthFactory $auth, $expiration = null, $provider = null)
@@ -89,15 +89,14 @@ class Guard
     }
 
     /**
-     * Determine if the Token Provider Correct.
+     * Determine if the tokenable model matches the provider's model type.
      *
-     * @param  \Illuminate\Database\Eloquent\Model $tokenable
+     * @param  \Illuminate\Database\Eloquent\Model  $tokenable
      * @return bool
      */
     protected function hasValidProvider($tokenable)
     {
-        // If provider is null this method will return TRUE
-        if ($this->provider === null) {
+        if (is_null($this->provider)) {
             return true;
         }
 

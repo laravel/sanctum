@@ -95,7 +95,7 @@ class SanctumServiceProvider extends ServiceProvider
     {
         Auth::resolved(function ($auth) {
             $auth->extend('sanctum', function ($app, $name, array $config) use ($auth) {
-                return tap($this->registerGuard($auth, $config), function ($guard) {
+                return tap($this->createGuard($auth, $config), function ($guard) {
                     $this->app->refresh('request', $guard, 'setRequest');
                 });
             });
@@ -105,16 +105,17 @@ class SanctumServiceProvider extends ServiceProvider
     /**
      * Register the guard.
      *
-     * @param \Illuminate\Contracts\Auth\Factory $auth
+     * @param \Illuminate\Contracts\Auth\Factory  $auth
      * @param array $config
      * @return RequestGuard
      */
-    protected function registerGuard($auth, $config)
+    protected function createGuard($auth, $config)
     {
         return new RequestGuard(
-                new Guard($auth, config('sanctum.expiration'), $config['provider']),
-                $this->app['request'],
-                $auth->createUserProvider());
+            new Guard($auth, config('sanctum.expiration'), $config['provider']),
+            $this->app['request'],
+            $auth->createUserProvider()
+        );
     }
 
     /**
