@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/airlock/compare/v2.3.3...master)
+## [Unreleased](https://github.com/laravel/airlock/compare/v2.3.3...develop)
 
 
 ## [v2.3.3 (2020-05-26)](https://github.com/laravel/sanctum/compare/v2.3.2...v2.3.3)
