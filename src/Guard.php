@@ -96,6 +96,11 @@ class Guard
      */
     protected function hasValidProvider($tokenable)
     {
+        // If provider is null this method will return TRUE
+        if($this->provider === null) {
+            return true;
+        }
+
         $model = config("auth.providers.{$this->provider}.model");
 
         return $tokenable instanceof $model;

@@ -39,7 +39,7 @@ class GuardTest extends TestCase
     {
         $factory = Mockery::mock(AuthFactory::class);
 
-        $guard = new Guard($factory);
+        $guard = new Guard($factory, 'users');
 
         $webGuard = Mockery::mock(stdClass::class);
 
@@ -61,7 +61,7 @@ class GuardTest extends TestCase
 
         $factory = Mockery::mock(AuthFactory::class);
 
-        $guard = new Guard($factory);
+        $guard = new Guard($factory, 'users');
 
         $webGuard = Mockery::mock(stdClass::class);
 
@@ -86,7 +86,7 @@ class GuardTest extends TestCase
 
         $factory = Mockery::mock(AuthFactory::class);
 
-        $guard = new Guard($factory, 1);
+        $guard = new Guard($factory, 'users', 1);
 
         $webGuard = Mockery::mock(stdClass::class);
 
@@ -126,7 +126,7 @@ class GuardTest extends TestCase
 
         $factory = Mockery::mock(AuthFactory::class);
 
-        $guard = new Guard($factory);
+        $guard = new Guard($factory, null);
 
         $webGuard = Mockery::mock(stdClass::class);
 

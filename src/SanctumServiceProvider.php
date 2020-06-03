@@ -22,6 +22,7 @@ class SanctumServiceProvider extends ServiceProvider
         config([
             'auth.guards.sanctum' => array_merge([
                 'driver' => 'sanctum',
+                'provider' => null
             ], config('auth.guards.sanctum', [])),
         ]);
 
