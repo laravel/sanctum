@@ -32,11 +32,11 @@ class Guard
      * Create a new guard instance.
      *
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
-     * @param string $provider
      * @param  int  $expiration
+     * @param  string $provider
      * @return void
      */
-    public function __construct(AuthFactory $auth, $provider, $expiration = null)
+    public function __construct(AuthFactory $auth, $expiration = null, $provider = null)
     {
         $this->auth = $auth;
         $this->expiration = $expiration;
@@ -91,7 +91,7 @@ class Guard
     /**
      * Determine if the Token Provider Correct.
      *
-     * @param \Illuminate\Database\Eloquent\Model $tokenable
+     * @param  \Illuminate\Database\Eloquent\Model $tokenable
      * @return bool
      */
     protected function hasValidProvider($tokenable)

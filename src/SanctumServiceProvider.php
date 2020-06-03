@@ -112,7 +112,7 @@ class SanctumServiceProvider extends ServiceProvider
     protected function registerGuard($auth, $config)
     {
         return new RequestGuard(
-                new Guard($auth, $config['provider'], config('sanctum.expiration')),
+                new Guard($auth, config('sanctum.expiration'), $config['provider']),
                 $this->app['request'],
                 $auth->createUserProvider());
     }
