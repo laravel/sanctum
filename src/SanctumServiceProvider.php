@@ -102,6 +102,13 @@ class SanctumServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Register the guard
+     *
+     * @param \Illuminate\Contracts\Auth\Factory $auth
+     * @param array $config
+     * @return RequestGuard
+     */
     protected function registerGuard($auth, $config) {
         return new RequestGuard(
                 new Guard($auth, $config['provider'], config('sanctum.expiration')),
