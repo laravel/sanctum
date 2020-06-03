@@ -15,7 +15,7 @@ class Guard
     protected $auth;
 
     /**
-     * The provider name
+     * The provider name.
      *
      * @var string
      */
@@ -89,7 +89,7 @@ class Guard
     }
 
     /**
-     * Determine if the Token Provider Correct
+     * Determine if the Token Provider Correct.
      *
      * @param \Illuminate\Database\Eloquent\Model $tokenable
      * @return bool
@@ -97,7 +97,7 @@ class Guard
     protected function hasValidProvider($tokenable)
     {
         // If provider is null this method will return TRUE
-        if($this->provider === null) {
+        if ($this->provider === null) {
             return true;
         }
 

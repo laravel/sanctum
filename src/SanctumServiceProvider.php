@@ -22,7 +22,7 @@ class SanctumServiceProvider extends ServiceProvider
         config([
             'auth.guards.sanctum' => array_merge([
                 'driver' => 'sanctum',
-                'provider' => null
+                'provider' => null,
             ], config('auth.guards.sanctum', [])),
         ]);
 
@@ -96,20 +96,21 @@ class SanctumServiceProvider extends ServiceProvider
         Auth::resolved(function ($auth) {
             $auth->extend('sanctum', function ($app, $name, array $config) use ($auth) {
                 return tap($this->registerGuard($auth, $config), function ($guard) {
-                        $this->app->refresh('request', $guard, 'setRequest');
+                    $this->app->refresh('request', $guard, 'setRequest');
                 });
             });
         });
     }
 
     /**
-     * Register the guard
+     * Register the guard.
      *
      * @param \Illuminate\Contracts\Auth\Factory $auth
      * @param array $config
      * @return RequestGuard
      */
-    protected function registerGuard($auth, $config) {
+    protected function registerGuard($auth, $config)
+    {
         return new RequestGuard(
                 new Guard($auth, $config['provider'], config('sanctum.expiration')),
                 $this->app['request'],
