@@ -55,6 +55,28 @@ class GuardTest extends TestCase
         $this->assertTrue($user->tokenCan('foo'));
     }
 
+    public function test_authentication_is_attempted_with_other_middleware()
+    {
+        $this->app['config']->set('auth.defaults.guard', 'other');
+
+        $factory = Mockery::mock(AuthFactory::class);
+
+        $guard = new Guard($factory, null, 'users');
+
+        $otherGuard = Mockery::mock(stdClass::class);
+
+        $factory->shouldReceive('guard')
+            ->with('other')
+            ->andReturn($otherGuard);
+
+        $otherGuard->shouldReceive('user')->once()->andReturn($fakeUser = new User);
+
+        $user = $guard->__invoke(Request::create('/', 'GET'));
+
+        $this->assertTrue($user === $fakeUser);
+        $this->assertTrue($user->tokenCan('foo'));
+    }
+
     public function test_authentication_is_attempted_with_token_if_no_session_present()
     {
         $this->artisan('migrate', ['--database' => 'testbench'])->run();
