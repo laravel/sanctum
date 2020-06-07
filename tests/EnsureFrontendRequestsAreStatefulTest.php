@@ -32,7 +32,7 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
 
         $request = Request::create('/');
-        $request->headers->set('referer', 'https://foobar.test.com/xxx');
+        $request->headers->set('referer', 'https://foobar.test.com/');
 
         $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
     }
