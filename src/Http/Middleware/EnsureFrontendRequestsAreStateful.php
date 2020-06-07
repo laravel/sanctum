@@ -65,6 +65,7 @@ class EnsureFrontendRequestsAreStateful
 
         $stateful = Collection::make($stateful)->map(function ($uri) {
             $uri = Str::endsWith('/', $uri) ? Str::replaceLast('/', '', $uri) : $uri;
+
             return "{$uri}/*";
         })->all();
 
