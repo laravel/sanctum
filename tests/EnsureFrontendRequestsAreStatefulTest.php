@@ -25,6 +25,16 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         $request->headers->set('referer', 'https://wrong.com');
 
         $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+
+        $request = Request::create('/');
+        $request->headers->set('referer', 'https://test.com.x');
+
+        $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+
+        $request = Request::create('/');
+        $request->headers->set('referer', 'https://foobar.test.com/xxx');
+
+        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
     }
 
     public function test_wildcard_matching()
