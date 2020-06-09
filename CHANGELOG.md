@@ -1,6 +1,15 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.3.3...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.4.0...2.x)
+
+
+## [v2.4.0 (2020-06-09)](https://github.com/laravel/sanctum/compare/v2.3.3...v2.4.0)
+
+### Added
+- Added Multiple Provider Support ([#149](https://github.com/laravel/sanctum/pull/149))
+
+### Fixed
+- Fixed Host Problem ([#155](https://github.com/laravel/sanctum/pull/155))
 
 
 ## [v2.3.3 (2020-05-26)](https://github.com/laravel/sanctum/compare/v2.3.2...v2.3.3)
