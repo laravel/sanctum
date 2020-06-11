@@ -22,16 +22,25 @@ class Guard
     protected $expiration;
 
     /**
+     * The provider name.
+     *
+     * @var string
+     */
+    protected $provider;
+
+    /**
      * Create a new guard instance.
      *
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @param  int  $expiration
+     * @param  string  $provider
      * @return void
      */
-    public function __construct(AuthFactory $auth, $expiration = null)
+    public function __construct(AuthFactory $auth, $expiration = null, $provider = null)
     {
         $this->auth = $auth;
         $this->expiration = $expiration;
+        $this->provider = $provider;
     }
 
     /**
@@ -55,7 +64,8 @@ class Guard
 
             if (! $accessToken ||
                 ($this->expiration &&
-                 $accessToken->created_at->lte(now()->subMinutes($this->expiration)))) {
+                 $accessToken->created_at->lte(now()->subMinutes($this->expiration))) ||
+                ! $this->hasValidProvider($accessToken->tokenable)) {
                 return;
             }
 
@@ -76,5 +86,22 @@ class Guard
         return $tokenable && in_array(HasApiTokens::class, class_uses_recursive(
             get_class($tokenable)
         ));
+    }
+
+    /**
+     * Determine if the tokenable model matches the provider's model type.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $tokenable
+     * @return bool
+     */
+    protected function hasValidProvider($tokenable)
+    {
+        if (is_null($this->provider)) {
+            return true;
+        }
+
+        $model = config("auth.providers.{$this->provider}.model");
+
+        return $tokenable instanceof $model;
     }
 }

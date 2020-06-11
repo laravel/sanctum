@@ -3,6 +3,7 @@
 namespace Laravel\Sanctum\Http\Middleware;
 
 use Illuminate\Routing\Pipeline;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class EnsureFrontendRequestsAreStateful
@@ -55,12 +56,13 @@ class EnsureFrontendRequestsAreStateful
     public static function fromFrontend($request)
     {
         $referer = Str::replaceFirst('https://', '', $request->headers->get('referer'));
-
         $referer = Str::replaceFirst('http://', '', $referer);
+        $referer = Str::endsWith('/', $referer) ? $referer : "{$referer}/";
 
         $stateful = array_filter(config('sanctum.stateful', []));
 
-        return Str::startsWith($referer, $stateful) ||
-               Str::is($stateful, $referer);
+        return Str::is(Collection::make($stateful)->map(function ($uri) {
+            return trim($uri).'/*';
+        })->all(), $referer);
     }
 }
