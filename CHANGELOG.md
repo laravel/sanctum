@@ -1,6 +1,21 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/airlock/compare/v2.3.3...develop)
+## [Unreleased](https://github.com/laravel/airlock/compare/v2.4.1...develop)
+
+
+## [v2.4.1 (2020-06-11)](https://github.com/laravel/sanctum/compare/v2.4.0...v2.4.1)
+
+### Fixed
+- Fix default statefull domains ([#158](https://github.com/laravel/sanctum/pull/158), [2aac713](https://github.com/laravel/sanctum/commit/2aac713ced04e6e7f046748833dea5ab4c98b621))
+
+
+## [v2.4.0 (2020-06-09)](https://github.com/laravel/sanctum/compare/v2.3.3...v2.4.0)
+
+### Added
+- Added Multiple Provider Support ([#149](https://github.com/laravel/sanctum/pull/149))
+
+### Fixed
+- Fixed Host Problem ([#155](https://github.com/laravel/sanctum/pull/155))
 
 
 ## [v2.3.3 (2020-05-26)](https://github.com/laravel/sanctum/compare/v2.3.2...v2.3.3)
