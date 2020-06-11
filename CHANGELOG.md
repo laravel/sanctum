@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.4.0...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.4.1...2.x)
+
+
+## [v2.4.1 (2020-06-11)](https://github.com/laravel/sanctum/compare/v2.4.0...v2.4.1)
+
+### Fixed
+- Fix default statefull domains ([#158](https://github.com/laravel/sanctum/pull/158), [2aac713](https://github.com/laravel/sanctum/commit/2aac713ced04e6e7f046748833dea5ab4c98b621))
 
 
 ## [v2.4.0 (2020-06-09)](https://github.com/laravel/sanctum/compare/v2.3.3...v2.4.0)
