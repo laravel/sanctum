@@ -57,7 +57,7 @@ class EnsureFrontendRequestsAreStateful
     {
         $referer = Str::replaceFirst('https://', '', $request->headers->get('referer'));
         $referer = Str::replaceFirst('http://', '', $referer);
-        $referer = Str::endsWith('/', $referer) ? $referer : "{$referer}/";
+        $referer = Str::endsWith($referer, '/') ? $referer : "{$referer}/";
 
         $stateful = array_filter(config('sanctum.stateful', []));
 
