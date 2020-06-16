@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/airlock/compare/v2.4.1...develop)
+## [Unreleased](https://github.com/laravel/airlock/compare/v2.4.2...develop)
+
+
+## [v2.4.2 (2020-06-16)](https://github.com/laravel/sanctum/compare/v2.4.1...v2.4.2)
+
+### Fixed
+- Use the correct `Str::endsWith` parameter order ([#163](https://github.com/laravel/sanctum/pull/163))
 
 
 ## [v2.4.1 (2020-06-11)](https://github.com/laravel/sanctum/compare/v2.4.0...v2.4.1)
