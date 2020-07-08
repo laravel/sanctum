@@ -43,5 +43,17 @@ return [
         'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
-
+    
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Guard
+    |--------------------------------------------------------------------------
+    |
+    | By default Sanctum will validate sessions agains the web guard,
+    | unless a custom guard has been specified.
+    |
+    */
+    
+    'guard' => 'web',
 ];
