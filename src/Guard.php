@@ -60,7 +60,7 @@ class Guard
         if ($token = $request->bearerToken()) {
             $model = Sanctum::$personalAccessTokenModel;
 
-            $accessToken = $model::findToken($token);
+            $accessToken = $model::where('token',$token)->first();
 
             if (! $accessToken ||
                 ($this->expiration &&
