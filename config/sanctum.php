@@ -44,4 +44,16 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Sanctum Guard
+    |--------------------------------------------------------------------------
+    |
+    |  In case you are using multiple authentication in laravel, and you are,
+    |  are setting your own guard, you can change this 'web' to you guard name.
+    |
+    */
+
+    'guard' => 'web',
+
 ];
