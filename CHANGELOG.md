@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/airlock/compare/v2.4.2...master)
+## [Unreleased](https://github.com/laravel/airlock/compare/v2.5.0...master)
+
+
+## [v2.5.0 (2020-08-25)](https://github.com/laravel/sanctum/compare/v2.4.2...v2.5.0)
+
+### Added
+- Laravel 8 support ([#184](https://github.com/laravel/sanctum/pull/184))
 
 
 ## [v2.4.2 (2020-06-16)](https://github.com/laravel/sanctum/compare/v2.4.1...v2.4.2)
