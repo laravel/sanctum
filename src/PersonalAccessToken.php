@@ -51,7 +51,7 @@ class PersonalAccessToken extends Model implements HasAbilities
      * Find the token instance matching the given token.
      *
      * @param  string  $token
-     * @return static
+     * @return static|null
      */
     public static function findToken($token)
     {
