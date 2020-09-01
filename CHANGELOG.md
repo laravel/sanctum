@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/airlock/compare/v2.5.0...master)
+## [Unreleased](https://github.com/laravel/airlock/compare/v2.6.0...master)
+
+
+## [v2.6.0 (2020-09-01)](https://github.com/laravel/sanctum/compare/v2.5.0...v2.6.0)
+
+### Changed
+- Shorten tokens ([#186](https://github.com/laravel/sanctum/pull/186))
 
 
 ## [v2.5.0 (2020-08-25)](https://github.com/laravel/sanctum/compare/v2.4.2...v2.5.0)
