@@ -2,9 +2,10 @@
 
 namespace Laravel\Sanctum;
 
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Auth\RequestGuard;
-use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
@@ -74,7 +75,7 @@ class SanctumServiceProvider extends ServiceProvider
      */
     protected function defineRoutes()
     {
-        if ($this->app->routesAreCached() || config('sanctum.routes') === false) {
+        if ($this->app->routesAreCached() || Sanctum::$registersRoutes === false) {
             return;
         }
 
