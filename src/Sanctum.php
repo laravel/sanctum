@@ -21,6 +21,13 @@ class Sanctum
     public static $runsMigrations = true;
 
     /**
+     * Indicates if Sanctum routes will be registered.
+     *
+     * @var bool
+     */
+    public static $registersRoutes = true;
+
+    /**
      * Set the current user for the application with the given abilities.
      *
      * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Sanctum\HasApiTokens  $user
