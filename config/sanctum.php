@@ -44,4 +44,17 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Token database table
+    |--------------------------------------------------------------------------
+    |
+    | You may specify the table we shuold use to manage the access tokens. Of
+    | course, a sensible default is provided for you; however, you are free to
+    | change this as needed.
+    |
+    */
+
+    'token_table' => 'personal_access_tokens',
+
 ];
