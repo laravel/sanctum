@@ -38,6 +38,16 @@ class PersonalAccessToken extends Model implements HasAbilities
     ];
 
     /**
+     * Get the table associated with the model.
+     *
+     * @return string
+     */
+    public function getTable()
+    {
+        return config('sanctum.token_table', parent::getTable());
+    }
+
+    /**
      * Get the tokenable model that the access token belongs to.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
