@@ -55,7 +55,7 @@ class EnsureFrontendRequestsAreStateful
      */
     public static function fromFrontend($request)
     {
-        $domain = ($request->headers->get('referer')) ? $request->headers->get('referer') : $request->headers->get('origin');
+        $domain = $request->headers->get('referer') ?: $request->headers->get('origin');
         $domain = Str::replaceFirst('https://', '', $domain);
         $domain = Str::replaceFirst('http://', '', $domain);
         $domain = Str::endsWith($domain, '/') ? $domain : "{$domain}/";
