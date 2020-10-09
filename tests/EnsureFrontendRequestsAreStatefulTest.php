@@ -37,6 +37,26 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
     }
 
+    public function test_request_origin_fallback()
+    {
+        $request = Request::create('/');
+        $request->headers->set('origin', 'test.com');
+
+        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+
+        $request = Request::create('/');
+        $request->headers->set('referer', null);
+        $request->headers->set('origin', 'test.com');
+
+        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+
+        $request = Request::create('/');
+        $request->headers->set('referer', '');
+        $request->headers->set('origin', 'test.com');
+
+        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+    }
+
     public function test_wildcard_matching()
     {
         $request = Request::create('/');
