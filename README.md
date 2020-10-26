@@ -2,9 +2,9 @@
 
 <p align="center">
 <a href="https://github.com/laravel/sanctum/actions"><img src="https://github.com/laravel/sanctum/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/sanctum"><img src="https://poser.pugx.org/laravel/sanctum/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/sanctum"><img src="https://poser.pugx.org/laravel/sanctum/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/sanctum"><img src="https://poser.pugx.org/laravel/sanctum/license.svg" alt="License"></a>
+<a href="https://packagist.org/packages/laravel/sanctum"><img src="https://img.shields.io/packagist/dt/laravel/sanctum" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/sanctum"><img src="https://img.shields.io/packagist/v/laravel/sanctum" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/sanctum"><img src="https://img.shields.io/packagist/l/laravel/sanctum" alt="License"></a>
 </p>
 
 ## Introduction
