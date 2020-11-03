@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.7.0...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.8.0...2.x)
+
+
+## [v2.8.0 (2020-11-03)](https://github.com/laravel/sanctum/compare/v2.7.0...v2.8.0)
+
+### Added
+- PHP 8 Support ([#213](https://github.com/laravel/sanctum/pull/213))
 
 
 ## [v2.7.0 (2020-10-20)](https://github.com/laravel/sanctum/compare/v2.6.0...v2.7.0)
