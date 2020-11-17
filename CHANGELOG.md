@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.8.0...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.8.1...2.x)
+
+
+## [v2.8.1 (2020-11-17)](https://github.com/laravel/sanctum/compare/v2.8.0...v2.8.1)
+
+### Changed
+- Add default nextjs address to stateful ([e86d3e0](https://github.com/laravel/sanctum/commit/e86d3e01ade3325438fe1e64ddd64ec53f828dc4))
 
 
 ## [v2.8.0 (2020-11-03)](https://github.com/laravel/sanctum/compare/v2.7.0...v2.8.0)
