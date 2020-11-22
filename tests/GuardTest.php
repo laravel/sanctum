@@ -3,6 +3,8 @@
 namespace Laravel\Sanctum\Tests;
 
 use DateTimeInterface;
+use Illuminate\Auth\EloquentUserProvider;
+use Illuminate\Auth\RequestGuard;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -51,7 +53,7 @@ class GuardTest extends TestCase
 
         $user = $guard->__invoke(Request::create('/', 'GET'));
 
-        $this->assertTrue($user === $fakeUser);
+        $this->assertSame($user, $fakeUser);
         $this->assertTrue($user->tokenCan('foo'));
     }
 
@@ -158,6 +160,74 @@ class GuardTest extends TestCase
         $this->assertEquals($user->id, $returnedUser->id);
         $this->assertEquals($token->id, $returnedUser->currentAccessToken()->id);
         $this->assertInstanceOf(DateTimeInterface::class, $returnedUser->currentAccessToken()->last_used_at);
+    }
+
+    public function test_authentication_with_token_fails_if_user_provider_is_invalid()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+
+        config(['auth.guards.sanctum.provider' => 'users']);
+        config(['auth.providers.users.model' => 'App\Models\User']);
+
+        $factory = $this->app->make(AuthFactory::class);
+        $requestGuard = $factory->guard('sanctum');
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer test');
+
+        $user = User::forceCreate([
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@laravel.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+        ]);
+
+        $token = PersonalAccessToken::forceCreate([
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
+            'name' => 'Test',
+            'token' => hash('sha256', 'test'),
+        ]);
+
+        $returnedUser = $requestGuard->setRequest($request)->user();
+
+        $this->assertNull($returnedUser);
+        $this->assertInstanceOf(EloquentUserProvider::class, $requestGuard->getProvider());
+    }
+
+    public function test_authentication_is_successful_with_token_if_user_provider_is_valid()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+
+        config(['auth.guards.sanctum.provider' => 'users']);
+        config(['auth.providers.users.model' => User::class]);
+
+        $factory = $this->app->make(AuthFactory::class);
+        $requestGuard = $factory->guard('sanctum');
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer test');
+
+        $user = User::forceCreate([
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@laravel.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+        ]);
+
+        $token = PersonalAccessToken::forceCreate([
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
+            'name' => 'Test',
+            'token' => hash('sha256', 'test'),
+        ]);
+
+        $returnedUser = $requestGuard->setRequest($request)->user();
+
+        $this->assertEquals($user->id, $returnedUser->id);
+        $this->assertInstanceOf(EloquentUserProvider::class, $requestGuard->getProvider());
     }
 
     protected function getPackageProviders($app)
