@@ -4,7 +4,6 @@ namespace Laravel\Sanctum\Tests;
 
 use DateTimeInterface;
 use Illuminate\Auth\EloquentUserProvider;
-use Illuminate\Auth\RequestGuard;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
