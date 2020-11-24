@@ -1,6 +1,18 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/airlock/compare/v2.8.0...master)
+## [Unreleased](https://github.com/laravel/airlock/compare/v2.8.2...master)
+
+
+## [v2.8.2 (2020-11-24)](https://github.com/laravel/sanctum/compare/v2.8.1...v2.8.2)
+
+### Fixed
+- Fix user provider in `sanctum` guard ([#225](https://github.com/laravel/sanctum/pull/225))
+
+
+## [v2.8.1 (2020-11-17)](https://github.com/laravel/sanctum/compare/v2.8.0...v2.8.1)
+
+### Changed
+- Add default nextjs address to stateful ([e86d3e0](https://github.com/laravel/sanctum/commit/e86d3e01ade3325438fe1e64ddd64ec53f828dc4))
 
 
 ## [v2.8.0 (2020-11-03)](https://github.com/laravel/sanctum/compare/v2.7.0...v2.8.0)
