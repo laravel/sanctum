@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.8.1...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.8.2...2.x)
+
+
+## [v2.8.2 (2020-11-24)](https://github.com/laravel/sanctum/compare/v2.8.1...v2.8.2)
+
+### Fixed
+- Fix user provider in `sanctum` guard ([#225](https://github.com/laravel/sanctum/pull/225))
 
 
 ## [v2.8.1 (2020-11-17)](https://github.com/laravel/sanctum/compare/v2.8.0...v2.8.1)
