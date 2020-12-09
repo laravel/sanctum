@@ -13,7 +13,7 @@ Laravel Sanctum provides a featherweight authentication system for SPAs and simp
 
 ## Official Documentation
 
-Documentation for Sanctum can be found on the [Laravel website](https://laravel.com/docs/master/sanctum).
+Documentation for Sanctum can be found on the [Laravel website](https://laravel.com/docs/sanctum).
 
 ## Contributing
 
