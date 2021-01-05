@@ -29,6 +29,12 @@ class SanctumServiceProvider extends ServiceProvider
         if (! $this->app->configurationIsCached()) {
             $this->mergeConfigFrom(__DIR__.'/../config/sanctum.php', 'sanctum');
         }
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                CleanupCommand::class,
+            ]);
+        }
     }
 
     /**
