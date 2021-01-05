@@ -1,7 +1,6 @@
 <?php
 
-
-namespace Laravel\Sanctum;
+namespace Laravel\Sanctum\Console;
 
 use Illuminate\Console\Command;
 
@@ -28,7 +27,10 @@ class CleanupCommand extends Command
      */
     public function handle()
     {
-        PersonalAccessToken::where('last_used_at', '<', now()->subMinutes(config('sanctum.expiration')))->delete();
+        $expiration = now()->subMinutes(config('sanctum.expiration'));
+
+        PersonalAccessToken::where('last_used_at', '<', $expiration)->delete();
+
         $this->info('Cleaning up done successfully.');
     }
 }
