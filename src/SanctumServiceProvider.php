@@ -7,6 +7,7 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\Console\CleanupCommand;
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
