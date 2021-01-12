@@ -13,10 +13,22 @@ return [
     |
     */
 
-    'stateful' => explode(',', env(
-        'SANCTUM_STATEFUL_DOMAINS',
-        'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1'
-    )),
+    'stateful' => Illuminate\Support\Str::of(
+        env(
+            'SANCTUM_STATEFUL_DOMAINS',
+            env('APP_URL') . ',localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1'
+        )
+    )
+        ->explode(',')
+        ->map(
+            function ($host) {
+                return preg_replace('#^https?://#', '', $host);
+            }
+        )
+        ->filter()
+        ->unique()
+        ->values()
+        ->all(),
 
     /*
     |--------------------------------------------------------------------------
