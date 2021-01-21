@@ -51,10 +51,18 @@ class Guard
      */
     public function __invoke(Request $request)
     {
-        if ($user = $this->auth->guard(config('sanctum.guard', 'web'))->user()) {
-            return $this->supportsTokens($user)
-                        ? $user->withAccessToken(new TransientToken)
-                        : $user;
+        $guards = array_keys(config('auth.guards'));
+
+        if (empty($guards)) {
+            $guards = [null];
+        }
+
+        foreach ($guards as $guard) {
+            if ($user = $this->auth->guard($guard)->user()) {
+                return $this->supportsTokens($user)
+                    ? $user->withAccessToken(new TransientToken)
+                    : $user;
+            }
         }
 
         if ($token = $request->bearerToken()) {
