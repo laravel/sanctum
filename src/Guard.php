@@ -51,27 +51,13 @@ class Guard
      */
     public function __invoke(Request $request)
     {
-        if ($default_guard = config('sanctum.guard')) {
-            if ($user = $this->auth->guard($default_guard)->user()) {
+        $guards = config('sanctum.guards');
+
+        foreach ($guards as $guard) {
+            if ($user = $this->auth->guard($guard)->user()) {
                 return $this->supportsTokens($user)
                     ? $user->withAccessToken(new TransientToken)
                     : $user;
-            }
-        } else {
-            $guards = collect(config('auth.guards'))->filter(function ($guard) {
-                return $guard['driver'] === 'session';
-            })->keys();
-
-            if (empty($guards)) {
-                $guards = [null];
-            }
-
-            foreach ($guards as $guard) {
-                if ($user = $this->auth->guard($guard)->user()) {
-                    return $this->supportsTokens($user)
-                        ? $user->withAccessToken(new TransientToken)
-                        : $user;
-                }
             }
         }
 

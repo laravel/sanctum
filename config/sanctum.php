@@ -20,6 +20,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Sanctum Guards
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify which authentication guards Sanctum will use while
+    | authenticating users. This values should correspond with the
+    | guards that are already present in your "auth" configuration file.
+    |
+    */
+
+    'guards' => ['web'],
+
+    /*
+    |--------------------------------------------------------------------------
     | Expiration Minutes
     |--------------------------------------------------------------------------
     |
