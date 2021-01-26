@@ -1,6 +1,15 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.8.2...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.9.0...2.x)
+
+
+## [v2.9.0 (2021-01-26)](https://github.com/laravel/sanctum/compare/v2.8.2...v2.9.0)
+
+### Added
+- Add multiple guard support for SPA auth ([#246](https://github.com/laravel/sanctum/pull/246), [f5695ae](https://github.com/laravel/sanctum/commit/f5695aecc547138c76bc66aaede73ba549dabdc5))
+
+### Fixed
+- Return json response when the request expects a json ([#247](https://github.com/laravel/sanctum/pull/247))
 
 
 ## [v2.8.2 (2020-11-24)](https://github.com/laravel/sanctum/compare/v2.8.1...v2.8.2)
