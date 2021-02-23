@@ -120,6 +120,86 @@ class GuardTest extends TestCase
         $this->assertNull($user);
     }
 
+    public function test_authentication_with_token_fails_if_expires_at_has_passed()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+
+        $factory = Mockery::mock(AuthFactory::class);
+
+        $guard = new Guard($factory, null, 'users');
+
+        $webGuard = Mockery::mock(stdClass::class);
+
+        $factory->shouldReceive('guard')
+            ->with('web')
+            ->andReturn($webGuard);
+
+        $webGuard->shouldReceive('user')->once()->andReturn(null);
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer test');
+
+        $user = User::forceCreate([
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@laravel.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+        ]);
+
+        $token = PersonalAccessToken::forceCreate([
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
+            'name' => 'Test',
+            'token' => hash('sha256', 'test'),
+            'expires_at' => now()->subMinutes(60),
+        ]);
+
+        $user = $guard->__invoke($request);
+
+        $this->assertNull($user);
+    }
+
+    public function test_authentication_with_token_succeeds_if_expires_at_not_passed()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+
+        $factory = Mockery::mock(AuthFactory::class);
+
+        $guard = new Guard($factory, null, 'users');
+
+        $webGuard = Mockery::mock(stdClass::class);
+
+        $factory->shouldReceive('guard')
+            ->with('web')
+            ->andReturn($webGuard);
+
+        $webGuard->shouldReceive('user')->once()->andReturn(null);
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer test');
+
+        $user = User::forceCreate([
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@laravel.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+        ]);
+
+        $token = PersonalAccessToken::forceCreate([
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
+            'name' => 'Test',
+            'token' => hash('sha256', 'test'),
+            'expires_at' => now()->addMinutes(60),
+        ]);
+
+        $user = $guard->__invoke($request);
+
+        $this->assertNull($user);
+    }
+
     public function test_authentication_is_successful_with_token_if_no_session_present()
     {
         $this->loadLaravelMigrations(['--database' => 'testbench']);

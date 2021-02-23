@@ -65,6 +65,8 @@ class Guard
             if (! $accessToken ||
                 ($this->expiration &&
                  $accessToken->created_at->lte(now()->subMinutes($this->expiration))) ||
+                ($accessToken->expires_at &&
+                    $accessToken->expires_at->isPast()) ||
                 ! $this->hasValidProvider($accessToken->tokenable)) {
                 return;
             }

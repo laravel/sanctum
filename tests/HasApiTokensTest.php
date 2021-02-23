@@ -2,18 +2,20 @@
 
 namespace Laravel\Sanctum\Tests;
 
+use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\TransientToken;
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\TestCase;
 
 class HasApiTokensTest extends TestCase
 {
     public function test_tokens_can_be_created()
     {
         $class = new ClassThatHasApiTokens;
+        $time = Carbon::now();
 
-        $newToken = $class->createToken('test', ['foo']);
+        $newToken = $class->createToken('test', ['foo'], $time);
 
         [$id, $token] = explode('|', $newToken->plainTextToken);
 
@@ -25,6 +27,11 @@ class HasApiTokensTest extends TestCase
         $this->assertEquals(
             $newToken->accessToken->id,
             $id
+        );
+
+        $this->assertEquals(
+            $time->toDateTimeString(),
+            $newToken->accessToken->expires_at->toDateTimeString()
         );
     }
 
