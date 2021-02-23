@@ -27,7 +27,7 @@ class PersonalAccessToken extends Model implements HasAbilities
         'name',
         'token',
         'abilities',
-        'expires_at'
+        'expires_at',
     ];
 
     /**
