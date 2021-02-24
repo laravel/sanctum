@@ -73,7 +73,9 @@ class Guard
             }
 
             return $this->supportsTokens($accessToken->tokenable) ? $accessToken->tokenable->withAccessToken(
-                tap($accessToken->forceFill(['last_used_at' => now()]))->save()
+              config('sanctum.last_used_update', true)
+                ? tap($accessToken->forceFill(['last_used_at' => now()]))->save()
+                : $accessToken
             ) : null;
         }
     }

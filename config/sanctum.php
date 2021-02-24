@@ -47,4 +47,14 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Last Used Update
+    |--------------------------------------------------------------------------
+    |
+    | This value controls whether to update the token's last_used_at on every request.
+    |
+    */
+
+    'last_used_update' => true,
 ];

@@ -229,6 +229,40 @@ class GuardTest extends TestCase
         $this->assertInstanceOf(EloquentUserProvider::class, $requestGuard->getProvider());
     }
 
+    public function test_token_last_updated_at_is_not_updated_when_disbaled()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+
+        config(['auth.guards.sanctum.provider' => 'users']);
+        config(['auth.providers.users.model' => User::class]);
+        config(['sanctum.last_used_update' => false]);
+
+        $factory = $this->app->make(AuthFactory::class);
+        $requestGuard = $factory->guard('sanctum');
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer test');
+
+        $user = User::forceCreate([
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@laravel.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+        ]);
+
+        $token = PersonalAccessToken::forceCreate([
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
+            'name' => 'Test',
+            'token' => hash('sha256', 'test'),
+        ]);
+
+        $requestGuard->setRequest($request)->user();
+
+        $this->assertEquals(null, $token->fresh()->last_used_at);
+    }
+
     protected function getPackageProviders($app)
     {
         return [SanctumServiceProvider::class];
