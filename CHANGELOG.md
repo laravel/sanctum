@@ -2,6 +2,8 @@
 
 ## [Unreleased](https://github.com/laravel/airlock/compare/v2.8.2...master)
 
+### Added
+- Expiration Dates ([#252](https://github.com/laravel/sanctum/pull/252))
 
 ## [v2.8.2 (2020-11-24)](https://github.com/laravel/sanctum/compare/v2.8.1...v2.8.2)
 
