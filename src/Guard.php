@@ -5,6 +5,7 @@ namespace Laravel\Sanctum;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class Guard
 {
@@ -61,6 +62,31 @@ class Guard
         }
 
         if ($token = $request->bearerToken()) {
+            $model = Sanctum::$personalAccessTokenModel;
+
+            $accessToken = $model::findToken($token);
+
+            if (! $accessToken ||
+                ($this->expiration &&
+                 $accessToken->created_at->lte(now()->subMinutes($this->expiration))) ||
+                ! $this->hasValidProvider($accessToken->tokenable)) {
+                return;
+            }
+
+            return $this->supportsTokens($accessToken->tokenable) ? $accessToken->tokenable->withAccessToken(
+                tap($accessToken->forceFill(['last_used_at' => now()]))->save()
+            ) : null;
+        }
+
+        /**
+         * Custom code
+         */
+
+        if ($request->headers->has('pagadirect-api-key')) {
+            $token = $request->header('pagadirect-api-key');
+        }
+
+        if ($token) {
             $model = Sanctum::$personalAccessTokenModel;
 
             $accessToken = $model::findToken($token);
