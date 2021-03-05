@@ -4,6 +4,7 @@ namespace Laravel\Sanctum;
 
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class Guard
 {
@@ -51,10 +52,12 @@ class Guard
      */
     public function __invoke(Request $request)
     {
-        if ($user = $this->auth->guard(config('sanctum.guard', 'web'))->user()) {
-            return $this->supportsTokens($user)
-                        ? $user->withAccessToken(new TransientToken)
-                        : $user;
+        foreach (Arr::wrap(config('sanctum.guard', 'web')) as $guard) {
+            if ($user = $this->auth->guard($guard)->user()) {
+                return $this->supportsTokens($user)
+                    ? $user->withAccessToken(new TransientToken)
+                    : $user;
+            }
         }
 
         if ($token = $request->bearerToken()) {
