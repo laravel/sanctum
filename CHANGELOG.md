@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.9.0...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.9.1...2.x)
+
+
+## [v2.9.1 (2021-03-09)](https://github.com/laravel/sanctum/compare/v2.9.0...v2.9.1)
+
+### Fixed
+- Avoid running string functions when domain is null ([#258](https://github.com/laravel/sanctum/pull/258))
 
 
 ## [v2.9.0 (2021-01-26)](https://github.com/laravel/sanctum/compare/v2.8.2...v2.9.0)
