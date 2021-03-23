@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.9.1...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.9.2...2.x)
+
+
+## [v2.9.2 (2021-03-23)](https://github.com/laravel/sanctum/compare/v2.9.1...v2.9.2)
+
+### Fixed
+- Changed Primary Key will not be used in created token's plainTextToken ([#262](https://github.com/laravel/sanctum/pull/262))
 
 
 ## [v2.9.1 (2021-03-09)](https://github.com/laravel/sanctum/compare/v2.9.0...v2.9.1)
