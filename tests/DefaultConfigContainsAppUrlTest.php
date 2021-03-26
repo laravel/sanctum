@@ -10,14 +10,14 @@ class DefaultConfigContainsAppUrlTest extends TestCase
 {
     protected function useDefaultStatefulConfiguration($app)
     {
-        $config = require __DIR__ . '/../config/sanctum.php';
+        $config = require __DIR__.'/../config/sanctum.php';
 
         $app->config->set('sanctum.stateful', $config['stateful']);
     }
 
     public function test_default_config_contains_app_url()
     {
-        $config = require __DIR__ . '/../config/sanctum.php';
+        $config = require __DIR__.'/../config/sanctum.php';
 
         $app_host = parse_url(getenv('APP_URL'), PHP_URL_HOST);
 
