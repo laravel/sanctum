@@ -19,7 +19,7 @@ class DefaultConfigContainsAppUrlTest extends TestCase
     {
         $config = require __DIR__.'/../config/sanctum.php';
 
-        $app_host = parse_url(getenv('APP_URL'), PHP_URL_HOST);
+        $app_host = parse_url(env('APP_URL'), PHP_URL_HOST);
 
         $this->assertContains($app_host, $config['stateful']);
     }
