@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.9.2...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.9.3...2.x)
+
+
+## [v2.9.3 (2021-03-30)](https://github.com/laravel/sanctum/compare/v2.9.2...v2.9.3)
+
+### Changed
+- Environment APP_URL added into the default sanctum.stateful configuration ([#264](https://github.com/laravel/sanctum/pull/264))
 
 
 ## [v2.9.2 (2021-03-23)](https://github.com/laravel/sanctum/compare/v2.9.1...v2.9.2)
