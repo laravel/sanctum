@@ -189,7 +189,9 @@ class GuardTest extends TestCase
             'token' => hash('sha256', 'test'),
         ]);
 
-        $returnedUser = $requestGuard->setRequest($request)->user();
+        $returnedUser = $requestGuard->setRequestResolver(function () use ($request) {
+            return $request;
+        })->user();
 
         $this->assertNull($returnedUser);
         $this->assertInstanceOf(EloquentUserProvider::class, $requestGuard->getProvider());
@@ -223,7 +225,9 @@ class GuardTest extends TestCase
             'token' => hash('sha256', 'test'),
         ]);
 
-        $returnedUser = $requestGuard->setRequest($request)->user();
+        $returnedUser = $requestGuard->setRequestResolver(function () use ($request) {
+            return $request;
+        })->user();
 
         $this->assertEquals($user->id, $returnedUser->id);
         $this->assertInstanceOf(EloquentUserProvider::class, $requestGuard->getProvider());
