@@ -96,7 +96,7 @@ class SanctumServiceProvider extends ServiceProvider
         Auth::resolved(function ($auth) {
             $auth->extend('sanctum', function ($app, $name, array $config) use ($auth) {
                 return tap($this->createGuard($auth, $config), function ($guard) {
-                    $this->app->refresh('request', $guard, 'setRequest');
+                    app()->refresh('request', $guard, 'setRequest');
                 });
             });
         });
