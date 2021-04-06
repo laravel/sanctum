@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.9.3...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.9.4...2.x)
+
+
+## [v2.9.4 (2021-04-06)](https://github.com/laravel/sanctum/compare/v2.9.3...v2.9.4)
+
+### Changed
+- Use app helper ([60f2809](https://github.com/laravel/sanctum/commit/60f280995c3f878de0e6422eaacd1c30d37d263e))
 
 
 ## [v2.9.3 (2021-03-30)](https://github.com/laravel/sanctum/compare/v2.9.2...v2.9.3)
