@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laravel\Sanctum\Contracts;
 
 interface HasApiTokens
@@ -41,7 +39,7 @@ interface HasApiTokens
      * Set the current access token for the user.
      *
      * @param  \Laravel\Sanctum\Contracts\HasAbilities  $accessToken
-     * @return HasApiTokens
+     * @return \Laravel\Sanctum\Contracts\HasApiTokens
      */
     public function withAccessToken($accessToken);
 }
