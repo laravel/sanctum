@@ -5,6 +5,7 @@ namespace Laravel\Sanctum\Tests;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\Sanctum;
 use Laravel\Sanctum\SanctumServiceProvider;
@@ -96,7 +97,7 @@ class ActingAsTest extends TestCase
     }
 }
 
-class SanctumUser extends User
+class SanctumUser extends User implements HasApiTokensContract
 {
     use HasApiTokens;
 }

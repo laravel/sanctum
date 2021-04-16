@@ -2,6 +2,7 @@
 
 namespace Laravel\Sanctum\Tests;
 
+use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\TransientToken;
@@ -38,7 +39,7 @@ class HasApiTokensTest extends TestCase
     }
 }
 
-class ClassThatHasApiTokens
+class ClassThatHasApiTokens implements HasApiTokensContract
 {
     use HasApiTokens;
 
