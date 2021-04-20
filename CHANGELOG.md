@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.9.4...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.10.0...2.x)
+
+
+## [v2.10.0 (2021-04-20)](https://github.com/laravel/sanctum/compare/v2.9.4...v2.10.0)
+
+### Added
+- Add HasApiTokens contract to complement trait ([#270](https://github.com/laravel/sanctum/pull/270))
 
 
 ## [v2.9.4 (2021-04-06)](https://github.com/laravel/sanctum/compare/v2.9.3...v2.9.4)
