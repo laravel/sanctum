@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
 use Laravel\Sanctum\Guard;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -315,7 +316,7 @@ class GuardTest extends TestCase
     }
 }
 
-class User extends Model
+class User extends Model implements HasApiTokensContract
 {
     use HasApiTokens;
 }
