@@ -21,6 +21,16 @@ class Sanctum
     public static $runsMigrations = true;
 
     /**
+     * A callback that can add to the validation of the access token.
+     * Receives 2 parameters:
+     * - (object) The provided access token model.
+     * - (bool) Whether the guard deemed the access token valid.
+     *
+     * @var callable|null
+     */
+    public static $validateCallback = null;
+
+    /**
      * Set the current user for the application with the given abilities.
      *
      * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Sanctum\HasApiTokens  $user

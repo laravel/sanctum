@@ -12,6 +12,7 @@ use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
 use Laravel\Sanctum\Guard;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
+use Laravel\Sanctum\Sanctum;
 use Laravel\Sanctum\SanctumServiceProvider;
 use Mockery;
 use Orchestra\Testbench\TestCase;
@@ -228,6 +229,45 @@ class GuardTest extends TestCase
 
         $this->assertEquals($user->id, $returnedUser->id);
         $this->assertInstanceOf(EloquentUserProvider::class, $requestGuard->getProvider());
+    }
+
+    public function test_authentication_fails_if_callback_returns_false()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+
+        config(['auth.guards.sanctum.provider' => 'users']);
+        config(['auth.providers.users.model' => User::class]);
+
+        $factory = $this->app->make(AuthFactory::class);
+        $requestGuard = $factory->guard('sanctum');
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer test');
+
+        $user = User::forceCreate([
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@laravel.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+        ]);
+
+        $token = PersonalAccessToken::forceCreate([
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
+            'name' => 'Test',
+            'token' => hash('sha256', 'test'),
+        ]);
+
+        Sanctum::$validateCallback = function($accessToken, bool $is_valid) {
+          $this->assertInstanceOf(PersonalAccessToken::class, $accessToken);
+          $this->assertTrue($is_valid);
+
+          return false;
+        };
+
+        $user = $requestGuard->setRequest($request)->user();
+        $this->assertNull($user);
     }
 
     protected function getPackageProviders($app)

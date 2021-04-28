@@ -65,10 +65,7 @@ class Guard
 
             $accessToken = $model::findToken($token);
 
-            if (! $accessToken ||
-                ($this->expiration &&
-                 $accessToken->created_at->lte(now()->subMinutes($this->expiration))) ||
-                ! $this->hasValidProvider($accessToken->tokenable)) {
+            if (!$this->isValidAccessToken($accessToken)) {
                 return;
             }
 
@@ -106,5 +103,25 @@ class Guard
         $model = config("auth.providers.{$this->provider}.model");
 
         return $tokenable instanceof $model;
+    }
+
+    /**
+     * Determine if the provided access token is valid.
+     *
+     * @param mixed $accessToken
+     * @return bool
+     */
+    protected function isValidAccessToken($accessToken): bool
+    {
+        $is_valid = $accessToken && (
+                ($this->expiration && $accessToken->created_at->gt(now()->subMinutes($this->expiration)))
+                || $this->hasValidProvider($accessToken->tokenable)
+            );
+
+        if (is_callable(Sanctum::$validateCallback)) {
+            $is_valid = (bool) (Sanctum::$validateCallback)($accessToken, $is_valid);
+        }
+
+        return $is_valid;
     }
 }
