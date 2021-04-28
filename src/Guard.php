@@ -65,7 +65,7 @@ class Guard
 
             $accessToken = $model::findToken($token);
 
-            if (!$this->isValidAccessToken($accessToken)) {
+            if (! $this->isValidAccessToken($accessToken)) {
                 return;
             }
 

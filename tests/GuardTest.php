@@ -259,11 +259,11 @@ class GuardTest extends TestCase
             'token' => hash('sha256', 'test'),
         ]);
 
-        Sanctum::$validateCallback = function($accessToken, bool $is_valid) {
-          $this->assertInstanceOf(PersonalAccessToken::class, $accessToken);
-          $this->assertTrue($is_valid);
+        Sanctum::$validateCallback = function ($accessToken, bool $is_valid) {
+            $this->assertInstanceOf(PersonalAccessToken::class, $accessToken);
+            $this->assertTrue($is_valid);
 
-          return false;
+            return false;
         };
 
         $user = $requestGuard->setRequest($request)->user();
