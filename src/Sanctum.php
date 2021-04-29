@@ -28,7 +28,7 @@ class Sanctum
      *
      * @var callable|null
      */
-    public static $validateCallback = null;
+    public static $validateCallback;
 
     /**
      * Set the current user for the application with the given abilities.
