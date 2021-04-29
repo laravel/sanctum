@@ -113,12 +113,12 @@ class Guard
      */
     protected function isValidAccessToken($accessToken): bool
     {
-        if (!$accessToken) {
+        if (! $accessToken) {
             return false;
         }
 
         $is_valid =
-            (!$this->expiration || $accessToken->created_at->gt(now()->subMinutes($this->expiration)))
+            (! $this->expiration || $accessToken->created_at->gt(now()->subMinutes($this->expiration)))
             && $this->hasValidProvider($accessToken->tokenable);
 
         if (is_callable(Sanctum::$validateCallback)) {
