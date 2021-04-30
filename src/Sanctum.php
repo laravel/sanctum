@@ -14,21 +14,18 @@ class Sanctum
     public static $personalAccessTokenModel = 'Laravel\\Sanctum\\PersonalAccessToken';
 
     /**
+     * A callback that can add to the validation of the access token.
+     *
+     * @var callable|null
+     */
+    public static $accessTokenAuthenticationCallback;
+
+    /**
      * Indicates if Sanctum's migrations will be run.
      *
      * @var bool
      */
     public static $runsMigrations = true;
-
-    /**
-     * A callback that can add to the validation of the access token.
-     * Receives 2 parameters:
-     * - (object) The provided access token model.
-     * - (bool) Whether the guard deemed the access token valid.
-     *
-     * @var callable|null
-     */
-    public static $validateCallback;
 
     /**
      * Set the current user for the application with the given abilities.
@@ -72,6 +69,17 @@ class Sanctum
     public static function usePersonalAccessTokenModel($model)
     {
         static::$personalAccessTokenModel = $model;
+    }
+
+    /**
+     * Specify a callback that should be used to authenticate access tokens.
+     *
+     * @param  callable  $callback
+     * @return void
+     */
+    public static function authenticateAccessTokensUsing(callable $callback)
+    {
+        static::$accessTokenAuthenticationCallback = $callback;
     }
 
     /**

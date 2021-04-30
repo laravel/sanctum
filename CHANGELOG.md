@@ -1,8 +1,10 @@
 # Release Notes
 
 ## [Unreleased](https://github.com/laravel/sanctum/compare/v2.10.0...2.x)
+
 ### Added
 - `Sanctum::$validateCallback` callback for more granular control over access token validation ([#275](https://github.com/laravel/sanctum/pull/275))
+
 
 ## [v2.10.0 (2021-04-20)](https://github.com/laravel/sanctum/compare/v2.9.4...v2.10.0)
 

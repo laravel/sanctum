@@ -89,6 +89,29 @@ class Guard
     }
 
     /**
+     * Determine if the provided access token is valid.
+     *
+     * @param  mixed  $accessToken
+     * @return bool
+     */
+    protected function isValidAccessToken($accessToken): bool
+    {
+        if (! $accessToken) {
+            return false;
+        }
+
+        $isValid =
+            (! $this->expiration || $accessToken->created_at->gt(now()->subMinutes($this->expiration)))
+            && $this->hasValidProvider($accessToken->tokenable);
+
+        if ($isValid && is_callable(Sanctum::$accessTokenAuthenticationCallback)) {
+            $isValid = (bool) (Sanctum::$accessTokenAuthenticationCallback)($accessToken);
+        }
+
+        return $isValid;
+    }
+
+    /**
      * Determine if the tokenable model matches the provider's model type.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $tokenable
@@ -103,28 +126,5 @@ class Guard
         $model = config("auth.providers.{$this->provider}.model");
 
         return $tokenable instanceof $model;
-    }
-
-    /**
-     * Determine if the provided access token is valid.
-     *
-     * @param mixed $accessToken
-     * @return bool
-     */
-    protected function isValidAccessToken($accessToken): bool
-    {
-        if (! $accessToken) {
-            return false;
-        }
-
-        $is_valid =
-            (! $this->expiration || $accessToken->created_at->gt(now()->subMinutes($this->expiration)))
-            && $this->hasValidProvider($accessToken->tokenable);
-
-        if (is_callable(Sanctum::$validateCallback)) {
-            $is_valid = (bool) (Sanctum::$validateCallback)($accessToken, $is_valid);
-        }
-
-        return $is_valid;
     }
 }
