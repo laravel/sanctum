@@ -259,8 +259,9 @@ class GuardTest extends TestCase
             'token' => hash('sha256', 'test'),
         ]);
 
-        Sanctum::authenticateAccessTokensUsing(function ($accessToken) {
+        Sanctum::authenticateAccessTokensUsing(function ($accessToken, bool $isValid) {
             $this->assertInstanceOf(PersonalAccessToken::class, $accessToken);
+            $this->assertTrue($isValid);
 
             return false;
         });

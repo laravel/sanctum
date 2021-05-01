@@ -105,7 +105,7 @@ class Guard
             && $this->hasValidProvider($accessToken->tokenable);
 
         if ($isValid && is_callable(Sanctum::$accessTokenAuthenticationCallback)) {
-            $isValid = (bool) (Sanctum::$accessTokenAuthenticationCallback)($accessToken);
+            $isValid = (bool) (Sanctum::$accessTokenAuthenticationCallback)($accessToken, $isValid);
         }
 
         return $isValid;
