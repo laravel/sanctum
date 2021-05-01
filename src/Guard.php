@@ -65,10 +65,7 @@ class Guard
 
             $accessToken = $model::findToken($token);
 
-            if (! $accessToken ||
-                ($this->expiration &&
-                 $accessToken->created_at->lte(now()->subMinutes($this->expiration))) ||
-                ! $this->hasValidProvider($accessToken->tokenable)) {
+            if (! $this->isValidAccessToken($accessToken)) {
                 return;
             }
 
@@ -89,6 +86,29 @@ class Guard
         return $tokenable && in_array(HasApiTokens::class, class_uses_recursive(
             get_class($tokenable)
         ));
+    }
+
+    /**
+     * Determine if the provided access token is valid.
+     *
+     * @param  mixed  $accessToken
+     * @return bool
+     */
+    protected function isValidAccessToken($accessToken): bool
+    {
+        if (! $accessToken) {
+            return false;
+        }
+
+        $isValid =
+            (! $this->expiration || $accessToken->created_at->gt(now()->subMinutes($this->expiration)))
+            && $this->hasValidProvider($accessToken->tokenable);
+
+        if ($isValid && is_callable(Sanctum::$accessTokenAuthenticationCallback)) {
+            $isValid = (bool) (Sanctum::$accessTokenAuthenticationCallback)($accessToken);
+        }
+
+        return $isValid;
     }
 
     /**
