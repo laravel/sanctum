@@ -1,9 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.10.0...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.11.0...2.x)
+
+
+## [v2.11.0 (2021-05-11)](https://github.com/laravel/sanctum/compare/v2.10.0...v2.11.0)
 
 ### Added
-- `Sanctum::$accessTokenAuthenticationCallback` callback for more granular control over access token validation ([#275](https://github.com/laravel/sanctum/pull/275))
+- `Sanctum::$accessTokenAuthenticationCallback` callback for more granular control over access token validation ([#275](https://github.com/laravel/sanctum/pull/275), [9c07921](https://github.com/laravel/sanctum/commit/9c079213d3e748fa0d784a17b6ef2f5cde92a286), [#276](https://github.com/laravel/sanctum/pull/276))
 
 
 ## [v2.10.0 (2021-04-20)](https://github.com/laravel/sanctum/compare/v2.9.4...v2.10.0)
