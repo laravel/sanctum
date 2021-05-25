@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.11.0...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.11.1...2.x)
+
+
+## [v2.11.1 (2021-05-25)](https://github.com/laravel/sanctum/compare/v2.11.0...v2.11.1)
+
+### Changed
+- Only parse APP_URL for default stateful domains when it's set ([#279](https://github.com/laravel/sanctum/pull/279))
 
 
 ## [v2.11.0 (2021-05-11)](https://github.com/laravel/sanctum/compare/v2.10.0...v2.11.0)
