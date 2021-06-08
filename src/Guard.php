@@ -71,11 +71,11 @@ class Guard
             }
 
             if (method_exists($accessToken->getConnection(), 'hasModifiedRecords') &&
-                method_exists($accessToken->getConnection(), 'recordsHaveBeenModified')) {
+                method_exists($accessToken->getConnection(), 'setRecordModificationState')) {
                 tap($accessToken->getConnection()->hasModifiedRecords(), function ($hasModifiedRecords) use ($accessToken) {
                     $accessToken->forceFill(['last_used_at' => now()])->save();
 
-                    $accessToken->getConnection()->recordsHaveBeenModified($hasModifiedRecords);
+                    $accessToken->getConnection()->setRecordModificationState($hasModifiedRecords);
                 });
             } else {
                 $accessToken->forceFill(['last_used_at' => now()])->save();
