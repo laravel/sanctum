@@ -65,13 +65,20 @@ class Guard
 
             $accessToken = $model::findToken($token);
 
-            if (! $this->isValidAccessToken($accessToken)) {
+            if (! $this->isValidAccessToken($accessToken) ||
+                ! $this->supportsTokens($accessToken->tokenable)) {
                 return;
             }
 
-            return $this->supportsTokens($accessToken->tokenable) ? $accessToken->tokenable->withAccessToken(
-                $accessToken->updateLastUsedAt()
-            ) : null;
+            tap($accessToken->getConnection()->hasModifiedRecords(), function ($hasModifiedRecords) use ($accessToken) {
+                $accessToken->forceFill(['last_used_at' => now()])->save();
+
+                $accessToken->getConnection()->recordsHaveBeenModified($hasModifiedRecords);
+            });
+
+            return $accessToken->tokenable->withAccessToken(
+                $accessToken
+            );
         }
     }
 
