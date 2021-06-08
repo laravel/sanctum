@@ -75,7 +75,7 @@ class PersonalAccessToken extends Model implements HasAbilities
     public function can($ability)
     {
         return in_array('*', $this->abilities) ||
-               array_key_exists($ability, array_flip($this->abilities));
+            array_key_exists($ability, array_flip($this->abilities));
     }
 
     /**
@@ -86,7 +86,7 @@ class PersonalAccessToken extends Model implements HasAbilities
      */
     public function cant($ability)
     {
-        return ! $this->can($ability);
+        return !$this->can($ability);
     }
 
     /**
@@ -101,7 +101,7 @@ class PersonalAccessToken extends Model implements HasAbilities
         app()->terminating(function () use ($accessToken) {
             $accessToken->save();
         });
-        
+
         return $this;
     }
 }
