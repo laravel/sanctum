@@ -70,7 +70,7 @@ class Guard
             }
 
             return $this->supportsTokens($accessToken->tokenable) ? $accessToken->tokenable->withAccessToken(
-                tap($accessToken->forceFill(['last_used_at' => now()]))->save()
+                $accessToken->updateLastUsedAt()
             ) : null;
         }
     }
