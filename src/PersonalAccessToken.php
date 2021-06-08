@@ -88,20 +88,4 @@ class PersonalAccessToken extends Model implements HasAbilities
     {
         return ! $this->can($ability);
     }
-
-    /**
-     * Update the `last_used_at` timestamp and save in the application termination.
-     *
-     * @return $this
-     */
-    public function updateLastUsedAt()
-    {
-        $this->last_used_at = now();
-        $accessToken = $this;
-        app()->terminating(function () use ($accessToken) {
-            $accessToken->save();
-        });
-
-        return $this;
-    }
 }
