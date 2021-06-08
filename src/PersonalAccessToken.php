@@ -90,7 +90,7 @@ class PersonalAccessToken extends Model implements HasAbilities
     }
 
     /**
-     * Update last_used_at timestamp
+     * Update the `last_used_at` timestamp and save in the application termination.
      *
      * @return $this
      */
