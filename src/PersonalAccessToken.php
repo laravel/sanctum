@@ -75,7 +75,7 @@ class PersonalAccessToken extends Model implements HasAbilities
     public function can($ability)
     {
         return in_array('*', $this->abilities) ||
-               array_key_exists($ability, array_flip($this->abilities));
+            array_key_exists($ability, array_flip($this->abilities));
     }
 
     /**
@@ -86,7 +86,7 @@ class PersonalAccessToken extends Model implements HasAbilities
      */
     public function cant($ability)
     {
-        return ! $this->can($ability);
+        return !$this->can($ability);
     }
 
     /**
@@ -96,7 +96,7 @@ class PersonalAccessToken extends Model implements HasAbilities
      */
     public function updateLastUsedAt()
     {
-        $this->forceFill(['last_used_at' => now()]);
+        $this->last_used_at = now();
         $accessToken = $this;
         app()->terminating(function () use ($accessToken) {
             $accessToken->save();
