@@ -101,6 +101,7 @@ class PersonalAccessToken extends Model implements HasAbilities
         app()->terminating(function () use ($accessToken) {
             $accessToken->save();
         });
+        
         return $this;
     }
 }
