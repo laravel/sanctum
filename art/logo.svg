@@ -1,8 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="304" height="60" viewBox="0 0 304 60" fill="none">
     <style>
         .letters { fill: #2E2E2E; }
-        html[data-color-mode="dark"] {
-            .letters { fill: #ffffff; }
+
+        @media (prefers-color-scheme: dark) {
+            html[data-color-mode="auto"] .letters {
+                fill: #ffffff;
+            }
+        }
+
+        html[data-color-mode="dark"] .letters, {
+            fill: #ffffff;
         }
     </style>
     <circle r="8" transform="matrix(1 0 0 -1 30 30)" fill="#1C5872"/>
