@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.11.1...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.11.2...2.x)
+
+
+## [v2.11.2 (2021-06-15)](https://github.com/laravel/sanctum/compare/v2.11.1...v2.11.2)
+
+### Fixed
+- Ignore updating `last_used_at` for deciding the DB connection host ([#283](https://github.com/laravel/sanctum/pull/283), [2c8b9a1](https://github.com/laravel/sanctum/commit/2c8b9a1071b87c1911ba99448d1173dd75e97c9f))
+- Fix resolving wrong app instance on Octane ([#285](https://github.com/laravel/sanctum/pull/285), [#286](https://github.com/laravel/sanctum/pull/286))
 
 
 ## [v2.11.1 (2021-05-25)](https://github.com/laravel/sanctum/compare/v2.11.0...v2.11.1)
