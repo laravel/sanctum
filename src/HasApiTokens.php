@@ -32,7 +32,7 @@ trait HasApiTokens
      */
     public function tokenCan(string $ability)
     {
-        return $this->accessToken ? $this->accessToken->can($ability) : false;
+        return $this->accessToken && $this->accessToken->can($ability);
     }
 
     /**

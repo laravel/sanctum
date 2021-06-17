@@ -65,18 +65,25 @@ class Guard
 
             $accessToken = $model::findToken($token);
 
-            if (! $accessToken ||
-                ($this->expiration &&
-                 $accessToken->created_at->lte(now()->subMinutes($this->expiration))) ||
-                ($accessToken->expires_at &&
-                 $accessToken->expires_at->isPast()) ||
-                ! $this->hasValidProvider($accessToken->tokenable)) {
+            if (! $this->isValidAccessToken($accessToken) ||
+                ! $this->supportsTokens($accessToken->tokenable)) {
                 return;
             }
 
-            return $this->supportsTokens($accessToken->tokenable) ? $accessToken->tokenable->withAccessToken(
-                tap($accessToken->forceFill(['last_used_at' => now()]))->save()
-            ) : null;
+            if (method_exists($accessToken->getConnection(), 'hasModifiedRecords') &&
+                method_exists($accessToken->getConnection(), 'setRecordModificationState')) {
+                tap($accessToken->getConnection()->hasModifiedRecords(), function ($hasModifiedRecords) use ($accessToken) {
+                    $accessToken->forceFill(['last_used_at' => now()])->save();
+
+                    $accessToken->getConnection()->setRecordModificationState($hasModifiedRecords);
+                });
+            } else {
+                $accessToken->forceFill(['last_used_at' => now()])->save();
+            }
+
+            return $accessToken->tokenable->withAccessToken(
+                $accessToken
+            );
         }
     }
 
@@ -91,6 +98,30 @@ class Guard
         return $tokenable && in_array(HasApiTokens::class, class_uses_recursive(
             get_class($tokenable)
         ));
+    }
+
+    /**
+     * Determine if the provided access token is valid.
+     *
+     * @param  mixed  $accessToken
+     * @return bool
+     */
+    protected function isValidAccessToken($accessToken): bool
+    {
+        if (! $accessToken) {
+            return false;
+        }
+
+        $isValid =
+            (! $this->expiration || $accessToken->created_at->gt(now()->subMinutes($this->expiration)))
+            && (! $accessToken->expires_at || ! $accessToken->expires_at->isPast())
+            && $this->hasValidProvider($accessToken->tokenable);
+
+        if (is_callable(Sanctum::$accessTokenAuthenticationCallback)) {
+            $isValid = (bool) (Sanctum::$accessTokenAuthenticationCallback)($accessToken, $isValid);
+        }
+
+        return $isValid;
     }
 
     /**

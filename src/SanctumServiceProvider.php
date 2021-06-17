@@ -26,7 +26,7 @@ class SanctumServiceProvider extends ServiceProvider
             ], config('auth.guards.sanctum', [])),
         ]);
 
-        if (! $this->app->configurationIsCached()) {
+        if (! app()->configurationIsCached()) {
             $this->mergeConfigFrom(__DIR__.'/../config/sanctum.php', 'sanctum');
         }
     }
@@ -38,7 +38,7 @@ class SanctumServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app->runningInConsole()) {
+        if (app()->runningInConsole()) {
             $this->registerMigrations();
 
             $this->publishes([
@@ -74,7 +74,7 @@ class SanctumServiceProvider extends ServiceProvider
      */
     protected function defineRoutes()
     {
-        if ($this->app->routesAreCached() || config('sanctum.routes') === false) {
+        if (app()->routesAreCached() || config('sanctum.routes') === false) {
             return;
         }
 
@@ -113,7 +113,7 @@ class SanctumServiceProvider extends ServiceProvider
     {
         return new RequestGuard(
             new Guard($auth, config('sanctum.expiration'), $config['provider']),
-            $this->app['request'],
+            request(),
             $auth->createUserProvider($config['provider'] ?? null)
         );
     }
@@ -125,7 +125,7 @@ class SanctumServiceProvider extends ServiceProvider
      */
     protected function configureMiddleware()
     {
-        $kernel = $this->app->make(Kernel::class);
+        $kernel = app()->make(Kernel::class);
 
         $kernel->prependToMiddlewarePriority(EnsureFrontendRequestsAreStateful::class);
     }
