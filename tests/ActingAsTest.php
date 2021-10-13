@@ -2,16 +2,16 @@
 
 namespace Laravel\Sanctum\Tests;
 
-use Laravel\Sanctum\Sanctum;
-use Laravel\Sanctum\HasApiTokens;
-use Orchestra\Testbench\TestCase;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
+use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\Sanctum;
 use Laravel\Sanctum\SanctumServiceProvider;
 use Laravel\Sanctum\Http\Middleware\CheckScopes;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyScope;
-use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
+use Orchestra\Testbench\TestCase;
 
 class ActingAsTest extends TestCase
 {
