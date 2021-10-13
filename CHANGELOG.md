@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.11.3...master)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.11.4...master)
+
+
+## [v2.11.4 (2021-10-13)](https://github.com/laravel/sanctum/compare/v2.11.3...v2.11.4)
+
+### Fixed
+- Revert "fix: replace hardcoded "web" guard by `config('sanctum.guard')`" ([#309](https://github.com/laravel/sanctum/pull/309))
 
 
 ## [v2.11.3 (2021-10-12)](https://github.com/laravel/sanctum/compare/v2.11.2...v2.11.3)
