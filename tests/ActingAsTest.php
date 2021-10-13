@@ -9,6 +9,8 @@ use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\Sanctum;
 use Laravel\Sanctum\SanctumServiceProvider;
+use Laravel\Sanctum\Http\Middleware\CheckScopes;
+use Laravel\Sanctum\Http\Middleware\CheckForAnyScope;
 use Orchestra\Testbench\TestCase;
 
 class ActingAsTest extends TestCase
@@ -38,6 +40,36 @@ class ActingAsTest extends TestCase
         $response = $this->get('/foo');
 
         $response->assertStatus(200);
+        $response->assertSee('bar');
+    }
+
+    public function testActingAsWhenTheRouteIsProtectedByCheckScopesMiddleware()
+    {
+        $this->withoutExceptionHandling();
+
+        Route::get('/foo', function () {
+            return 'bar';
+        })->middleware(CheckScopes::class.':admin,footest');
+
+        Sanctum::actingAs(new SanctumUser(), ['admin', 'footest']);
+
+        $response = $this->get('/foo');
+        $response->assertSuccessful();
+        $response->assertSee('bar');
+    }
+
+    public function testActingAsWhenTheRouteIsProtectedByCheckForAnyScopeMiddleware()
+    {
+        $this->withoutExceptionHandling();
+
+        Route::get('/foo', function () {
+            return 'bar';
+        })->middleware(CheckForAnyScope::class.':admin,footest');
+
+        Sanctum::actingAs(new SanctumUser(), ['footest']);
+
+        $response = $this->get('/foo');
+        $response->assertSuccessful();
         $response->assertSee('bar');
     }
 
