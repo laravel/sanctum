@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.11.4...master)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.12.0...master)
+
+
+## [v2.12.0 (2021-10-19)](https://github.com/laravel/sanctum/compare/v2.11.4...v2.12.0)
+
+### Added
+- Add CheckScopes and CheckForAnyScope Middleware ([#310](https://github.com/laravel/sanctum/pull/310))
 
 
 ## [v2.11.4 (2021-10-13)](https://github.com/laravel/sanctum/compare/v2.11.3...v2.11.4)
