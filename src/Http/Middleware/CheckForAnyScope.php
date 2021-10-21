@@ -5,6 +5,10 @@ namespace Laravel\Sanctum\Http\Middleware;
 use Illuminate\Auth\AuthenticationException;
 use Laravel\Sanctum\Exceptions\MissingScopeException;
 
+/**
+ * @deprecated
+ * @see \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility
+ */
 class CheckForAnyScope
 {
     /**
@@ -19,16 +23,10 @@ class CheckForAnyScope
      */
     public function handle($request, $next, ...$scopes)
     {
-        if (! $request->user() || ! $request->user()->currentAccessToken()) {
-            throw new AuthenticationException;
+        try {
+            return (new CheckForAnyAbility())->handle($request, $next, ...$scopes);
+        } catch (\Laravel\Sanctum\Exceptions\MissingAbilityException $e) {
+            throw new MissingScopeException($e->abilities());
         }
-
-        foreach ($scopes as $scope) {
-            if ($request->user()->tokenCan($scope)) {
-                return $next($request);
-            }
-        }
-
-        throw new MissingScopeException($scopes);
     }
 }
