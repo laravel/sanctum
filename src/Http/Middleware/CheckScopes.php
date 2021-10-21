@@ -2,7 +2,6 @@
 
 namespace Laravel\Sanctum\Http\Middleware;
 
-use Illuminate\Auth\AuthenticationException;
 use Laravel\Sanctum\Exceptions\MissingScopeException;
 
 /**
