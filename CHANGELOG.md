@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.12.0...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.12.1...2.x)
+
+
+## [v2.12.1 (2021-10-26)](https://github.com/laravel/sanctum/compare/v2.12.0...v2.12.1)
+
+### Changed
+- Rename `CheckScopes` and `CheckForAnyScope` to `CheckAbilities` and `CheckForAnyAbility` ([#312](https://github.com/laravel/sanctum/pull/312))
 
 
 ## [v2.12.0 (2021-10-19)](https://github.com/laravel/sanctum/compare/v2.11.4...v2.12.0)
