@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\Http\Middleware\CheckAbilities;
+use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyScope;
 use Laravel\Sanctum\Http\Middleware\CheckScopes;
 use Laravel\Sanctum\Sanctum;
@@ -65,6 +67,36 @@ class ActingAsTest extends TestCase
         Route::get('/foo', function () {
             return 'bar';
         })->middleware(CheckForAnyScope::class.':admin,footest');
+
+        Sanctum::actingAs(new SanctumUser(), ['footest']);
+
+        $response = $this->get('/foo');
+        $response->assertSuccessful();
+        $response->assertSee('bar');
+    }
+
+    public function testActingAsWhenTheRouteIsProtectedByCheckAbilitiesMiddleware()
+    {
+        $this->withoutExceptionHandling();
+
+        Route::get('/foo', function () {
+            return 'bar';
+        })->middleware(CheckAbilities::class.':admin,footest');
+
+        Sanctum::actingAs(new SanctumUser(), ['admin', 'footest']);
+
+        $response = $this->get('/foo');
+        $response->assertSuccessful();
+        $response->assertSee('bar');
+    }
+
+    public function testActingAsWhenTheRouteIsProtectedByCheckForAnyAbilityMiddleware()
+    {
+        $this->withoutExceptionHandling();
+
+        Route::get('/foo', function () {
+            return 'bar';
+        })->middleware(CheckForAnyAbility::class.':admin,footest');
 
         Sanctum::actingAs(new SanctumUser(), ['footest']);
 
