@@ -4,7 +4,9 @@ namespace Laravel\Sanctum\Tests;
 
 use DateTimeInterface;
 use Illuminate\Auth\EloquentUserProvider;
+use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -42,7 +44,7 @@ class GuardTest extends TestCase
     {
         $factory = Mockery::mock(AuthFactory::class);
 
-        $guard = new Guard($factory, null, 'users');
+        $guard = new Guard('api', $factory, null, 'users');
 
         $webGuard = Mockery::mock(stdClass::class);
 
@@ -64,7 +66,7 @@ class GuardTest extends TestCase
 
         $factory = Mockery::mock(AuthFactory::class);
 
-        $guard = new Guard($factory, null, 'users');
+        $guard = new Guard('api', $factory, null, 'users');
 
         $webGuard = Mockery::mock(stdClass::class);
 
@@ -89,7 +91,7 @@ class GuardTest extends TestCase
 
         $factory = Mockery::mock(AuthFactory::class);
 
-        $guard = new Guard($factory, 1, 'users');
+        $guard = new Guard('api', $factory, 1, 'users');
 
         $webGuard = Mockery::mock(stdClass::class);
 
@@ -129,7 +131,8 @@ class GuardTest extends TestCase
 
         $factory = Mockery::mock(AuthFactory::class);
 
-        $guard = new Guard($factory, null);
+        $guard = new Guard('api', $factory, null);
+        $guard->setDispatcher($events = Mockery::mock(Dispatcher::class));
 
         $webGuard = Mockery::mock(stdClass::class);
 
@@ -138,6 +141,8 @@ class GuardTest extends TestCase
                 ->andReturn($webGuard);
 
         $webGuard->shouldReceive('user')->once()->andReturn(null);
+
+        $events->shouldReceive('dispatch')->once()->with(Mockery::type(Authenticated::class));
 
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');

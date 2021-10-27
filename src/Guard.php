@@ -2,12 +2,23 @@
 
 namespace Laravel\Sanctum;
 
+use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class Guard
 {
+    /**
+     * The name of the guard. Typically "web".
+     *
+     * Corresponds to guard name in authentication configuration.
+     *
+     * @var string
+     */
+    protected $name;
+
     /**
      * The authentication factory implementation.
      *
@@ -30,15 +41,24 @@ class Guard
     protected $provider;
 
     /**
+     * The event dispatcher instance.
+     *
+     * @var \Illuminate\Contracts\Events\Dispatcher
+     */
+    protected $events;
+
+    /**
      * Create a new guard instance.
      *
+     * @param  string  $name
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @param  int  $expiration
      * @param  string  $provider
      * @return void
      */
-    public function __construct(AuthFactory $auth, $expiration = null, $provider = null)
+    public function __construct($name, AuthFactory $auth, $expiration = null, $provider = null)
     {
+        $this->name = $name;
         $this->auth = $auth;
         $this->expiration = $expiration;
         $this->provider = $provider;
@@ -81,10 +101,33 @@ class Guard
                 $accessToken->forceFill(['last_used_at' => now()])->save();
             }
 
-            return $accessToken->tokenable->withAccessToken(
+            $this->fireAuthenticatedEvent($user = $accessToken->tokenable);
+
+            return $user->withAccessToken(
                 $accessToken
             );
         }
+    }
+
+    /**
+     * Get the event dispatcher instance.
+     *
+     * @return \Illuminate\Contracts\Events\Dispatcher
+     */
+    public function getDispatcher()
+    {
+        return $this->events;
+    }
+
+    /**
+     * Set the event dispatcher instance.
+     *
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @return void
+     */
+    public function setDispatcher(Dispatcher $events)
+    {
+        $this->events = $events;
     }
 
     /**
@@ -138,5 +181,20 @@ class Guard
         $model = config("auth.providers.{$this->provider}.model");
 
         return $tokenable instanceof $model;
+    }
+
+    /**
+     * Fire the authenticated event if the dispatcher is set.
+     *
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @return void
+     */
+    protected function fireAuthenticatedEvent($user)
+    {
+        if (isset($this->events)) {
+            $this->events->dispatch(new Authenticated(
+                $this->name, $user
+            ));
+        }
     }
 }
