@@ -270,6 +270,29 @@ class GuardTest extends TestCase
         $this->assertNull($user);
     }
 
+    public function test_is_token_properly_formatted()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+
+        $user = User::forceCreate([
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@laravel.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+        ]);
+
+        $token = PersonalAccessToken::forceCreate([
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
+            'name' => 'Test',
+            'token' => hash('sha256', 'test'),
+        ]);
+
+        $this->assertInstanceOf(PersonalAccessToken::class, PersonalAccessToken::findToken("{$token->id}|test"));
+        $this->assertNull(PersonalAccessToken::findToken('"'."{$token->id}|test"));
+    }
+
     protected function getPackageProviders($app)
     {
         return [SanctumServiceProvider::class];
