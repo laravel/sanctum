@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.12.1...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.12.2...2.x)
+
+
+## [v2.12.2 (2021-11-16)](https://github.com/laravel/sanctum/compare/v2.12.1...v2.12.2)
+
+### Changed
+- Add guard to config ([f811d5c](https://github.com/laravel/sanctum/commit/f811d5c1e8123acf2626aa4a774a890efcc39d3f))
 
 
 ## [v2.12.1 (2021-10-26)](https://github.com/laravel/sanctum/compare/v2.12.0...v2.12.1)
