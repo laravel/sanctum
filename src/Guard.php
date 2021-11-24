@@ -56,7 +56,7 @@ class Guard
         foreach (Arr::wrap(config('sanctum.guard', 'web')) as $guardName) {
             $guard = $this->auth->guard($guardName);
 
-            if (!$guard instanceof RequestGuard && $user = $guard->user()) {
+            if (! $guard instanceof RequestGuard && $user = $guard->user()) {
                 return $this->supportsTokens($user)
                     ? $user->withAccessToken(new TransientToken)
                     : $user;
