@@ -2,6 +2,7 @@
 
 namespace Laravel\Sanctum;
 
+use Illuminate\Auth\RequestGuard;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -52,8 +53,10 @@ class Guard
      */
     public function __invoke(Request $request)
     {
-        foreach (Arr::wrap(config('sanctum.guard', 'web')) as $guard) {
-            if ($user = $this->auth->guard($guard)->user()) {
+        foreach (Arr::wrap(config('sanctum.guard', 'web')) as $guardName) {
+            $guard = $this->auth->guard($guardName);
+
+            if (!$guard instanceof RequestGuard && $user = $guard->user()) {
                 return $this->supportsTokens($user)
                     ? $user->withAccessToken(new TransientToken)
                     : $user;
