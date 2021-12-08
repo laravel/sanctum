@@ -62,4 +62,25 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Custom fetch token
+    |--------------------------------------------------------------------------
+    |
+    | Leaving this as `null` will default to fetching the token from the
+    | `Authorization` header as bearer tokens. If your token should be in other
+    | parts of the request, you may change this to a function
+    | receiving the request:
+    |
+    |  ```php
+
+    |  'fetchToken' => function (Request $request) {
+    |      return $request->query('token'); // E.g: retrieve token as query param
+    |  }
+    |  ```
+    |
+    */
+
+    'fetchToken' => null
 ];

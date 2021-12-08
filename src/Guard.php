@@ -29,19 +29,28 @@ class Guard
      */
     protected $provider;
 
+
+    /**
+     * How we retrieve the token for the request
+     */
+    protected $fetchToken;
     /**
      * Create a new guard instance.
      *
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @param  int  $expiration
      * @param  string  $provider
+     * @param  callable $fetchToken
      * @return void
      */
-    public function __construct(AuthFactory $auth, $expiration = null, $provider = null)
+    public function __construct(AuthFactory $auth, $expiration = null, $provider = null, $fetchToken = null)
     {
         $this->auth = $auth;
         $this->expiration = $expiration;
         $this->provider = $provider;
+        $this->fetchToken = $fetchToken ?? function (Request $request) {
+            return $request->bearerToken();
+        };;
     }
 
     /**
@@ -60,7 +69,7 @@ class Guard
             }
         }
 
-        if ($token = $request->bearerToken()) {
+        if ($token = ($this->fetchToken)($request)) {
             $model = Sanctum::$personalAccessTokenModel;
 
             $accessToken = $model::findToken($token);
