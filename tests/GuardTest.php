@@ -7,8 +7,10 @@ use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
+use Laravel\Sanctum\Events\TokenAuthenticated;
 use Laravel\Sanctum\Guard;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -254,6 +256,10 @@ class GuardTest extends TestCase
         $factory = $this->app->make(AuthFactory::class);
         $requestGuard = $factory->guard('sanctum');
 
+        Event::fake([
+            TokenAuthenticated::class,
+        ]);
+
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
 
@@ -275,6 +281,7 @@ class GuardTest extends TestCase
 
         $this->assertNull($returnedUser);
         $this->assertInstanceOf(EloquentUserProvider::class, $requestGuard->getProvider());
+        Event::assertNotDispatched(TokenAuthenticated::class);
     }
 
     public function test_authentication_is_successful_with_token_if_user_provider_is_valid()
@@ -287,6 +294,10 @@ class GuardTest extends TestCase
 
         $factory = $this->app->make(AuthFactory::class);
         $requestGuard = $factory->guard('sanctum');
+
+        Event::fake([
+            TokenAuthenticated::class,
+        ]);
 
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
@@ -309,6 +320,7 @@ class GuardTest extends TestCase
 
         $this->assertEquals($user->id, $returnedUser->id);
         $this->assertInstanceOf(EloquentUserProvider::class, $requestGuard->getProvider());
+        Event::assertDispatched(TokenAuthenticated::class);
     }
 
     public function test_authentication_fails_if_callback_returns_false()

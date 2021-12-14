@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.12.2...master)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.13.0...master)
+
+
+## [v2.13.0 (2021-12-14)](https://github.com/laravel/sanctum/compare/v2.12.2...v2.13.0)
+
+### Added
+- Add an event on successful token validation ([#327](https://github.com/laravel/sanctum/pull/327), [b656bc1](https://github.com/laravel/sanctum/commit/b656bc1cc0010d0ac00f00dbc88b02a8940f8860))
 
 
 ## [v2.12.2 (2021-11-16)](https://github.com/laravel/sanctum/compare/v2.12.1...v2.12.2)
