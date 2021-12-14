@@ -5,6 +5,7 @@ namespace Laravel\Sanctum;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Laravel\Sanctum\Events\TokenValidated;
 
 class Guard
 {
@@ -69,6 +70,8 @@ class Guard
                 ! $this->supportsTokens($accessToken->tokenable)) {
                 return;
             }
+
+            event(new TokenValidated($accessToken->tokenable));
 
             if (method_exists($accessToken->getConnection(), 'hasModifiedRecords') &&
                 method_exists($accessToken->getConnection(), 'setRecordModificationState')) {
