@@ -5,7 +5,7 @@ namespace Laravel\Sanctum;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Laravel\Sanctum\Events\TokenValidated;
+use Laravel\Sanctum\Events\TokenAuthenticated;
 
 class Guard
 {
@@ -71,7 +71,11 @@ class Guard
                 return;
             }
 
-            event(new TokenValidated($accessToken->tokenable));
+            $tokenable = $accessToken->tokenable->withAccessToken(
+                $accessToken
+            );
+
+            event(new TokenAuthenticated($accessToken));
 
             if (method_exists($accessToken->getConnection(), 'hasModifiedRecords') &&
                 method_exists($accessToken->getConnection(), 'setRecordModificationState')) {
@@ -84,9 +88,7 @@ class Guard
                 $accessToken->forceFill(['last_used_at' => now()])->save();
             }
 
-            return $accessToken->tokenable->withAccessToken(
-                $accessToken
-            );
+            return $tokenable;
         }
     }
 
