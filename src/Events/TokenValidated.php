@@ -21,5 +21,4 @@ class TokenValidated
     {
         $this->tokenable = $tokenable;
     }
-
 }
