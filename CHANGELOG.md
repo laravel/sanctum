@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.13.0...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.14.0...2.x)
+
+
+## [v2.14.0 (2022-01-12)](https://github.com/laravel/sanctum/compare/v2.13.0...v2.14.0)
+
+### Changed
+- Laravel 9 support ([#329](https://github.com/laravel/sanctum/pull/329))
 
 
 ## [v2.13.0 (2021-12-14)](https://github.com/laravel/sanctum/compare/v2.12.2...v2.13.0)
