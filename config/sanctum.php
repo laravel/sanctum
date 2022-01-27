@@ -62,4 +62,16 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Default Token Abilities
+    |--------------------------------------------------------------------------
+    |
+    | When creating a new token, these abiltiies will be applied if none are
+    | specified. The default behavior is to allow all abilities (*) however,
+    | you are free to change this as needed.
+    |
+    */
+    'default_abilities' => ['*'],
+
 ];

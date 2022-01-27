@@ -41,12 +41,12 @@ trait HasApiTokens
      * @param  array  $abilities
      * @return \Laravel\Sanctum\NewAccessToken
      */
-    public function createToken(string $name, array $abilities = ['*'])
+    public function createToken(string $name, array $abilities = null)
     {
         $token = $this->tokens()->create([
             'name' => $name,
             'token' => hash('sha256', $plainTextToken = Str::random(40)),
-            'abilities' => $abilities,
+            'abilities' => $abilities ?? config('sanctum.default_abilities', ['*']),
         ]);
 
         return new NewAccessToken($token, $token->getKey().'|'.$plainTextToken);
