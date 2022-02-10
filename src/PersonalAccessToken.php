@@ -88,4 +88,13 @@ class PersonalAccessToken extends Model implements HasAbilities
     {
         return ! $this->can($ability);
     }
+
+    /**
+     * @param array $attributes
+     * @return bool
+     */
+    public function updateUsedToken(array $attributes)
+    {
+        return $this->forceFill($attributes)->save();
+    }
 }
