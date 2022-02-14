@@ -28,6 +28,16 @@ class Sanctum
     public static $runsMigrations = true;
 
     /**
+     * Get the current application URL from the "APP_URL" environment variable - with port.
+     *
+     * @return string
+     */
+    public static function currentApplicationUrlWithPort()
+    {
+        return env('APP_URL') ? ','.parse_url(env('APP_URL'), PHP_URL_HOST).(parse_url(env('APP_URL'), PHP_URL_PORT) ? ':'.parse_url(env('APP_URL'), PHP_URL_PORT) : '') : '';
+    }
+
+    /**
      * Set the current user for the application with the given abilities.
      *
      * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Sanctum\HasApiTokens  $user
