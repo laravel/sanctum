@@ -11,6 +11,8 @@ class DefaultConfigContainsAppUrlTest extends TestCase
     protected function getEnvironmentSetUp($app)
     {
         putenv('APP_URL=https://www.example.com');
+        $app['config']->set('app.url', 'https://www.example.com');
+
         $config = require __DIR__.'/../config/sanctum.php';
 
         $app['config']->set('sanctum.stateful', $config['stateful']);
@@ -28,18 +30,22 @@ class DefaultConfigContainsAppUrlTest extends TestCase
     public function test_app_url_is_not_parsed_when_missing_from_env()
     {
         putenv('APP_URL');
+        config(['app.url' => null]);
 
         $config = require __DIR__.'/../config/sanctum.php';
 
         $this->assertNull(env('APP_URL'));
         $this->assertNotContains('', $config['stateful']);
+
+        putenv('APP_URL=https://www.example.com');
+        config(['app.url' => 'https://www.example.com']);
     }
 
     public function test_request_from_app_url_is_stateful_with_default_config()
     {
         $request = Request::create('/');
 
-        $request->headers->set('referer', env('APP_URL'));
+        $request->headers->set('referer', config('app.url'));
 
         $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
     }
