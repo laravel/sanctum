@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.14.1...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.14.2...2.x)
+
+## [v2.14.2](https://github.com/laravel/sanctum/compare/v2.14.1...v2.14.2) - 2022-02-22
+
+### Changed
+
+- Use config function by @taylorotwell in https://github.com/laravel/sail/commit/57d2942d5edd89b2018d0a3447da321fa35baac7
 
 ## [v2.14.1](https://github.com/laravel/sanctum/compare/v2.14.0...v2.14.1) - 2022-02-15
 
