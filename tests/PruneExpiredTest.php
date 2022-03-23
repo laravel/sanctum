@@ -91,7 +91,7 @@ class PruneExpiredTest extends TestCase
         $this->artisan('sanctum:prune-expired --hours=2')
             ->expectsOutput('Expiration value not specified in configuration file.');
 
-        $this->assertDatabaseCount('personal_access_tokens', 1);
+        $this->assertDatabaseHas('personal_access_tokens', ['name' => 'Test']);
     }
 
     protected function getPackageProviders($app)
