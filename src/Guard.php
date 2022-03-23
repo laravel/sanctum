@@ -24,6 +24,13 @@ class Guard
     protected $expiration;
 
     /**
+     * The number of minutes tokens should be allowed to remain valid between requests.
+     *
+     * @var int
+     */
+    protected $intermediateExpiration;
+
+    /**
      * The provider name.
      *
      * @var string
@@ -38,11 +45,12 @@ class Guard
      * @param  string  $provider
      * @return void
      */
-    public function __construct(AuthFactory $auth, $expiration = null, $provider = null)
+    public function __construct(AuthFactory $auth, $expiration = null, $provider = null, $intermediateExpiration = null)
     {
         $this->auth = $auth;
         $this->expiration = $expiration;
         $this->provider = $provider;
+        $this->intermediateExpiration = $intermediateExpiration;
     }
 
     /**
@@ -117,8 +125,9 @@ class Guard
             return false;
         }
 
-        $isValid =
-            (! $this->expiration || $accessToken->created_at->gt(now()->subMinutes($this->expiration)))
+        $isValid = ($this->expiration
+            ? (! $this->expiration || $accessToken->created_at->gt(now()->subMinutes($this->expiration)))
+            : (! $this->intermediateExpiration || ($accessToken->last_used_at ?: $accessToken->created_at)->gt(now()->subMinutes($this->intermediateExpiration))))
             && $this->hasValidProvider($accessToken->tokenable);
 
         if (is_callable(Sanctum::$accessTokenAuthenticationCallback)) {

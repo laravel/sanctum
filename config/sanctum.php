@@ -50,6 +50,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Expiration Minutes after last valid request
+    |--------------------------------------------------------------------------
+    |
+    | This value controls the number of minutes between validated requests until an issued token will be
+    | considered expired. If this value is null, personal access tokens do
+    | not expire. This won't tweak the lifetime of first-party sessions.
+    |
+    | It can works only if 'expiration' value is null
+    |
+    */
+
+    'intermediate_expiration' => null,
+
+    /*
+    |--------------------------------------------------------------------------
     | Sanctum Middleware
     |--------------------------------------------------------------------------
     |
