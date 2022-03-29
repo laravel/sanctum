@@ -1,6 +1,16 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.14.2...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.15.0...2.x)
+
+## [v2.15.0](https://github.com/laravel/sanctum/compare/v2.14.2...v2.15.0) - 2022-03-28
+
+### Added
+
+- Add sanctum:prune-expired command for removing expired tokens. by @yuraplohov in https://github.com/laravel/sanctum/pull/348
+
+### Fixed
+
+- Add exit codes to command by @driesvints in https://github.com/laravel/sanctum/pull/351
 
 ## [v2.14.2](https://github.com/laravel/sanctum/compare/v2.14.1...v2.14.2) - 2022-02-22
 
