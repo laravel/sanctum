@@ -16,7 +16,7 @@
 
 ### Changed
 
-- Use config function by @taylorotwell in https://github.com/laravel/sail/commit/57d2942d5edd89b2018d0a3447da321fa35baac7
+- Use config function by @taylorotwell in [commit](https://github.com/laravel/sanctum/commit/dc5d749ba9bfcfd68d8f5c272238f88bea223e66)
 
 ## [v2.14.1](https://github.com/laravel/sanctum/compare/v2.14.0...v2.14.1) - 2022-02-15
 
