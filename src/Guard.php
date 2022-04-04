@@ -61,7 +61,7 @@ class Guard
             }
         }
 
-        if ($token = $request->bearerToken()) {
+        if ($token = $this->getTokenFromRequest($request)) {
             $model = Sanctum::$personalAccessTokenModel;
 
             $accessToken = $model::findToken($token);
@@ -90,6 +90,21 @@ class Guard
 
             return $tokenable;
         }
+    }
+
+    /**
+     * Get the token from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return string|null
+     */
+    protected function getTokenFromRequest(Request $request)
+    {
+        if (is_callable(Sanctum::$accessTokenFetcher)) {
+            return (string) (Sanctum::$accessTokenFetcher)($request);
+        }
+
+        return $request->bearerToken();
     }
 
     /**
