@@ -318,7 +318,7 @@ class GuardTest extends TestCase
             'token' => hash('sha256', 'test'),
         ]);
 
-        Sanctum::getAccessTokensFromRequestUsing(function (Request $request) {
+        Sanctum::getAccessTokenFromRequestUsing(function (Request $request) {
             return $request->header('X-Auth-Token');
         });
 
@@ -365,7 +365,7 @@ class GuardTest extends TestCase
             'token' => hash('sha256', 'test'),
         ]);
 
-        Sanctum::getAccessTokensFromRequestUsing(function (Request $request) {
+        Sanctum::getAccessTokenFromRequestUsing(function (Request $request) {
             return $request->header('X-Auth-Token');
         });
 
