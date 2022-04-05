@@ -18,7 +18,7 @@ class Sanctum
      *
      * @var callable|null
      */
-    public static $accessTokenFetcher;
+    public static $accessTokenRetrievalCallback;
 
     /**
      * A callback that can add to the validation of the access token.
@@ -91,14 +91,14 @@ class Sanctum
     }
 
     /**
-     * Specify a callback that should be used to fetch the token from the request.
+     * Specify a callback that should be used to fetch the access token from the request.
      *
      * @param  callable  $callback
      * @return void
      */
-    public static function fetchAccessTokenUsing(callable $callback)
+    public static function getAccessTokensFromRequestUsing(callable $callback)
     {
-        static::$accessTokenFetcher = $callback;
+        static::$accessTokenRetrievalCallback = $callback;
     }
 
     /**

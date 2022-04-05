@@ -318,7 +318,7 @@ class GuardTest extends TestCase
             'token' => hash('sha256', 'test'),
         ]);
 
-        Sanctum::fetchAccessTokenUsing(function (Request $request) {
+        Sanctum::getAccessTokensFromRequestUsing(function (Request $request) {
             return $request->header('X-Auth-Token');
         });
 
@@ -328,7 +328,7 @@ class GuardTest extends TestCase
         $this->assertEquals($token->id, $returnedUser->currentAccessToken()->id);
         $this->assertInstanceOf(DateTimeInterface::class, $returnedUser->currentAccessToken()->last_used_at);
 
-        Sanctum::$accessTokenFetcher = null;
+        Sanctum::$accessTokenRetrievalCallback = null;
     }
 
     public function test_authentication_fails_with_token_in_authorization_header_when_using_custom_header()
@@ -365,7 +365,7 @@ class GuardTest extends TestCase
             'token' => hash('sha256', 'test'),
         ]);
 
-        Sanctum::fetchAccessTokenUsing(function (Request $request) {
+        Sanctum::getAccessTokensFromRequestUsing(function (Request $request) {
             return $request->header('X-Auth-Token');
         });
 
@@ -373,7 +373,7 @@ class GuardTest extends TestCase
 
         $this->assertNull($returnedUser);
 
-        Sanctum::$accessTokenFetcher = null;
+        Sanctum::$accessTokenRetrievalCallback = null;
     }
 
     public function test_authentication_fails_with_token_in_custom_header_when_using_default_authorization_header()
