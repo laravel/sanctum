@@ -61,7 +61,7 @@ class Guard
             }
         }
 
-        if ($token = $request->bearerToken()) {
+        if ($token = $this->getTokenFromRequest($request)) {
             $model = Sanctum::$personalAccessTokenModel;
 
             $accessToken = $model::findToken($token);
@@ -103,6 +103,21 @@ class Guard
         return $tokenable && in_array(HasApiTokens::class, class_uses_recursive(
             get_class($tokenable)
         ));
+    }
+
+    /**
+     * Get the token from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return string|null
+     */
+    protected function getTokenFromRequest(Request $request)
+    {
+        if (is_callable(Sanctum::$accessTokenRetrievalCallback)) {
+            return (string) (Sanctum::$accessTokenRetrievalCallback)($request);
+        }
+
+        return $request->bearerToken();
     }
 
     /**

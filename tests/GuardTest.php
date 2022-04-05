@@ -280,6 +280,139 @@ class GuardTest extends TestCase
 
         $user = $requestGuard->setRequest($request)->user();
         $this->assertNull($user);
+
+        Sanctum::$accessTokenAuthenticationCallback = null;
+    }
+
+    public function test_authentication_is_successful_with_token_in_custom_header()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+
+        $factory = Mockery::mock(AuthFactory::class);
+
+        $guard = new Guard($factory, null);
+
+        $webGuard = Mockery::mock(stdClass::class);
+
+        $factory->shouldReceive('guard')
+                ->with('web')
+                ->andReturn($webGuard);
+
+        $webGuard->shouldReceive('user')->once()->andReturn(null);
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('X-Auth-Token', 'test');
+
+        $user = User::forceCreate([
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@laravel.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+        ]);
+
+        $token = PersonalAccessToken::forceCreate([
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
+            'name' => 'Test',
+            'token' => hash('sha256', 'test'),
+        ]);
+
+        Sanctum::getAccessTokenFromRequestUsing(function (Request $request) {
+            return $request->header('X-Auth-Token');
+        });
+
+        $returnedUser = $guard->__invoke($request);
+
+        $this->assertEquals($user->id, $returnedUser->id);
+        $this->assertEquals($token->id, $returnedUser->currentAccessToken()->id);
+        $this->assertInstanceOf(DateTimeInterface::class, $returnedUser->currentAccessToken()->last_used_at);
+
+        Sanctum::$accessTokenRetrievalCallback = null;
+    }
+
+    public function test_authentication_fails_with_token_in_authorization_header_when_using_custom_header()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+
+        $factory = Mockery::mock(AuthFactory::class);
+
+        $guard = new Guard($factory, null);
+
+        $webGuard = Mockery::mock(stdClass::class);
+
+        $factory->shouldReceive('guard')
+                ->with('web')
+                ->andReturn($webGuard);
+
+        $webGuard->shouldReceive('user')->once()->andReturn(null);
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer test');
+
+        $user = User::forceCreate([
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@laravel.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+        ]);
+
+        $token = PersonalAccessToken::forceCreate([
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
+            'name' => 'Test',
+            'token' => hash('sha256', 'test'),
+        ]);
+
+        Sanctum::getAccessTokenFromRequestUsing(function (Request $request) {
+            return $request->header('X-Auth-Token');
+        });
+
+        $returnedUser = $guard->__invoke($request);
+
+        $this->assertNull($returnedUser);
+
+        Sanctum::$accessTokenRetrievalCallback = null;
+    }
+
+    public function test_authentication_fails_with_token_in_custom_header_when_using_default_authorization_header()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+
+        $factory = Mockery::mock(AuthFactory::class);
+
+        $guard = new Guard($factory, null);
+
+        $webGuard = Mockery::mock(stdClass::class);
+
+        $factory->shouldReceive('guard')
+                ->with('web')
+                ->andReturn($webGuard);
+
+        $webGuard->shouldReceive('user')->once()->andReturn(null);
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('X-Auth-Token', 'test');
+
+        $user = User::forceCreate([
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@laravel.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'remember_token' => Str::random(10),
+        ]);
+
+        $token = PersonalAccessToken::forceCreate([
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
+            'name' => 'Test',
+            'token' => hash('sha256', 'test'),
+        ]);
+
+        $returnedUser = $guard->__invoke($request);
+
+        $this->assertNull($returnedUser);
     }
 
     protected function getPackageProviders($app)
