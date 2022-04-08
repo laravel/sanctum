@@ -303,8 +303,7 @@ class GuardTest extends TestCase
 
         $webGuard->shouldReceive('user')->once()->andReturn(null);
 
-        $request = Request::create('/', 'GET');
-        $request->headers->set('X-Auth-Token', 'test');
+
 
         $user = User::forceCreate([
             'name' => 'Taylor Otwell',
@@ -320,9 +319,14 @@ class GuardTest extends TestCase
             'token' => hash('sha256', 'test'),
         ]);
 
+        $request = Request::create('/', 'GET');
+        $request->headers->set('X-Auth-Token', $token->first()->token);
+
         Sanctum::getAccessTokenFromRequestUsing(function (Request $request) {
             return $request->header('X-Auth-Token');
         });
+
+
 
         $returnedUser = $guard->__invoke($request);
 
