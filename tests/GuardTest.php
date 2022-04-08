@@ -141,8 +141,7 @@ class GuardTest extends TestCase
 
         $webGuard->shouldReceive('user')->once()->andReturn(null);
 
-        $request = Request::create('/', 'GET');
-        $request->headers->set('Authorization', 'Bearer test');
+
 
         $user = User::forceCreate([
             'name' => 'Taylor Otwell',
@@ -157,6 +156,9 @@ class GuardTest extends TestCase
             'name' => 'Test',
             'token' => hash('sha256', 'test'),
         ]);
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer '. $token->first()->token);
 
         $returnedUser = $guard->__invoke($request);
 
@@ -180,9 +182,6 @@ class GuardTest extends TestCase
             TokenAuthenticated::class,
         ]);
 
-        $request = Request::create('/', 'GET');
-        $request->headers->set('Authorization', 'Bearer test');
-
         $user = User::forceCreate([
             'name' => 'Taylor Otwell',
             'email' => 'taylor@laravel.com',
@@ -196,6 +195,9 @@ class GuardTest extends TestCase
             'name' => 'Test',
             'token' => hash('sha256', 'test'),
         ]);
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer '. $token->first()->token);
 
         $returnedUser = $requestGuard->setRequest($request)->user();
 
@@ -219,9 +221,6 @@ class GuardTest extends TestCase
             TokenAuthenticated::class,
         ]);
 
-        $request = Request::create('/', 'GET');
-        $request->headers->set('Authorization', 'Bearer test');
-
         $user = User::forceCreate([
             'name' => 'Taylor Otwell',
             'email' => 'taylor@laravel.com',
@@ -235,6 +234,9 @@ class GuardTest extends TestCase
             'name' => 'Test',
             'token' => hash('sha256', 'test'),
         ]);
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer '. $token->first()->token);
 
         $returnedUser = $requestGuard->setRequest($request)->user();
 
