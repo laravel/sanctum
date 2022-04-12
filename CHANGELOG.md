@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.15.0...2.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.15.1...2.x)
+
+## [v2.15.1](https://github.com/laravel/sanctum/compare/v2.15.0...v2.15.1) - 2022-04-08
+
+### Changed
+
+- Added custom auth token header support by @CodesignDev in https://github.com/laravel/sanctum/pull/354
 
 ## [v2.15.0](https://github.com/laravel/sanctum/compare/v2.14.2...v2.15.0) - 2022-03-28
 
