@@ -69,7 +69,7 @@ trait HasApiTokens
      */
     public function revokeOtherAccessTokens()
     {
-        return $this->tokens()->whereNot('id', $this->accessToken->id)->delete();
+        return $this->tokens()->where('id', '!=', $this->accessToken->id)->delete();
     }
 
     /**
