@@ -52,7 +52,7 @@ trait HasApiTokens
             'expires_at' => $expiresAt,
         ]);
 
-        return new NewAccessToken($token, $token->getKey().'|'.$plainTextToken);
+        return new NewAccessToken($token, $token->getKey() . '|' . $plainTextToken);
     }
 
     /**
@@ -63,6 +63,16 @@ trait HasApiTokens
     public function currentAccessToken()
     {
         return $this->accessToken;
+    }
+
+    /**
+     * Revoke all user tokens except current access token.
+     *
+     * @return bool
+     */
+    public function revokeOtherAccessTokens()
+    {
+        return $this->tokens()->whereNot('id', $this->accessToken->id)->delete();
     }
 
     /**
