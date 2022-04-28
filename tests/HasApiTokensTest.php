@@ -83,9 +83,10 @@ class HasApiTokensTest extends TestCase
 
         $user->revokeOtherAccessTokens();
 
-        $this->assertEquals($user->tokens->count(), 1);
-        $this->assertContains($currentAccessToken->id, $user->tokens->pluck('id')->all());
-        $this->assertNotContains($otherAccessToken->id, $user->tokens->pluck('id')->all());
+        $tokens = $user->tokens->fresh();
+        $this->assertEquals($tokens->count(), 1);
+        $this->assertContains($currentAccessToken->id, $tokens->pluck('id')->all());
+        $this->assertNotContains($otherAccessToken->id, $tokens->pluck('id')->all());
     }
 }
 
