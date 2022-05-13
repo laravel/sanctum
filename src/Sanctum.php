@@ -56,7 +56,9 @@ class Sanctum
      */
     public static function actingAs($user, $abilities = [], $guard = 'sanctum')
     {
-        $token = Mockery::mock(self::personalAccessTokenModel())->shouldIgnoreMissing(false);
+        $token = Mockery::mock(self::personalAccessTokenModel())->makePartial();
+        
+        $token->abilities = $abilities;
 
         if (in_array('*', $abilities)) {
             $token->shouldReceive('can')->withAnyArgs()->andReturn(true);
