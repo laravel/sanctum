@@ -20,13 +20,13 @@ trait HasApiTokens
      */
     public function tokens()
     {
-        return $this->morphMany(Sanctum::$personalAccessTokenModel, 'tokenable');
+        return $this->morphMany(Sanctum::personalAccessTokenModel(), 'tokenable');
     }
 
     /**
      * Determine if the current API token has a given scope.
      *
-     * @param  string  $ability
+     * @param string $ability
      * @return bool
      */
     public function tokenCan(string $ability)
@@ -37,8 +37,8 @@ trait HasApiTokens
     /**
      * Create a new personal access token for the user.
      *
-     * @param  string  $name
-     * @param  array  $abilities
+     * @param string $name
+     * @param array $abilities
      * @return \Laravel\Sanctum\NewAccessToken
      */
     public function createToken(string $name, array $abilities = ['*'])
@@ -49,7 +49,7 @@ trait HasApiTokens
             'abilities' => $abilities,
         ]);
 
-        return new NewAccessToken($token, $token->getKey().'|'.$plainTextToken);
+        return new NewAccessToken($token, $token->getKey() . '|' . $plainTextToken);
     }
 
     /**
@@ -65,7 +65,7 @@ trait HasApiTokens
     /**
      * Set the current access token for the user.
      *
-     * @param  \Laravel\Sanctum\Contracts\HasAbilities  $accessToken
+     * @param \Laravel\Sanctum\Contracts\HasAbilities $accessToken
      * @return $this
      */
     public function withAccessToken($accessToken)

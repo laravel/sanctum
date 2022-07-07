@@ -62,7 +62,7 @@ class Guard
         }
 
         if ($token = $this->getTokenFromRequest($request)) {
-            $model = Sanctum::$personalAccessTokenModel;
+            $model = Sanctum::personalAccessTokenModel();
 
             $accessToken = $model::findToken($token);
 

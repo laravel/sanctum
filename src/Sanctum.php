@@ -11,7 +11,7 @@ class Sanctum
      *
      * @var string
      */
-    public static $personalAccessTokenModel = 'Laravel\\Sanctum\\PersonalAccessToken';
+    protected static $personalAccessTokenModel = 'Laravel\\Sanctum\\PersonalAccessToken';
 
     /**
      * A callback that can get the token from the request.
@@ -43,15 +43,15 @@ class Sanctum
     {
         $appUrl = config('app.url');
 
-        return $appUrl ? ','.parse_url($appUrl, PHP_URL_HOST).(parse_url($appUrl, PHP_URL_PORT) ? ':'.parse_url($appUrl, PHP_URL_PORT) : '') : '';
+        return $appUrl ? ',' . parse_url($appUrl, PHP_URL_HOST) . (parse_url($appUrl, PHP_URL_PORT) ? ':' . parse_url($appUrl, PHP_URL_PORT) : '') : '';
     }
 
     /**
      * Set the current user for the application with the given abilities.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Sanctum\HasApiTokens  $user
-     * @param  array  $abilities
-     * @param  string  $guard
+     * @param \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Sanctum\HasApiTokens $user
+     * @param array $abilities
+     * @param string $guard
      * @return \Illuminate\Contracts\Auth\Authenticatable
      */
     public static function actingAs($user, $abilities = [], $guard = 'sanctum')
@@ -82,7 +82,7 @@ class Sanctum
     /**
      * Set the personal access token model name.
      *
-     * @param  string  $model
+     * @param string $model
      * @return void
      */
     public static function usePersonalAccessTokenModel($model)
@@ -93,7 +93,7 @@ class Sanctum
     /**
      * Specify a callback that should be used to fetch the access token from the request.
      *
-     * @param  callable  $callback
+     * @param callable $callback
      * @return void
      */
     public static function getAccessTokenFromRequestUsing(callable $callback)
@@ -104,7 +104,7 @@ class Sanctum
     /**
      * Specify a callback that should be used to authenticate access tokens.
      *
-     * @param  callable  $callback
+     * @param callable $callback
      * @return void
      */
     public static function authenticateAccessTokensUsing(callable $callback)

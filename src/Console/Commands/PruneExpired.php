@@ -29,7 +29,7 @@ class PruneExpired extends Command
     public function handle()
     {
         if ($expiration = config('sanctum.expiration')) {
-            $model = Sanctum::$personalAccessTokenModel;
+            $model = Sanctum::personalAccessTokenModel();
 
             $hours = $this->option('hours');
 
