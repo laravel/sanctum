@@ -4,6 +4,7 @@ namespace Laravel\Sanctum\Tests;
 
 use Illuminate\Http\Request;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use Laravel\Sanctum\SanctumServiceProvider;
 use Orchestra\Testbench\TestCase;
 
 class DefaultConfigContainsAppUrlTest extends TestCase
@@ -48,5 +49,16 @@ class DefaultConfigContainsAppUrlTest extends TestCase
         $request->headers->set('referer', config('app.url'));
 
         $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+    }
+
+    public function test_csrf_cookie_route_can_be_named()
+    {
+        $app = app();
+        $app['config']->set('sanctum.cookie_route_name', 'csrf.token');
+        (new SanctumServiceProvider($app))->boot();
+
+        $app->router->getRoutes()->compile();
+
+        $this->assertTrue($app->router->getRoutes()->hasNamedRoute('csrf.token'));
     }
 }
