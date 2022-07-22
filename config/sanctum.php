@@ -62,4 +62,5 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
+    'sanctum.cookie_route_name' => env('SANCTUM_sanctum.cookie_route_name')
 ];
