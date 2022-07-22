@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.15.1...3.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v2.15.1...master)
 
 ## [v2.15.1](https://github.com/laravel/sanctum/compare/v2.15.0...v2.15.1) - 2022-04-08
 
