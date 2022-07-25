@@ -35,12 +35,12 @@ class PruneExpired extends Command
 
             $model::where('created_at', '<', now()->subMinutes($expiration + ($hours * 60)))->delete();
 
-            $this->info("Tokens expired for more than {$hours} hours pruned successfully.");
+            $this->components->info("Tokens expired for more than [$hours hours] pruned successfully.");
 
             return 0;
         }
 
-        $this->warn('Expiration value not specified in configuration file.');
+        $this->components->warn('Expiration value not specified in configuration file.');
 
         return 1;
     }
