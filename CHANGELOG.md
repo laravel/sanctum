@@ -1,6 +1,21 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.15.1...3.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v3.0.0...3.x)
+
+## [v3.0.0](https://github.com/laravel/sanctum/compare/v2.15.1...v3.0.0) - 2022-07-25
+
+### Added
+
+- Expiration dates for tokens by @bjhijmans in https://github.com/laravel/sanctum/pull/252
+
+### Changed
+
+- Improves console output by @nunomaduro in https://github.com/laravel/sanctum/pull/382
+- Shorter tokens by @taylorotwell in https://github.com/laravel/sanctum/commit/c46fc083ab52f2ddac97ee4510486f90fc94f220
+
+### Removed
+
+- Drop old Laravel and PHP versions by @driesvints in https://github.com/laravel/sanctum/pull/378
 
 ## [v2.15.1](https://github.com/laravel/sanctum/compare/v2.15.0...v2.15.1) - 2022-04-08
 
