@@ -128,7 +128,7 @@ class PruneExpiredTest extends TestCase
             'tokenable_type' => get_class($user),
             'name' => 'Test_3',
             'token' => hash('sha256', 'test_3'),
-            'expires_at' => now()->subMinutes(121),
+            'expires_at' => null,
         ]);
 
         $this->artisan('sanctum:prune-expired --hours=2')
