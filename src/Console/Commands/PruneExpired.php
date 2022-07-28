@@ -33,7 +33,11 @@ class PruneExpired extends Command
 
             $hours = $this->option('hours');
 
-            $model::where('created_at', '<', now()->subMinutes($expiration + ($hours * 60)))->delete();
+            $threshold = now()->subMinutes($expiration + ($hours * 60));
+
+            $model::where('created_at', '<', $threshold)
+                ->orWhere('expires_at', '<', $threshold)
+                ->delete();
 
             $this->components->info("Tokens expired for more than [$hours hours] pruned successfully.");
 

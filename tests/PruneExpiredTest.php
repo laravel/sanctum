@@ -94,6 +94,51 @@ class PruneExpiredTest extends TestCase
         $this->assertDatabaseHas('personal_access_tokens', ['name' => 'Test']);
     }
 
+    public function test_can_delete_expired_tokens_with_expires_at_expiration()
+    {
+        $this->loadLaravelMigrations(['--database' => 'testbench']);
+        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+
+        config(['sanctum.expiration' => 60]);
+
+        $user = UserForPruneExpiredTest::forceCreate([
+            'name' => 'Taylor Otwell',
+            'email' => 'taylor@laravel.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+        ]);
+
+        $token_1 = PersonalAccessToken::forceCreate([
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
+            'name' => 'Test_1',
+            'token' => hash('sha256', 'test_1'),
+            'expires_at' => now()->subMinutes(181),
+        ]);
+
+        $token_2 = PersonalAccessToken::forceCreate([
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
+            'name' => 'Test_2',
+            'token' => hash('sha256', 'test_2'),
+            'expires_at' => now()->subMinutes(179),
+        ]);
+
+        $token_3 = PersonalAccessToken::forceCreate([
+            'tokenable_id' => $user->id,
+            'tokenable_type' => get_class($user),
+            'name' => 'Test_3',
+            'token' => hash('sha256', 'test_3'),
+            'expires_at' => now()->subMinutes(121),
+        ]);
+
+        $this->artisan('sanctum:prune-expired --hours=2')
+            ->expectsOutputToContain('Tokens expired for more than [2 hours] pruned successfully.');
+
+        $this->assertDatabaseMissing('personal_access_tokens', ['name' => 'Test_1']);
+        $this->assertDatabaseHas('personal_access_tokens', ['name' => 'Test_2']);
+        $this->assertDatabaseHas('personal_access_tokens', ['name' => 'Test_3']);
+    }
+
     protected function getPackageProviders($app)
     {
         return [SanctumServiceProvider::class];
