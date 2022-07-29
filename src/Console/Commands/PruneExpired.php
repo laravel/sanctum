@@ -34,13 +34,13 @@ class PruneExpired extends Command
 
         $this->components->task(
             'Pruning tokens with expired expires_at timestamps',
-            fn() => $model::where('expires_at', '<', now()->subHours($hours))->delete()
+            fn () => $model::where('expires_at', '<', now()->subHours($hours))->delete()
         );
 
         if ($expiration = config('sanctum.expiration')) {
             $this->components->task(
                 'Pruning tokens with expired expiration value',
-                fn() => $model::where('created_at', '<', now()->subMinutes($expiration + ($hours * 60)))->delete()
+                fn () => $model::where('created_at', '<', now()->subMinutes($expiration + ($hours * 60)))->delete()
             );
         } else {
             $this->components->warn('Expiration value not specified in configuration file.');
