@@ -112,7 +112,7 @@ class PruneExpiredTest extends TestCase
             'tokenable_type' => get_class($user),
             'name' => 'Test_1',
             'token' => hash('sha256', 'test_1'),
-            'expires_at' => now()->subMinutes(181),
+            'expires_at' => now()->subMinutes(121),
         ]);
 
         $token_2 = PersonalAccessToken::forceCreate([
@@ -120,7 +120,7 @@ class PruneExpiredTest extends TestCase
             'tokenable_type' => get_class($user),
             'name' => 'Test_2',
             'token' => hash('sha256', 'test_2'),
-            'expires_at' => now()->subMinutes(179),
+            'expires_at' => now()->subMinutes(119),
         ]);
 
         $token_3 = PersonalAccessToken::forceCreate([
