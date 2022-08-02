@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v3.0.0...3.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v3.0.1...3.x)
+
+## [v3.0.1](https://github.com/laravel/sanctum/compare/v3.0.0...v3.0.1) - 2022-07-29
+
+### Changed
+
+- Update migration's primary identifier change by @suyar in https://github.com/laravel/sanctum/pull/386
+- Prune expires_at tokens by @iruoy in https://github.com/laravel/sanctum/pull/385
 
 ## [v3.0.0](https://github.com/laravel/sanctum/compare/v2.15.1...v3.0.0) - 2022-07-25
 
