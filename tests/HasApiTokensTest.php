@@ -36,6 +36,27 @@ class HasApiTokensTest extends TestCase
         );
     }
 
+    public function test_tokens_can_be_created_with_sha512()
+    {
+        config(['sanctum.algo' => 'sha512']);
+
+        $class = new ClassThatHasApiTokens;
+
+        $newToken = $class->createToken('test');
+
+        [$id, $token] = explode('|', $newToken->plainTextToken);
+
+        $this->assertEquals(
+            $newToken->accessToken->token,
+            hash('sha512', $token)
+        );
+
+        $this->assertNotEquals(
+            $newToken->accessToken->token,
+            hash('sha256', $token)
+        );
+    }
+
     public function test_can_check_token_abilities()
     {
         $class = new ClassThatHasApiTokens;

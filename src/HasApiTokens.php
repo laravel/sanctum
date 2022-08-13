@@ -47,7 +47,7 @@ trait HasApiTokens
     {
         $token = $this->tokens()->create([
             'name' => $name,
-            'token' => hash('sha256', $plainTextToken = Str::random(40)),
+            'token' => hash(config('sanctum.algo', 'sha256'), $plainTextToken = Str::random(40)),
             'abilities' => $abilities,
             'expires_at' => $expiresAt,
         ]);

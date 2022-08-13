@@ -49,6 +49,20 @@ return [
     'expiration' => null,
 
     /*
+   |--------------------------------------------------------------------------
+   | Hashing algorithm
+   |--------------------------------------------------------------------------
+   |
+   | Specify the hashing algorithm that will be used to sign the token.
+   |
+   | See here: https://www.php.net/manual/en/function.hash-algos.php
+   | for possible values.
+   |
+   */
+
+    'algo' => env('SANCTUM_TOKEN_ALGO', 'sha256'),
+
+    /*
     |--------------------------------------------------------------------------
     | Sanctum Middleware
     |--------------------------------------------------------------------------
