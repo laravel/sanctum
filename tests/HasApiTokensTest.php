@@ -44,7 +44,6 @@ class HasApiTokensTest extends TestCase
 
         $newToken = $class->createToken('test');
 
-
         [$id, $token] = explode('|', $newToken->plainTextToken);
 
         $this->assertTrue(config('sanctum.token_length') == strlen($token));
