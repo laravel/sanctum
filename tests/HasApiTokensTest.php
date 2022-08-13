@@ -36,6 +36,20 @@ class HasApiTokensTest extends TestCase
         );
     }
 
+    public function test_tokens_can_be_created_with_custom_length()
+    {
+        config(['sanctum.token_length' => 140]);
+
+        $class = new ClassThatHasApiTokens;
+
+        $newToken = $class->createToken('test');
+
+
+        [$id, $token] = explode('|', $newToken->plainTextToken);
+
+        $this->assertTrue(config('sanctum.token_length') == strlen($token));
+    }
+
     public function test_can_check_token_abilities()
     {
         $class = new ClassThatHasApiTokens;
