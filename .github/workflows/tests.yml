@@ -48,7 +48,7 @@ jobs:
         php: ['8.0', 8.1]
         laravel: [9]
 
-    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - Windows
 
     steps:
       - name: Set git to use LF
@@ -63,7 +63,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip
+          extensions: dom, curl, libxml, mbstring, zip, pdo, sqlite, pdo_sqlite, gd, pdo_mysql, fileinfo, ftp, redis, memcached, gmp
           ini-values: error_reporting=E_ALL
           tools: composer:v2
           coverage: none
