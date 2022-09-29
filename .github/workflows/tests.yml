@@ -38,3 +38,40 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit --verbose
+
+  windows:
+    runs-on: windows-2019
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: ['8.0', 8.1]
+        laravel: [9]
+
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
+
+    steps:
+      - name: Set git to use LF
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip
+          ini-values: error_reporting=E_ALL
+          tools: composer:v2
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+           composer require "illuminate/contracts=^${{ matrix.laravel }}" --no-update
+           composer update --prefer-dist --no-interaction --no-progress
+
+      - name: Execute tests
+        run: vendor/bin/phpunit --verbose
