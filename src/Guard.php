@@ -61,7 +61,7 @@ class Guard
             }
         }
 
-        if ($token = $this->getTokenFromRequest($request)) {
+        if (config('sanctum.handle_bearer_tokens', true) && $token = $this->getTokenFromRequest($request)) {
             $model = Sanctum::$personalAccessTokenModel;
 
             $accessToken = $model::findToken($token);

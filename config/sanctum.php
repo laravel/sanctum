@@ -37,6 +37,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Bearer Token Handling
+    |--------------------------------------------------------------------------
+    |
+    | This value controls whether Sanctum should use the bearer token that's
+    | present on an incoming request for authentication if none of the Guards
+    | were able to authenticate the it.
+    |
+    */
+
+    'handle_bearer_tokens' => true,
+
+    /*
+    |--------------------------------------------------------------------------
     | Expiration Minutes
     |--------------------------------------------------------------------------
     |
