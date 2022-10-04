@@ -18,6 +18,7 @@ jobs:
         stability: ['']
         include:
           - php: 8.2
+            laravel: 9
             stability: --ignore-platform-req=php+
 
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
