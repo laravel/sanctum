@@ -61,7 +61,7 @@ class Guard
             }
         }
 
-        if (!$token = $this->getTokenFromRequest($request)) {
+        if (! $token = $this->getTokenFromRequest($request)) {
             return null;
         }
 
