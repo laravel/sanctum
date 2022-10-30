@@ -19,7 +19,7 @@ class PruneExpired extends Command
      *
      * @var string
      */
-    protected $description = 'Prune tokens expired for more than specified number of hours.';
+    protected $description = 'Prune tokens expired for more than specified number of hours';
 
     /**
      * Execute the console command.
