@@ -65,9 +65,14 @@ class Guard
             $model = Sanctum::$personalAccessTokenModel;
 
             $accessToken = $model::findToken($token);
+            
+            if (! $this->isValidAccessToken($accessToken)) {
+                return;   
+            }
 
-            if (! $this->isValidAccessToken($accessToken) ||
-                ! $this->supportsTokens($accessToken->tokenable)) {
+            $accessToken->load('tokenable');
+
+            if (! $this->supportsTokens($accessToken->tokenable)) {
                 return;
             }
 
