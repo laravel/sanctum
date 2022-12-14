@@ -36,6 +36,20 @@ class HasApiTokensTest extends TestCase
         );
     }
 
+    public function test_tokens_with_custom_length_can_be_created()
+    {
+        $class = new ClassThatHasApiTokensWithCustomLength;
+
+        $newToken = $class->createToken('test');
+
+        [$id, $token] = explode('|', $newToken->plainTextToken);
+
+        $this->assertEquals(
+            30,
+            strlen($token)
+        );
+    }
+
     public function test_can_check_token_abilities()
     {
         $class = new ClassThatHasApiTokens;
@@ -60,4 +74,9 @@ class ClassThatHasApiTokens implements HasApiTokensContract
             }
         };
     }
+}
+
+class ClassThatHasApiTokensWithCustomLength extends ClassThatHasApiTokens
+{
+    protected static int $apiTokenLength = 30;
 }
