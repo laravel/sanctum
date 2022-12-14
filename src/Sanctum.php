@@ -14,6 +14,13 @@ class Sanctum
     public static $personalAccessTokenModel = 'Laravel\\Sanctum\\PersonalAccessToken';
 
     /**
+     * The name for API token cookies.
+     *
+     * @var string
+     */
+    public static $cookie = 'laravel_token';
+
+    /**
      * A callback that can get the token from the request.
      *
      * @var callable|null
@@ -142,5 +149,22 @@ class Sanctum
     public static function personalAccessTokenModel()
     {
         return static::$personalAccessTokenModel;
+    }
+
+    /**
+     * Get or set the name for API token cookies.
+     *
+     * @param  string|null  $cookie
+     * @return string|static
+     */
+    public static function cookie($cookie = null)
+    {
+        if (is_null($cookie)) {
+            return static::$cookie;
+        }
+
+        static::$cookie = $cookie;
+
+        return new static;
     }
 }
