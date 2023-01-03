@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v3.0.1...3.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v3.1.0...3.x)
+
+## [v3.1.0](https://github.com/laravel/sanctum/compare/v3.0.1...v3.1.0) - 2023-01-03
+
+### Changed
+
+- Uses PHP Native Type Declarations 🐘  by @nunomaduro in https://github.com/laravel/sanctum/pull/405
 
 ## [v3.0.1](https://github.com/laravel/sanctum/compare/v3.0.0...v3.0.1) - 2022-07-29
 
