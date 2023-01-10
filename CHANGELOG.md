@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v3.1.0...3.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v3.2.0...3.x)
+
+## [v3.2.0](https://github.com/laravel/sanctum/compare/v3.1.0...v3.2.0) - 2023-01-06
+
+### Added
+
+- Laravel v10 Support by @driesvints in https://github.com/laravel/sanctum/pull/415
 
 ## [v3.1.0](https://github.com/laravel/sanctum/compare/v3.0.1...v3.1.0) - 2023-01-03
 
