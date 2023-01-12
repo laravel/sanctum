@@ -117,9 +117,31 @@ class Guard
             return (string) (Sanctum::$accessTokenRetrievalCallback)($request);
         }
 
-        return $request->bearerToken();
+        $token = $request->bearerToken();
+
+        return $this->hasValidBearerTokenFormat($token) ? $token : null;
     }
 
+    /**
+     * Determine if the bearer token has valid format
+     *
+     * @param string|null $token
+     * @return bool
+     */
+    protected function hasValidBearerTokenFormat(string $token = null): bool
+    {
+        if (!is_null($token) && strpos($token, '|') !== false) {
+            $model = new Sanctum::$personalAccessTokenModel;
+            if ($model->getKeyType() === 'int') {
+                [$id, $token] = explode('|', $token, 2);
+
+                return ctype_digit($id) && !empty($token);
+            }
+        }
+
+        return !empty($token);
+    }
+    
     /**
      * Determine if the provided access token is valid.
      *
