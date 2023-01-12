@@ -560,7 +560,7 @@ class GuardTest extends TestCase
         ];
     }
 }
- 
+
 class User extends Model implements HasApiTokensContract
 {
     use HasApiTokens;

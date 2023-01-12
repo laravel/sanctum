@@ -123,25 +123,25 @@ class Guard
     }
 
     /**
-     * Determine if the bearer token has valid format
+     * Determine if the bearer token has valid format.
      *
-     * @param string|null $token
-     * @return bool
+     * @param  string|null  $token
+     * @return  bool
      */
     protected function hasValidBearerTokenFormat(string $token = null): bool
     {
-        if (!is_null($token) && strpos($token, '|') !== false) {
+        if (! is_null($token) && strpos($token, '|') !== false) {
             $model = new Sanctum::$personalAccessTokenModel;
             if ($model->getKeyType() === 'int') {
                 [$id, $token] = explode('|', $token, 2);
 
-                return ctype_digit($id) && !empty($token);
+                return ctype_digit($id) && ! empty($token);
             }
         }
 
-        return !empty($token);
+        return ! empty($token);
     }
-    
+
     /**
      * Determine if the provided access token is valid.
      *
