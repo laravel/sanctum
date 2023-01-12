@@ -126,7 +126,7 @@ class Guard
      * Determine if the bearer token has valid format.
      *
      * @param  string|null  $token
-     * @return  bool
+     * @return bool
      */
     protected function hasValidBearerTokenFormat(string $token = null): bool
     {
