@@ -119,19 +119,20 @@ class Guard
 
         $token = $request->bearerToken();
 
-        return $this->hasValidBearerTokenFormat($token) ? $token : null;
+        return $this->isValidBearerToken($token) ? $token : null;
     }
 
     /**
-     * Determine if the bearer token has valid format.
+     * Determine if the bearer token is in the correct format.
      *
      * @param  string|null  $token
      * @return bool
      */
-    protected function hasValidBearerTokenFormat(string $token = null): bool
+    protected function isValidBearerToken(string $token = null)
     {
-        if (! is_null($token) && strpos($token, '|') !== false) {
+        if (! is_null($token) && str_contains($token, '|')) {
             $model = new Sanctum::$personalAccessTokenModel;
+
             if ($model->getKeyType() === 'int') {
                 [$id, $token] = explode('|', $token, 2);
 
