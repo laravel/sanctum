@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v3.2.0...3.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v3.2.1...3.x)
+
+## [v3.2.1](https://github.com/laravel/sanctum/compare/v3.2.0...v3.2.1) - 2023-01-13
+
+### Fixed
+
+- Fix bearer token format validation by @krasucki in https://github.com/laravel/sanctum/pull/417
 
 ## [v3.2.0](https://github.com/laravel/sanctum/compare/v3.1.0...v3.2.0) - 2023-01-06
 
