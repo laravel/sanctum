@@ -40,10 +40,14 @@ return [
     | Expiration Minutes
     |--------------------------------------------------------------------------
     |
-    | This value controls the number of minutes until an issued token will be
-    | considered expired. If this value is null, personal access tokens do
-    | not expire. This won't tweak the lifetime of first-party sessions.
-    |
+    | This value globally controls the number of minutes until an issued token
+    | will be considered as expired. It adds additional validity limitation to
+    | the token and limits its total lifetime globally. If you set this value to
+    | a smaller value compared to the rest time of your $token->expires_at,
+    | the token will expire before $token->expires_at is reached.
+    | If this value is null, the token can still expire using $token->expires_at.
+    | If you set both to null, the token will never expire.
+    | This won't tweak the lifetime of first-party sessions.
     */
 
     'expiration' => null,
