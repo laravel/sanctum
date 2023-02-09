@@ -67,11 +67,11 @@ class Guard
             $accessToken = $model::findToken($token);
 
             if (! $this->isValidAccessToken($accessToken) ||
-                ! $this->supportsTokens($accessToken->tokenable)) {
+                ! $this->supportsTokens($accessToken->getTokenable())) {
                 return;
             }
 
-            $tokenable = $accessToken->tokenable->withAccessToken(
+            $tokenable = $accessToken->getTokenable()->withAccessToken(
                 $accessToken
             );
 
@@ -158,7 +158,7 @@ class Guard
         $isValid =
             (! $this->expiration || $accessToken->created_at->gt(now()->subMinutes($this->expiration)))
             && (! $accessToken->expires_at || ! $accessToken->expires_at->isPast())
-            && $this->hasValidProvider($accessToken->tokenable);
+            && $this->hasValidProvider($accessToken->getTokenable());
 
         if (is_callable(Sanctum::$accessTokenAuthenticationCallback)) {
             $isValid = (bool) (Sanctum::$accessTokenAuthenticationCallback)($accessToken, $isValid);

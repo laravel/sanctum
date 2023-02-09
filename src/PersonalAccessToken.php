@@ -50,6 +50,16 @@ class PersonalAccessToken extends Model implements HasAbilities
     }
 
     /**
+     * Get the tokenable model that the access token belongs to.
+     *
+     * @return \Illuminate\Contracts\Auth\Authenticatable
+     */
+    public function getTokenable()
+    {
+        return $this->tokenable;
+    }
+
+    /**
      * Find the token instance matching the given token.
      *
      * @param  string  $token
