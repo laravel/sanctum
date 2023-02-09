@@ -52,7 +52,7 @@ class PersonalAccessToken extends Model implements HasAbilities
     /**
      * Get the tokenable model that the access token belongs to.
      *
-     * @return \Illuminate\Contracts\Auth\Authenticatable
+     * @return \Laravel\Sanctum\Contracts\HasApiTokens
      */
     public function getTokenable()
     {
