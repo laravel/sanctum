@@ -64,4 +64,18 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Sanctum Routes
+    |--------------------------------------------------------------------------
+    |
+    | Sanctum adds a route "/sanctum/csrf-cookie" for SPA application to fetch
+    | only cookies. This value controls the route generation and prefix.
+    |
+    */
+
+    'routes' => true,
+
+    'prefix' => '/sanctum',
+
 ];
