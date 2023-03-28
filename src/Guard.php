@@ -117,7 +117,7 @@ class Guard
             return (string) (Sanctum::$accessTokenRetrievalCallback)($request);
         }
 
-        $token = $request->bearerToken();
+        $token = trim($request->bearerToken());
 
         return $this->isValidBearerToken($token) ? $token : null;
     }
