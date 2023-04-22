@@ -44,7 +44,7 @@ class EnsureFrontendRequestsAreStateful
     {
         config([
             'session.http_only' => true,
-            'session.same_site' => 'lax',
+            'session.same_site' => config("session.same_site", "lax"),
         ]);
     }
 
