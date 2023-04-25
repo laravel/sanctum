@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v3.2.1...3.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v3.2.2...3.x)
+
+## [v3.2.2](https://github.com/laravel/sanctum/compare/v3.2.1...v3.2.2) - 2023-04-21
+
+- Check for validate csrf token middleware by @taylorotwell in https://github.com/laravel/sanctum/commit/bbcb052de3fe075a67446e8c5c8ffcb191a1fb24
 
 ## [v3.2.1](https://github.com/laravel/sanctum/compare/v3.2.0...v3.2.1) - 2023-01-13
 
