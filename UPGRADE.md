@@ -18,3 +18,11 @@ Schema::table('personal_access_tokens', function (Blueprint $table) {
     $table->timestamp('expires_at')->nullable()->after('last_used_at');
 });
 ```
+
+Keep following the standards and do not forget to let the down function remove the column in case you had to undo this migration
+
+```php
+Schema::table('personal_access_tokens', function (Blueprint $table) {
+    $table->dropColumn('expires_at');
+});
+```
