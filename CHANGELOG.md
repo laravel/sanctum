@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v3.2.4...3.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v3.2.5...3.x)
+
+## [v3.2.5](https://github.com/laravel/sanctum/compare/v3.2.4...v3.2.5) - 2023-05-01
+
+- Fix middleware by @taylorotwell in https://github.com/laravel/sanctum/commit/8ebda85d59d3c414863a7f4d816ef8302faad876
 
 ## [v3.2.4](https://github.com/laravel/sanctum/compare/v3.2.3...v3.2.4) - 2023-04-26
 
