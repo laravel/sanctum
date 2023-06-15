@@ -58,7 +58,7 @@ trait HasApiTokens
     /**
      * Get the access token currently associated with the user.
      *
-     * @return \Laravel\Sanctum\Contracts\HasAbilities
+     * @return \Laravel\Sanctum\PersonalAccessToken|null
      */
     public function currentAccessToken()
     {
