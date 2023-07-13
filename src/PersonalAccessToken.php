@@ -5,6 +5,15 @@ namespace Laravel\Sanctum;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\Contracts\HasAbilities;
 
+/**
+ * @property int    $id
+ * @property string $name
+ * @property string $token
+ * @property array  $abilities
+ * @property        $last_used_at
+ * @property        $expires_at
+ * @property        $created_at
+ */
 class PersonalAccessToken extends Model implements HasAbilities
 {
     /**
@@ -13,9 +22,9 @@ class PersonalAccessToken extends Model implements HasAbilities
      * @var array
      */
     protected $casts = [
-        'abilities' => 'json',
+        'abilities'    => 'json',
         'last_used_at' => 'datetime',
-        'expires_at' => 'datetime',
+        'expires_at'   => 'datetime',
     ];
 
     /**
@@ -52,7 +61,7 @@ class PersonalAccessToken extends Model implements HasAbilities
     /**
      * Find the token instance matching the given token.
      *
-     * @param  string  $token
+     * @param string $token
      * @return static|null
      */
     public static function findToken($token)
@@ -71,23 +80,23 @@ class PersonalAccessToken extends Model implements HasAbilities
     /**
      * Determine if the token has a given ability.
      *
-     * @param  string  $ability
+     * @param string $ability
      * @return bool
      */
     public function can($ability)
     {
         return in_array('*', $this->abilities) ||
-               array_key_exists($ability, array_flip($this->abilities));
+            array_key_exists($ability, array_flip($this->abilities));
     }
 
     /**
      * Determine if the token is missing a given ability.
      *
-     * @param  string  $ability
+     * @param string $ability
      * @return bool
      */
     public function cant($ability)
     {
-        return ! $this->can($ability);
+        return !$this->can($ability);
     }
 }
