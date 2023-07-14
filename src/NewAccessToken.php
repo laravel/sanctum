@@ -5,6 +5,9 @@ namespace Laravel\Sanctum;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 
+/**
+ * @property PersonalAccessToken $accessToken
+ */
 class NewAccessToken implements Arrayable, Jsonable
 {
     /**

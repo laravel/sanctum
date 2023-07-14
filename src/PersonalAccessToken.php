@@ -5,6 +5,15 @@ namespace Laravel\Sanctum;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\Contracts\HasAbilities;
 
+/**
+ * @property int    $id
+ * @property string $name
+ * @property string $token
+ * @property array  $abilities
+ * @property        $last_used_at
+ * @property        $expires_at
+ * @property        $created_at
+ */
 class PersonalAccessToken extends Model implements HasAbilities
 {
     /**
