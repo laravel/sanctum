@@ -45,9 +45,11 @@ trait HasApiTokens
      */
     public function createToken(string $name, array $abilities = ['*'], DateTimeInterface $expiresAt = null)
     {
+        [$token, $plainTextToken] = $this->generateToken($name, $abilities, $expiresAt);
+
         $token = $this->tokens()->create([
             'name' => $name,
-            'token' => hash('sha256', $plainTextToken = Str::random(40)),
+            'token' => $token,
             'abilities' => $abilities,
             'expires_at' => $expiresAt,
         ]);
@@ -76,5 +78,20 @@ trait HasApiTokens
         $this->accessToken = $accessToken;
 
         return $this;
+    }
+
+    /**
+     * Generate a new personal access token.
+     *
+     * @param  string  $name
+     * @param  array  $abilities
+     * @param  \DateTimeInterface|null  $expiresAt
+     * @return \Laravel\Sanctum\NewAccessToken
+     */
+    protected function generateToken(string $name, array $abilities, ?DateTimeInterface $expiresAt)
+    {
+        $token = hash('sha256', $plainTextToken = Str::random(40));
+
+        return [$token, $plainTextToken];
     }
 }
