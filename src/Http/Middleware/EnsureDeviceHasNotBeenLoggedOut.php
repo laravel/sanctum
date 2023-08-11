@@ -21,11 +21,10 @@ class EnsureDeviceHasNotBeenLoggedOut
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->hasSession() || ! $request->user()) {
-            return $next($request);
-        }
-
-        if ($request->session()->get('password_hash_'.$this->auth->getDefaultDriver()) !== $request->user()->getAuthPassword()) {
+        if ($request->hasSession()
+            && $request->user()
+            && $request->session()->has($key = 'password_hash_'.$this->auth->getDefaultDriver())
+            && $request->session()->get($key) !== $request->user()->getAuthPassword()) {
             $this->logout($request);
 
             throw new AuthenticationException('Unauthenticated.', [$this->auth->getDefaultDriver()]);
