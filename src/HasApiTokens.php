@@ -45,10 +45,12 @@ trait HasApiTokens
      */
     public function createToken(string $name, array $abilities = ['*'], DateTimeInterface $expiresAt = null)
     {
-        $tokenPrefix = config('sanctum.token_prefix');
-        $tokenEntropy = Str::random(40);
-        $tokenChecksum = hash('CRC32', $tokenEntropy);
-        $plainTextToken = $tokenPrefix.'_'.$tokenEntropy.$tokenChecksum;
+        $plainTextToken = sprintf(
+            '%s%s%s',
+            config('sanctum.token_prefix', ''),
+            $tokenEntropy = Str::random(40),
+            hash('CRC32', $tokenEntropy)
+        );
 
         $token = $this->tokens()->create([
             'name' => $name,
