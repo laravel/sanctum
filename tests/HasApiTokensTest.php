@@ -44,6 +44,25 @@ class HasApiTokensTest extends TestCase
 
         $this->assertTrue($class->tokenCan('foo'));
     }
+
+    public function test_token_checksum_is_valid()
+    {
+        $config = require __DIR__.'/../config/sanctum.php';
+        $this->app['config']->set('sanctum.token_prefix', $config['token_prefix']);
+
+        $class = new ClassThatHasApiTokens;
+
+        $newToken = $class->createToken('test', ['foo']);
+
+        [$id, $token] = explode('|', $newToken->plainTextToken);
+        $splitToken = explode('_', $token);
+        $tokenEntropy = substr(end($splitToken), 0, -8);
+
+        $this->assertEquals(
+            hash('CRC32', $tokenEntropy),
+            substr($token, -8)
+        );
+    }
 }
 
 class ClassThatHasApiTokens implements HasApiTokensContract

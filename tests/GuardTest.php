@@ -542,7 +542,7 @@ class GuardTest extends TestCase
         return [SanctumServiceProvider::class];
     }
 
-    public function invalidTokenDataProvider(): array
+    public static function invalidTokenDataProvider(): array
     {
         return [
             [''],
