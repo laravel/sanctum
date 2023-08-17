@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Sanctum\Tests;
+namespace Laravel\Sanctum\Tests\Feature;
 
 use DateTimeInterface;
 use Illuminate\Auth\EloquentUserProvider;

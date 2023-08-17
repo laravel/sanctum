@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Sanctum\Tests;
+namespace Laravel\Sanctum\Tests\Feature;
 
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;

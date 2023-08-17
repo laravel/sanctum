@@ -1,13 +1,16 @@
 <?php
 
-namespace Laravel\Sanctum\Tests;
+namespace Laravel\Sanctum\Tests\Feature;
 
 use Illuminate\Http\Request;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
 class DefaultConfigContainsAppUrlTest extends TestCase
 {
+    use WithWorkbench;
+
     protected function defineEnvironment($app)
     {
         putenv('APP_URL=https://www.example.com');
