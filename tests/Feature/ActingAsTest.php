@@ -12,7 +12,6 @@ use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyScope;
 use Laravel\Sanctum\Http\Middleware\CheckScopes;
 use Laravel\Sanctum\Sanctum;
-use Laravel\Sanctum\SanctumServiceProvider;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 

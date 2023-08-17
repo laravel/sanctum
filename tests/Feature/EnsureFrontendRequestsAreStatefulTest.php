@@ -4,7 +4,6 @@ namespace Laravel\Sanctum\Tests\Feature;
 
 use Illuminate\Http\Request;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
-use Laravel\Sanctum\SanctumServiceProvider;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
