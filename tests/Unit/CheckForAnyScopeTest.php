@@ -1,12 +1,12 @@
 <?php
 
-namespace Laravel\Sanctum\Tests;
+namespace Laravel\Sanctum\Tests\Unit;
 
-use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
+use Laravel\Sanctum\Http\Middleware\CheckForAnyScope as CheckScopes;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
-class CheckForAnyAbilityTest extends TestCase
+class CheckForAnyScopeTest extends TestCase
 {
     protected function tearDown(): void
     {
@@ -15,9 +15,9 @@ class CheckForAnyAbilityTest extends TestCase
         Mockery::close();
     }
 
-    public function test_request_is_passed_along_if_abilities_are_present_on_token()
+    public function test_request_is_passed_along_if_scopes_are_present_on_token()
     {
-        $middleware = new CheckForAnyAbility;
+        $middleware = new CheckScopes;
         $request = Mockery::mock();
         $request->shouldReceive('user')->andReturn($user = Mockery::mock());
         $user->shouldReceive('currentAccessToken')->andReturn($token = Mockery::mock());
@@ -31,11 +31,11 @@ class CheckForAnyAbilityTest extends TestCase
         $this->assertSame('response', $response);
     }
 
-    public function test_exception_is_thrown_if_token_doesnt_have_ability()
+    public function test_exception_is_thrown_if_token_doesnt_have_scope()
     {
-        $this->expectException('Laravel\Sanctum\Exceptions\MissingAbilityException');
+        $this->expectException('Laravel\Sanctum\Exceptions\MissingScopeException');
 
-        $middleware = new CheckForAnyAbility;
+        $middleware = new CheckScopes;
         $request = Mockery::mock();
         $request->shouldReceive('user')->andReturn($user = Mockery::mock());
         $user->shouldReceive('currentAccessToken')->andReturn($token = Mockery::mock());
@@ -51,7 +51,7 @@ class CheckForAnyAbilityTest extends TestCase
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
-        $middleware = new CheckForAnyAbility;
+        $middleware = new CheckScopes;
         $request = Mockery::mock();
         $request->shouldReceive('user')->once()->andReturn(null);
 
@@ -64,7 +64,7 @@ class CheckForAnyAbilityTest extends TestCase
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
-        $middleware = new CheckForAnyAbility;
+        $middleware = new CheckScopes;
         $request = Mockery::mock();
         $request->shouldReceive('user')->andReturn($user = Mockery::mock());
         $user->shouldReceive('currentAccessToken')->andReturn(null);

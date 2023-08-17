@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Sanctum\Tests;
+namespace Laravel\Sanctum\Tests\Feature;
 
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
@@ -13,19 +13,16 @@ use Laravel\Sanctum\Http\Middleware\CheckForAnyScope;
 use Laravel\Sanctum\Http\Middleware\CheckScopes;
 use Laravel\Sanctum\Sanctum;
 use Laravel\Sanctum\SanctumServiceProvider;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
 class ActingAsTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
-    {
-        $app['config']->set('database.default', 'testbench');
+    use WithWorkbench;
 
-        $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
-        ]);
+    protected function defineEnvironment($app)
+    {
+        $app['config']->set('database.default', 'testing');
     }
 
     public function testActingAsWhenTheRouteIsProtectedByAuthMiddlware()
@@ -107,7 +104,7 @@ class ActingAsTest extends TestCase
 
     public function testActingAsWhenTheRouteIsProtectedUsingAbilities()
     {
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+        $this->artisan('migrate', ['--database' => 'testing'])->run();
 
         $this->withoutExceptionHandling();
 
@@ -132,7 +129,7 @@ class ActingAsTest extends TestCase
 
     public function testActingAsWhenKeyHasAnyAbility()
     {
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+        $this->artisan('migrate', ['--database' => 'testing'])->run();
 
         $this->withoutExceptionHandling();
 
@@ -153,11 +150,6 @@ class ActingAsTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('bar');
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [SanctumServiceProvider::class];
     }
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Sanctum\Tests;
+namespace Laravel\Sanctum\Tests\Unit;
 
 use Laravel\Sanctum\PersonalAccessToken;
 use PHPUnit\Framework\TestCase;

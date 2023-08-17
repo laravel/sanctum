@@ -7,10 +7,13 @@ use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\TransientToken;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
 class HasApiTokensTest extends TestCase
 {
+    use WithWorkbench;
+
     public function test_tokens_can_be_created()
     {
         $class = new ClassThatHasApiTokens;
@@ -47,7 +50,7 @@ class HasApiTokensTest extends TestCase
 
     public function test_token_checksum_is_valid()
     {
-        $config = require __DIR__.'/../config/sanctum.php';
+        $config = require __DIR__.'/../../config/sanctum.php';
         $this->app['config']->set('sanctum.token_prefix', $config['token_prefix']);
 
         $class = new ClassThatHasApiTokens;

@@ -3,30 +3,30 @@
 namespace Laravel\Sanctum\Tests;
 
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\SanctumServiceProvider;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
 class PruneExpiredTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
-    {
-        $app['config']->set('database.default', 'testbench');
+    use RefreshDatabase, WithWorkbench;
 
-        $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
-        ]);
+    protected function defineEnvironment($app)
+    {
+        $app['config']->set('database.default', 'testing');
+    }
+
+    protected function defineDatabaseMigrations()
+    {
+        $this->loadLaravelMigrations();
     }
 
     public function test_can_delete_expired_tokens_with_integer_expiration()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
         config(['sanctum.expiration' => 60]);
 
         $user = UserForPruneExpiredTest::forceCreate([
@@ -69,9 +69,6 @@ class PruneExpiredTest extends TestCase
 
     public function test_cant_delete_expired_tokens_with_null_expiration()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
         config(['sanctum.expiration' => null]);
 
         $user = UserForPruneExpiredTest::forceCreate([
@@ -96,9 +93,6 @@ class PruneExpiredTest extends TestCase
 
     public function test_can_delete_expired_tokens_with_expires_at_expiration()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
         config(['sanctum.expiration' => 60]);
 
         $user = UserForPruneExpiredTest::forceCreate([
@@ -137,11 +131,6 @@ class PruneExpiredTest extends TestCase
         $this->assertDatabaseMissing('personal_access_tokens', ['name' => 'Test_1']);
         $this->assertDatabaseHas('personal_access_tokens', ['name' => 'Test_2']);
         $this->assertDatabaseHas('personal_access_tokens', ['name' => 'Test_3']);
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [SanctumServiceProvider::class];
     }
 }
 
