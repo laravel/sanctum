@@ -13,7 +13,8 @@
 >
     <testsuites>
         <testsuite name="Sanctum Test Suite">
-            <directory suffix=".php">./tests/</directory>
+            <directory suffix=".php">./tests/Unit</directory>
+            <directory suffix=".php">./tests/Feature</directory>
         </testsuite>
     </testsuites>
 </phpunit>
