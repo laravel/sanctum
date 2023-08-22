@@ -52,7 +52,6 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
         ])->assertOk()
             ->assertSee($user->name);
 
-
         $user->password = bcrypt('laravel');
         $user->save();
 
@@ -61,7 +60,6 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
         ])->assertOk()
             ->assertSee($user->name);
     }
-
 
     public function test_middleware_can_deauthorize_valid_user_using_acting_as_after_password_change()
     {
