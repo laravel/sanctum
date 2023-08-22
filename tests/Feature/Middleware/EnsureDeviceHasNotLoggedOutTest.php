@@ -31,13 +31,13 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
         $router->get('/sanctum/api/user', function (Request $request) {
             abort_if(is_null($request->user()), 401);
 
-            return $request->user()->name;
+            return $request->user()->email;
         })->middleware('auth:sanctum', EnsureDeviceHasNotBeenLoggedOut::class);
 
         $router->get('/sanctum/web/user', function (Request $request) {
             abort_if(is_null($request->user()), 401);
 
-            return $request->user()->name;
+            return $request->user()->email;
         })->middleware('web', 'auth:sanctum', EnsureDeviceHasNotBeenLoggedOut::class);
     }
 
@@ -50,7 +50,7 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
         $this->getJson('/sanctum/api/user', [
             'Authorization' => 'Bearer test',
         ])->assertOk()
-            ->assertSee($user->name);
+            ->assertSee($user->email);
 
         $user->password = bcrypt('laravel');
         $user->save();
@@ -58,7 +58,7 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
         $this->getJson('/sanctum/api/user', [
             'Authorization' => 'Bearer test',
         ])->assertOk()
-            ->assertSee($user->name);
+            ->assertSee($user->email);
     }
 
     public function test_middleware_can_deauthorize_valid_user_using_acting_as_after_password_change()
@@ -69,7 +69,7 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
 
         $this->getJson('/sanctum/web/user')
             ->assertOk()
-            ->assertSee($user->name);
+            ->assertSee($user->email);
 
         $user->password = bcrypt('laravel');
         $user->save();
