@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+
 use function Orchestra\Testbench\package_path;
 
 class DefaultConfigContainsAppUrlTest extends TestCase

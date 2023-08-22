@@ -2,7 +2,6 @@
 
 namespace Laravel\Sanctum\Tests\Feature;
 
-use Workbench\App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Sanctum\Http\Middleware\CheckAbilities;
@@ -12,6 +11,7 @@ use Laravel\Sanctum\Http\Middleware\CheckScopes;
 use Laravel\Sanctum\Sanctum;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use Workbench\App\Models\User;
 
 class ActingAsTest extends TestCase
 {

@@ -15,10 +15,10 @@ use Laravel\Sanctum\Sanctum;
 use Mockery;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use stdClass;
 use Workbench\App\Models\User;
 use Workbench\Database\Factories\PersonalAccessTokenFactory;
 use Workbench\Database\Factories\UserFactory;
-use stdClass;
 
 class GuardTest extends TestCase
 {
@@ -284,7 +284,6 @@ class GuardTest extends TestCase
 
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
-
 
         PersonalAccessTokenFactory::new()->for(
             $user = UserFactory::new()->create(), 'tokenable'
