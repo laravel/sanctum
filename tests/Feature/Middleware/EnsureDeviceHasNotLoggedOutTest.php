@@ -28,7 +28,9 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
     protected function defineRoutes($router)
     {
         $router->get('/sanctum/user', function (Request $request) {
-            return $request->user()?->name ?? null;
+            abort_if(is_null($request->user()), 401);
+
+            return $request->user()->name;
         })->middleware('auth:sanctum');
     }
 
@@ -38,9 +40,9 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
             $user = UserFactory::new()->create(), 'tokenable')
         ->create();
 
-        $this->getJson('/sanctum/user', ray()->pass([
+        $this->getJson('/sanctum/user', [
             'Authorization' => 'Bearer test'
-        ]))->assertOk()
+        ])->assertOk()
             ->assertSee($user->name);
     }
 
@@ -55,5 +57,20 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
         $this->getJson('/sanctum/user')
             ->assertOk()
             ->assertSee($user->name);
+    }
+
+    public function test_middleware_can_deauthorize_valid_user_using_acting_as_after_password_change()
+    {
+        $token = PersonalAccessTokenFactory::new()->for(
+            $user = UserFactory::new()->create(), 'tokenable')
+        ->create();
+
+        Sanctum::actingAs($user);
+
+        $user->password = bcrypt('laravel');
+        $user->save();
+
+        $this->getJson('/sanctum/user')
+            ->assertStatus(401);
     }
 }
