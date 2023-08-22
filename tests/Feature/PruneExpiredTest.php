@@ -2,13 +2,11 @@
 
 namespace Laravel\Sanctum\Tests\Feature;
 
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
-use Laravel\Sanctum\HasApiTokens;
-use Laravel\Sanctum\PersonalAccessToken;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use Workbench\Database\Factories\PersonalAccessTokenFactory;
+use Workbench\Database\Factories\UserFactory;
 
 class PruneExpiredTest extends TestCase
 {
@@ -19,40 +17,31 @@ class PruneExpiredTest extends TestCase
         $app['config']->set('database.default', 'testing');
     }
 
-    protected function defineDatabaseMigrations()
-    {
-        $this->loadLaravelMigrations();
-    }
-
     public function test_can_delete_expired_tokens_with_integer_expiration()
     {
         config(['sanctum.expiration' => 60]);
 
-        $user = UserForPruneExpiredTest::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-        ]);
+        $user = UserFactory::new()->create();
 
-        $token_1 = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        $token_1 = PersonalAccessTokenFactory::new()->for(
+            $user, 'tokenable'
+        )->create([
             'name' => 'Test_1',
             'token' => hash('sha256', 'test_1'),
             'created_at' => now()->subMinutes(181),
         ]);
 
-        $token_2 = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        $token_2 = PersonalAccessTokenFactory::new()->for(
+            $user, 'tokenable'
+        )->create([
             'name' => 'Test_2',
             'token' => hash('sha256', 'test_2'),
             'created_at' => now()->subMinutes(179),
         ]);
 
-        $token_3 = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        $token_3 = PersonalAccessTokenFactory::new()->for(
+            $user, 'tokenable'
+        )->create([
             'name' => 'Test_3',
             'token' => hash('sha256', 'test_3'),
             'created_at' => now()->subMinutes(121),
@@ -70,15 +59,9 @@ class PruneExpiredTest extends TestCase
     {
         config(['sanctum.expiration' => null]);
 
-        $user = UserForPruneExpiredTest::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-        ]);
-
-        $token = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        $token = PersonalAccessTokenFactory::new()->for(
+            UserFactory::new(), 'tokenable'
+        )->create([
             'name' => 'Test',
             'token' => hash('sha256', 'test'),
             'created_at' => now()->subMinutes(70),
@@ -94,31 +77,27 @@ class PruneExpiredTest extends TestCase
     {
         config(['sanctum.expiration' => 60]);
 
-        $user = UserForPruneExpiredTest::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-        ]);
+        $user = UserFactory::new()->create();
 
-        $token_1 = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        $token_1 = PersonalAccessTokenFactory::new()->for(
+            $user, 'tokenable'
+        )->create([
             'name' => 'Test_1',
             'token' => hash('sha256', 'test_1'),
             'expires_at' => now()->subMinutes(121),
         ]);
 
-        $token_2 = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        $token_2 = PersonalAccessTokenFactory::new()->for(
+            $user, 'tokenable'
+        )->create([
             'name' => 'Test_2',
             'token' => hash('sha256', 'test_2'),
             'expires_at' => now()->subMinutes(119),
         ]);
 
-        $token_3 = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        $token_3 = PersonalAccessTokenFactory::new()->for(
+            $user, 'tokenable'
+        )->create([
             'name' => 'Test_3',
             'token' => hash('sha256', 'test_3'),
             'expires_at' => null,
@@ -131,11 +110,4 @@ class PruneExpiredTest extends TestCase
         $this->assertDatabaseHas('personal_access_tokens', ['name' => 'Test_2']);
         $this->assertDatabaseHas('personal_access_tokens', ['name' => 'Test_3']);
     }
-}
-
-class UserForPruneExpiredTest extends User implements HasApiTokensContract
-{
-    use HasApiTokens;
-
-    protected $table = 'users';
 }
