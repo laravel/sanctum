@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v3.2.5...3.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v3.2.6...3.x)
+
+## [v3.2.6](https://github.com/laravel/sanctum/compare/v3.2.5...v3.2.6) - 2023-08-22
+
+- Make tokens identifiable with prefix and checksum by [@marzvrover](https://github.com/marzvrover) in https://github.com/laravel/sanctum/pull/459
+- Add deprecated annotation in `MissingScopeException` by [@hungthai1401](https://github.com/hungthai1401) in https://github.com/laravel/sanctum/pull/462
 
 ## [v3.2.5](https://github.com/laravel/sanctum/compare/v3.2.4...v3.2.5) - 2023-05-01
 
