@@ -41,7 +41,7 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
         ->create();
 
         $this->getJson('/sanctum/user', [
-            'Authorization' => 'Bearer test'
+            'Authorization' => 'Bearer test',
         ])->assertOk()
             ->assertSee($user->name);
     }
