@@ -43,7 +43,7 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
 
     public function test_middleware_can_authorize_valid_user_using_header()
     {
-        $token = PersonalAccessTokenFactory::new()->for(
+        PersonalAccessTokenFactory::new()->for(
             $user = UserFactory::new()->create(), 'tokenable')
         ->create();
 
@@ -51,26 +51,21 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
             'Authorization' => 'Bearer test',
         ])->assertOk()
             ->assertSee($user->name);
-    }
 
-    public function test_middleware_can_authorize_valid_user_using_acting_as()
-    {
-        $token = PersonalAccessTokenFactory::new()->for(
-            $user = UserFactory::new()->create(), 'tokenable')
-        ->create();
 
-        Sanctum::actingAs($user);
+        $user->password = bcrypt('laravel');
+        $user->save();
 
-        $this->getJson('/sanctum/web/user')
-            ->assertOk()
+        $this->getJson('/sanctum/api/user', [
+            'Authorization' => 'Bearer test',
+        ])->assertOk()
             ->assertSee($user->name);
     }
 
+
     public function test_middleware_can_deauthorize_valid_user_using_acting_as_after_password_change()
     {
-        $token = PersonalAccessTokenFactory::new()->for(
-            $user = UserFactory::new()->create(), 'tokenable')
-        ->create();
+        $user = UserFactory::new()->create();
 
         Sanctum::actingAs($user);
 
