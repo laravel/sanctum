@@ -52,6 +52,7 @@ class EnsureFrontendRequestsAreStateful
             \Illuminate\Session\Middleware\StartSession::class,
             config('sanctum.middleware.validate_csrf_token'),
             config('sanctum.middleware.verify_csrf_token', \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class),
+            config('sanctum.middleware.ensure_not_logged_out', EnsureDeviceHasNotBeenLoggedOut::class),
         ])));
 
         array_unshift($middleware, function ($request, $next) {
