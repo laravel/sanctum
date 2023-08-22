@@ -75,7 +75,6 @@ class EnsureDeviceHasNotBeenLoggedOut
         throw new AuthenticationException('Unauthenticated.', [$this->auth->getDefaultDriver()]);
     }
 
-
     /**
      * Store the user's current password hash in the session.
      *
