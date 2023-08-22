@@ -2,11 +2,9 @@
 
 namespace Laravel\Sanctum\Tests\Feature;
 
-use Illuminate\Foundation\Auth\User;
+use Workbench\App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
-use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\Http\Middleware\CheckAbilities;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyScope;
@@ -32,7 +30,7 @@ class ActingAsTest extends TestCase
             return 'bar';
         })->middleware('auth:sanctum');
 
-        Sanctum::actingAs($user = new SanctumUser);
+        Sanctum::actingAs($user = new User);
         $user->id = 1;
 
         $response = $this->get('/foo');
@@ -49,7 +47,7 @@ class ActingAsTest extends TestCase
             return 'bar';
         })->middleware(CheckScopes::class.':admin,footest');
 
-        Sanctum::actingAs(new SanctumUser(), ['admin', 'footest']);
+        Sanctum::actingAs(new User(), ['admin', 'footest']);
 
         $response = $this->get('/foo');
         $response->assertSuccessful();
@@ -64,7 +62,7 @@ class ActingAsTest extends TestCase
             return 'bar';
         })->middleware(CheckForAnyScope::class.':admin,footest');
 
-        Sanctum::actingAs(new SanctumUser(), ['footest']);
+        Sanctum::actingAs(new User(), ['footest']);
 
         $response = $this->get('/foo');
         $response->assertSuccessful();
@@ -79,7 +77,7 @@ class ActingAsTest extends TestCase
             return 'bar';
         })->middleware(CheckAbilities::class.':admin,footest');
 
-        Sanctum::actingAs(new SanctumUser(), ['admin', 'footest']);
+        Sanctum::actingAs(new User(), ['admin', 'footest']);
 
         $response = $this->get('/foo');
         $response->assertSuccessful();
@@ -94,7 +92,7 @@ class ActingAsTest extends TestCase
             return 'bar';
         })->middleware(CheckForAnyAbility::class.':admin,footest');
 
-        Sanctum::actingAs(new SanctumUser(), ['footest']);
+        Sanctum::actingAs(new User(), ['footest']);
 
         $response = $this->get('/foo');
         $response->assertSuccessful();
@@ -115,7 +113,7 @@ class ActingAsTest extends TestCase
             return response(403);
         })->middleware('auth:sanctum');
 
-        $user = new SanctumUser;
+        $user = new User;
         $user->id = 1;
 
         Sanctum::actingAs($user, ['baz']);
@@ -140,7 +138,7 @@ class ActingAsTest extends TestCase
             return response(403);
         })->middleware('auth:sanctum');
 
-        $user = new SanctumUser;
+        $user = new User;
         $user->id = 1;
 
         Sanctum::actingAs($user, ['*']);
@@ -150,9 +148,4 @@ class ActingAsTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('bar');
     }
-}
-
-class SanctumUser extends User implements HasApiTokensContract
-{
-    use HasApiTokens;
 }

@@ -34,7 +34,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Laravel\\Sanctum\\Tests\\": "tests/"
+            "Laravel\\Sanctum\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/"
         }
     },
     "extra": {
