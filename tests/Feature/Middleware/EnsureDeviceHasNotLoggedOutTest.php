@@ -4,6 +4,7 @@ namespace Laravel\Sanctum\Tests\Feature\Middleware;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\Http\Middleware\EnsureDeviceHasNotBeenLoggedOut;
 use Laravel\Sanctum\Sanctum;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
@@ -27,11 +28,17 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
 
     protected function defineRoutes($router)
     {
-        $router->get('/sanctum/user', function (Request $request) {
+        $router->get('/sanctum/api/user', function (Request $request) {
             abort_if(is_null($request->user()), 401);
 
             return $request->user()->name;
-        })->middleware('auth:sanctum');
+        })->middleware('auth:sanctum', EnsureDeviceHasNotBeenLoggedOut::class);
+
+        $router->get('/sanctum/web/user', function (Request $request) {
+            abort_if(is_null($request->user()), 401);
+
+            return $request->user()->name;
+        })->middleware('web', 'auth:sanctum', EnsureDeviceHasNotBeenLoggedOut::class);
     }
 
     public function test_middleware_can_authorize_valid_user_using_header()
@@ -40,7 +47,7 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
             $user = UserFactory::new()->create(), 'tokenable')
         ->create();
 
-        $this->getJson('/sanctum/user', [
+        $this->getJson('/sanctum/api/user', [
             'Authorization' => 'Bearer test',
         ])->assertOk()
             ->assertSee($user->name);
@@ -54,7 +61,7 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $this->getJson('/sanctum/user')
+        $this->getJson('/sanctum/web/user')
             ->assertOk()
             ->assertSee($user->name);
     }
@@ -67,10 +74,14 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
 
         Sanctum::actingAs($user);
 
+        $this->getJson('/sanctum/web/user')
+            ->assertOk()
+            ->assertSee($user->name);
+
         $user->password = bcrypt('laravel');
         $user->save();
 
-        $this->getJson('/sanctum/user')
+        $this->getJson('/sanctum/web/user')
             ->assertStatus(401);
     }
 }
