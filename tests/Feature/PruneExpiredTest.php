@@ -19,11 +19,6 @@ class PruneExpiredTest extends TestCase
         $app['config']->set('database.default', 'testing');
     }
 
-    protected function defineDatabaseMigrations()
-    {
-        $this->loadLaravelMigrations();
-    }
-
     public function test_can_delete_expired_tokens_with_integer_expiration()
     {
         config(['sanctum.expiration' => 60]);
