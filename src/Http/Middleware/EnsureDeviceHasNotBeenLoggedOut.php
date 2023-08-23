@@ -44,12 +44,12 @@ class EnsureDeviceHasNotBeenLoggedOut
                 if ($request->session()->get($key) !== $request->user()->getAuthPassword()) {
                     $this->logout($request);
                 }
-            } else {
-                $this->storePasswordHashInSession($request);
             }
+
+            $this->storePasswordHashInSession($request);
         }
 
-        return tap($next($request), fn () => $this->storePasswordHashInSession($request));
+        return $next($request);
     }
 
     /**
