@@ -49,7 +49,9 @@ class EnsureDeviceHasNotBeenLoggedOut
                 ->filter(fn ($quard, $driver) => $request->session()->get('password_hash_'.$driver) !== $request->user()->getAuthPassword());
 
             if ($shouldLoggedOut->isNotEmpty()) {
-                $shouldLoggedOut->each(fn ($guard) => $this->logout($request, $guard));
+                $shouldLoggedOut->each->logoutCurrentDevice();
+
+                $request->session()->flush();
 
                 throw new AuthenticationException('Unauthenticated.', [...$shouldLoggedOut->keys()->all(), 'sanctum']);
             }
@@ -58,20 +60,6 @@ class EnsureDeviceHasNotBeenLoggedOut
         }
 
         return $next($request);
-    }
-
-    /**
-     * Log the user out of the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\SessionGuard  $guard
-     * @return void
-     */
-    protected function logout(Request $request, SessionGuard $guard)
-    {
-        $guard->logoutCurrentDevice();
-
-        $request->session()->flush();
     }
 
     /**
