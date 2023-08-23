@@ -30,23 +30,26 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
 
     protected function defineRoutes($router)
     {
+        $webMiddleware = ['web', 'auth.session'];
+        $apiMiddleware = [EnsureFrontendRequestsAreStateful::class, 'api', 'auth:sanctum'];
+
         $router->get('/sanctum/api/user', function (Request $request) {
             abort_if(is_null($request->user()), 401);
 
             return $request->user()->email;
-        })->middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum']);
+        })->middleware($apiMiddleware);
 
         $router->get('/sanctum/web/user', function (Request $request) {
             abort_if(is_null($request->user()), 401);
 
             return $request->user()->email;
-        })->middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum']);
+        })->middleware($apiMiddleware);
 
         $router->get('web/user', function (Request $request) {
             abort_if(is_null($request->user()), 401);
 
             return $request->user()->email;
-        })->middleware([EnsureFrontendRequestsAreStateful::class, 'web']);
+        })->middleware($webMiddleware);
     }
 
     public function test_middleware_can_authorize_valid_user_using_header()
