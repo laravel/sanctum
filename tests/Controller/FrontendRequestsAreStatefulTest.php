@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Sanctum\Tests\Feature\Middleware;
+namespace Laravel\Sanctum\Tests\Controller;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ use Orchestra\Testbench\TestCase;
 use Workbench\App\Models\User;
 use Workbench\Database\Factories\UserFactory;
 
-class EnsureDeviceHasNotLoggedOutTest extends TestCase
+class FrontendRequestsAreStatefulTest extends TestCase
 {
     use RefreshDatabase, WithWorkbench;
 
