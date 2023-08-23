@@ -58,7 +58,7 @@ class FrontendRequestsAreStatefulTest extends TestCase
             return $request->user()->email;
         })->middleware($apiMiddleware);
     }
-    
+
     public function test_middleware_keeps_session_logged_in_when_sanctum_request_changes_password()
     {
         $user = UserFactory::new()->create();
