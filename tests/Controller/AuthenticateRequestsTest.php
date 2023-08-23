@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravel\Sanctum\Tests\Feature\Middleware;
+namespace Laravel\Sanctum\Tests\Controller;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ use Workbench\App\Models\User;
 use Workbench\Database\Factories\PersonalAccessTokenFactory;
 use Workbench\Database\Factories\UserFactory;
 
-class EnsureDeviceHasNotLoggedOutTest extends TestCase
+class AuthenticateRequestsTest extends TestCase
 {
     use RefreshDatabase, WithWorkbench;
 
@@ -52,58 +52,31 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
         })->middleware($webMiddleware);
     }
 
+    public function test_can_authorize_valid_user_using_authorization_header()
+    {
+        PersonalAccessTokenFactory::new()->for(
+            $user = UserFactory::new()->create(), 'tokenable'
+        )->create();
+
+        $this->getJson('/sanctum/api/user', ['Authorization' => 'Bearer test'])
+            ->assertOk()
+            ->assertSee($user->email);
+    }
+
     /**
      * @dataProvider sanctumGuardsDataProvider
      */
-    public function test_middleware_can_deauthorize_valid_user_using_acting_as_after_password_change_from_sanctum_guard($guard)
+    public function test_can_authorize_valid_user_using_sanctum_acting_as($guard)
     {
-        $user = UserFactory::new()->create();
+        PersonalAccessTokenFactory::new()->for(
+            $user = UserFactory::new()->create(), 'tokenable'
+        )->create();
 
         Sanctum::actingAs($user, [], $guard);
 
-        $this->getJson('/web/user', [
-            'origin' => config('app.url'),
-        ])
+        $this->getJson('/sanctum/api/user')
             ->assertOk()
             ->assertSee($user->email);
-
-        $this->getJson('/sanctum/web/user', [
-            'origin' => config('app.url'),
-        ])
-            ->assertOk()
-            ->assertSee($user->email);
-
-        $user->password = bcrypt('laravel');
-        $user->save();
-
-        $this->getJson('/sanctum/web/user', [
-            'origin' => config('app.url'),
-        ])->assertStatus(401);
-    }
-
-    public function test_middleware_can_deauthorize_valid_user_using_acting_as_after_password_change_coming_from_web_guard()
-    {
-        $user = UserFactory::new()->create();
-
-        $this->actingAs($user)
-            ->getJson('/web/user', [
-                'origin' => config('app.url'),
-            ])
-            ->assertOk()
-            ->assertSee($user->email);
-
-        $this->getJson('/sanctum/web/user', [
-            'origin' => config('app.url'),
-        ])
-            ->assertOk()
-            ->assertSee($user->email);
-
-        $user->password = bcrypt('laravel');
-        $user->save();
-
-        $this->getJson('/sanctum/web/user', [
-            'origin' => config('app.url'),
-        ])->assertStatus(401);
     }
 
     public static function sanctumGuardsDataProvider()
