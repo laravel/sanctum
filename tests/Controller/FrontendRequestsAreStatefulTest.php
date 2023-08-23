@@ -49,6 +49,44 @@ class FrontendRequestsAreStatefulTest extends TestCase
 
             return $request->user()->email;
         })->middleware($webMiddleware);
+
+        $router->post('/sanctum/api/password', function (Request $request) {
+            abort_if(is_null($request->user()), 401);
+
+            $request->user()->update(['password' => bcrypt('laravel')]);
+
+            return $request->user()->email;
+        })->middleware($apiMiddleware);
+    }
+    
+    public function test_middleware_keeps_session_logged_in_when_sanctum_request_changes_password()
+    {
+        $user = UserFactory::new()->create();
+
+        $this->actingAs($user)
+            ->getJson('/web/user', [
+                'origin' => config('app.url'),
+            ])
+            ->assertOk()
+            ->assertSee($user->email);
+
+        $this->getJson('/sanctum/api/user', [
+            'origin' => config('app.url'),
+        ])
+            ->assertOk()
+            ->assertSee($user->email);
+
+        $this->postJson('/sanctum/api/password', [
+            'origin' => config('app.url'),
+        ])
+            ->assertOk()
+            ->assertSee($user->email);
+
+        $this->getJson('/sanctum/api/user', [
+            'origin' => config('app.url'),
+        ])
+            ->assertOk()
+            ->assertSee($user->email);
     }
 
     /**
