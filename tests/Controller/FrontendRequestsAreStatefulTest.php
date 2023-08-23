@@ -70,7 +70,7 @@ class FrontendRequestsAreStatefulTest extends TestCase
             ->assertOk()
             ->assertSee($user->email);
 
-        $this->actingAs($user)->getJson('/sanctum/api/user', [
+        $this->getJson('/sanctum/api/user', [
             'origin' => config('app.url'),
         ])
             ->assertOk()
