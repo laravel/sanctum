@@ -40,7 +40,7 @@ class AuthenticateSession
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->hasSession() || ! $request->user()) {
+        if (! ($request->hasSession() && $request->user())) {
             return $next($request);
         }
 
@@ -48,17 +48,15 @@ class AuthenticateSession
             ->mapWithKeys(fn ($guard) => [$guard => $this->auth->guard($guard)])
             ->filter(fn ($guard) => $guard instanceof SessionGuard);
 
-        if ($request->user()) {
-            $shouldLoggedOut = $guards->filter(fn ($guard, $driver) => $request->session()->has('password_hash_'.$driver))
-                ->filter(fn ($quard, $driver) => $request->session()->get('password_hash_'.$driver) !== $request->user()->getAuthPassword());
+        $shouldLoggedOut = $guards->filter(fn ($guard, $driver) => $request->session()->has('password_hash_'.$driver))
+            ->filter(fn ($quard, $driver) => $request->session()->get('password_hash_'.$driver) !== $request->user()->getAuthPassword());
 
-            if ($shouldLoggedOut->isNotEmpty()) {
-                $shouldLoggedOut->each->logoutCurrentDevice();
+        if ($shouldLoggedOut->isNotEmpty()) {
+            $shouldLoggedOut->each->logoutCurrentDevice();
 
-                $request->session()->flush();
+            $request->session()->flush();
 
-                throw new AuthenticationException('Unauthenticated.', [...$shouldLoggedOut->keys()->all(), 'sanctum']);
-            }
+            throw new AuthenticationException('Unauthenticated.', [...$shouldLoggedOut->keys()->all(), 'sanctum']);
         }
 
         return tap($next($request), function () use ($request, $guards) {
