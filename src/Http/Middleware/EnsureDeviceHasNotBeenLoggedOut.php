@@ -54,7 +54,7 @@ class EnsureDeviceHasNotBeenLoggedOut
                 throw new AuthenticationException('Unauthenticated.', [...$shouldLoggedOut->keys()->all(), 'sanctum']);
             }
 
-            $this->storePasswordHashInSession($request, $guards->values()->first());
+            $this->storePasswordHashInSession($request, $guards->keys()->first());
         }
 
         return $next($request);
@@ -78,17 +78,17 @@ class EnsureDeviceHasNotBeenLoggedOut
      * Store the user's current password hash in the session.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\SessionGuard  $guard
+     * @param  string  $guard
      * @return void
      */
-    protected function storePasswordHashInSession($request, SessionGuard $guard)
+    protected function storePasswordHashInSession($request, string $guard)
     {
         if (! $request->user()) {
             return;
         }
 
         $request->session()->put([
-            "password_hash_{$guard->name}" => $request->user()->getAuthPassword(),
+            "password_hash_{$guard}" => $request->user()->getAuthPassword(),
         ]);
     }
 }
