@@ -49,7 +49,7 @@ class EnsureDeviceHasNotBeenLoggedOut
             }
         }
 
-        return $next($request);
+        return tap($next($request), fn () => $this->storePasswordHashInSession($request));
     }
 
     /**
