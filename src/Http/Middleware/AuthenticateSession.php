@@ -40,11 +40,15 @@ class AuthenticateSession
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->hasSession()) {
-            $guards = Collection::make(Arr::wrap(config('sanctum.guard')))
-                ->mapWithKeys(fn ($guard) => [$guard => $this->auth->guard($guard)])
-                ->filter(fn ($guard) => $guard instanceof SessionGuard);
+        if (! $request->hasSession() || ! $request->user()) {
+            return $next($request);
+        }
 
+        $guards = Collection::make(Arr::wrap(config('sanctum.guard')))
+            ->mapWithKeys(fn ($guard) => [$guard => $this->auth->guard($guard)])
+            ->filter(fn ($guard) => $guard instanceof SessionGuard);
+
+        if ($request->hasSession()) {
             $shouldLoggedOut = $guards->filter(fn ($guard, $driver) => $request->session()->has('password_hash_'.$driver))
                 ->filter(fn ($quard, $driver) => $request->session()->get('password_hash_'.$driver) !== $request->user()->getAuthPassword());
 
@@ -55,11 +59,13 @@ class AuthenticateSession
 
                 throw new AuthenticationException('Unauthenticated.', [...$shouldLoggedOut->keys()->all(), 'sanctum']);
             }
-
-            $this->storePasswordHashInSession($request, $guards->keys()->first());
         }
 
-        return $next($request);
+        return tap($next($request), function () use ($request, $guards) {
+            if (! is_null($request->user())) {
+                $this->storePasswordHashInSession($request, $guards->keys()->first());
+            }
+        });
     }
 
     /**
