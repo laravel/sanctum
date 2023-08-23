@@ -48,7 +48,7 @@ class AuthenticateSession
             ->mapWithKeys(fn ($guard) => [$guard => $this->auth->guard($guard)])
             ->filter(fn ($guard) => $guard instanceof SessionGuard);
 
-        if ($request->hasSession()) {
+        if ($request->user()) {
             $shouldLoggedOut = $guards->filter(fn ($guard, $driver) => $request->session()->has('password_hash_'.$driver))
                 ->filter(fn ($quard, $driver) => $request->session()->get('password_hash_'.$driver) !== $request->user()->getAuthPassword());
 
