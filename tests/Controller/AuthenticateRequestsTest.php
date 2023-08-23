@@ -30,7 +30,6 @@ class AuthenticateRequestsTest extends TestCase
 
     protected function defineRoutes($router)
     {
-        $webMiddleware = ['web', 'auth.session'];
         $apiMiddleware = [EnsureFrontendRequestsAreStateful::class, 'api', 'auth:sanctum'];
 
         $router->get('/sanctum/api/user', function (Request $request) {
@@ -44,12 +43,6 @@ class AuthenticateRequestsTest extends TestCase
 
             return $request->user()->email;
         })->middleware($apiMiddleware);
-
-        $router->get('web/user', function (Request $request) {
-            abort_if(is_null($request->user()), 401);
-
-            return $request->user()->email;
-        })->middleware($webMiddleware);
     }
 
     public function test_can_authorize_valid_user_using_authorization_header()
