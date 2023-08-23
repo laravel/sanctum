@@ -4,7 +4,7 @@ namespace Laravel\Sanctum\Tests\Feature\Middleware;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
-use Laravel\Sanctum\Http\Middleware\EnsureDeviceHasNotBeenLoggedOut;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Laravel\Sanctum\Sanctum;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
@@ -23,6 +23,8 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
             'auth.guards.sanctum.provider' => 'users',
             'auth.providers.users.model' => User::class,
             'database.default' => 'testing',
+            'sanctum.middleware.encrypt_cookies' => \Illuminate\Cookie\Middleware\EncryptCookies::class,
+            'sanctum.middleware.verify_csrf_token' => \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
         ]);
     }
 
@@ -32,20 +34,26 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
             abort_if(is_null($request->user()), 401);
 
             return $request->user()->email;
-        })->middleware('auth:sanctum', EnsureDeviceHasNotBeenLoggedOut::class);
+        })->middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum']);
 
         $router->get('/sanctum/web/user', function (Request $request) {
             abort_if(is_null($request->user()), 401);
 
             return $request->user()->email;
-        })->middleware('web', 'auth:sanctum', EnsureDeviceHasNotBeenLoggedOut::class);
+        })->middleware([EnsureFrontendRequestsAreStateful::class, 'auth:sanctum']);
+
+        $router->get('web/user', function (Request $request) {
+            abort_if(is_null($request->user()), 401);
+
+            return $request->user()->email;
+        })->middleware([EnsureFrontendRequestsAreStateful::class, 'web']);
     }
 
     public function test_middleware_can_authorize_valid_user_using_header()
     {
         PersonalAccessTokenFactory::new()->for(
             $user = UserFactory::new()->create(), 'tokenable')
-        ->create();
+            ->create();
 
         $this->getJson('/sanctum/api/user', [
             'Authorization' => 'Bearer test',
@@ -61,20 +69,54 @@ class EnsureDeviceHasNotLoggedOutTest extends TestCase
             ->assertSee($user->email);
     }
 
-    public function test_middleware_can_deauthorize_valid_user_using_acting_as_after_password_change()
+    public function test_middleware_can_deauthorize_valid_user_using_acting_as_after_password_change_from_sanctum_guard()
     {
         $user = UserFactory::new()->create();
 
-        Sanctum::actingAs($user);
+        Sanctum::actingAs($user, [], 'web');
 
-        $this->getJson('/sanctum/web/user')
+        $this->getJson('/web/user', [
+            'origin' => config('app.url'),
+        ])
+            ->assertOk()
+            ->assertSee($user->email);
+
+        $this->getJson('/sanctum/web/user', [
+            'origin' => config('app.url'),
+        ])
             ->assertOk()
             ->assertSee($user->email);
 
         $user->password = bcrypt('laravel');
         $user->save();
 
-        $this->getJson('/sanctum/web/user')
-            ->assertStatus(401);
+        $this->getJson('/sanctum/web/user', [
+            'origin' => config('app.url'),
+        ])->assertStatus(401);
+    }
+
+    public function test_middleware_can_deauthorize_valid_user_using_acting_as_after_password_change_coming_from_web_guard()
+    {
+        $user = UserFactory::new()->create();
+
+        $this->actingAs($user)
+            ->getJson('/web/user', [
+                'origin' => config('app.url'),
+            ])
+            ->assertOk()
+            ->assertSee($user->email);
+
+        $this->getJson('/sanctum/web/user', [
+            'origin' => config('app.url'),
+        ])
+            ->assertOk()
+            ->assertSee($user->email);
+
+        $user->password = bcrypt('laravel');
+        $user->save();
+
+        $this->getJson('/sanctum/web/user', [
+            'origin' => config('app.url'),
+        ])->assertStatus(401);
     }
 }

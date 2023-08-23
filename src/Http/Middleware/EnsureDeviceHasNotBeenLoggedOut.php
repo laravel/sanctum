@@ -8,6 +8,7 @@ use Illuminate\Auth\SessionGuard;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureDeviceHasNotBeenLoggedOut
@@ -40,13 +41,20 @@ class EnsureDeviceHasNotBeenLoggedOut
     public function handle(Request $request, Closure $next): Response
     {
         if ($request->hasSession()) {
-            if ($request->session()->has($key = 'password_hash_'.$this->auth->getDefaultDriver())) {
-                if ($request->session()->get($key) !== $request->user()->getAuthPassword()) {
-                    $this->logout($request);
-                }
+            $guards = Collection::make(Arr::wrap(config('sanctum.guard')))
+                ->mapWithKeys(fn ($guard) => [$guard => $this->auth->guard($guard)])
+                ->filter(fn ($guard) => $guard instanceof SessionGuard);
+
+            $shouldLoggedOut = $guards->filter(fn ($guard, $driver) => $request->session()->has('password_hash_'.$driver))
+                ->filter(fn ($quard, $driver) => $request->session()->get('password_hash_'.$driver) !== $request->user()->getAuthPassword());
+
+            if ($shouldLoggedOut->isNotEmpty()) {
+                $shouldLoggedOut->each(fn ($guard) => $this->logout($request, $guard));
+
+                throw new AuthenticationException('Unauthenticated.', [...$shouldLoggedOut->keys()->all(), 'sanctum']);
             }
 
-            $this->storePasswordHashInSession($request);
+            $this->storePasswordHashInSession($request, $guards->keys()->first());
         }
 
         return $next($request);
@@ -57,38 +65,29 @@ class EnsureDeviceHasNotBeenLoggedOut
      *
      * @param  \Illuminate\Http\Request  $request
      * @return void
-     *
-     * @throws \Illuminate\Auth\AuthenticationException
      */
-    protected function logout(Request $request)
+    protected function logout(Request $request, SessionGuard $guard)
     {
-        foreach (Arr::wrap(config('sanctum.guard')) as $guard) {
-            tap($this->auth->guard($guard), function ($guard) {
-                if ($guard instanceof SessionGuard) {
-                    $guard->logoutCurrentDevice();
-                }
-            });
-        }
+        $guard->logoutCurrentDevice();
 
         $request->session()->flush();
-
-        throw new AuthenticationException('Unauthenticated.', [$this->auth->getDefaultDriver()]);
     }
 
     /**
      * Store the user's current password hash in the session.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  string|null  $guard
      * @return void
      */
-    protected function storePasswordHashInSession($request)
+    protected function storePasswordHashInSession($request, $guard = null)
     {
         if (! $request->user()) {
             return;
         }
 
         $request->session()->put([
-            'password_hash_'.$this->auth->getDefaultDriver() => $request->user()->getAuthPassword(),
+            'password_hash_'.($guard ?? $this->auth->getDefaultDriver()) => $request->user()->getAuthPassword(),
         ]);
     }
 }
