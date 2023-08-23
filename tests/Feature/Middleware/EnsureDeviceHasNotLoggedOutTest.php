@@ -9,7 +9,6 @@ use Laravel\Sanctum\Sanctum;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 use Workbench\App\Models\User;
-use Workbench\Database\Factories\PersonalAccessTokenFactory;
 use Workbench\Database\Factories\UserFactory;
 
 class EnsureDeviceHasNotLoggedOutTest extends TestCase
