@@ -38,6 +38,14 @@ class FrontendRequestsAreStatefulTest extends TestCase
             return $request->user()->email;
         })->middleware($apiMiddleware);
 
+        $router->post('/sanctum/api/password', function (Request $request) {
+            abort_if(is_null($request->user()), 401);
+
+            $request->user()->update(['password' => bcrypt('laravel')]);
+
+            return $request->user()->email;
+        })->middleware($apiMiddleware);
+
         $router->get('/sanctum/web/user', function (Request $request) {
             abort_if(is_null($request->user()), 401);
 
@@ -49,14 +57,6 @@ class FrontendRequestsAreStatefulTest extends TestCase
 
             return $request->user()->email;
         })->middleware($webMiddleware);
-
-        $router->post('/sanctum/api/password', function (Request $request) {
-            abort_if(is_null($request->user()), 401);
-
-            $request->user()->update(['password' => bcrypt('laravel')]);
-
-            return $request->user()->email;
-        })->middleware($apiMiddleware);
     }
 
     public function test_middleware_keeps_session_logged_in_when_sanctum_request_changes_password()
