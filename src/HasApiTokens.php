@@ -49,7 +49,7 @@ trait HasApiTokens
             '%s%s%s',
             config('sanctum.token_prefix', ''),
             $tokenEntropy = Str::random(40),
-            hash('CRC32', $tokenEntropy)
+            hash('crc32b', $tokenEntropy)
         );
 
         $token = $this->tokens()->create([
