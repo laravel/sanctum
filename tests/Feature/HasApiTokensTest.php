@@ -62,7 +62,7 @@ class HasApiTokensTest extends TestCase
         $tokenEntropy = substr(end($splitToken), 0, -8);
 
         $this->assertEquals(
-            hash('CRC32', $tokenEntropy),
+            hash('crc32b', $tokenEntropy),
             substr($token, -8)
         );
     }
