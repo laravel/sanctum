@@ -1,26 +1,31 @@
 <?php
 
-namespace Laravel\Sanctum\Tests;
+namespace Laravel\Sanctum\Tests\Feature;
 
 use Illuminate\Http\Request;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+
+use function Orchestra\Testbench\package_path;
 
 class DefaultConfigContainsAppUrlTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
+    use WithWorkbench;
+
+    protected function defineEnvironment($app)
     {
         putenv('APP_URL=https://www.example.com');
         $app['config']->set('app.url', 'https://www.example.com');
 
-        $config = require __DIR__.'/../config/sanctum.php';
+        $config = require package_path('config/sanctum.php');
 
         $app['config']->set('sanctum.stateful', $config['stateful']);
     }
 
     public function test_default_config_contains_app_url()
     {
-        $config = require __DIR__.'/../config/sanctum.php';
+        $config = require package_path('config/sanctum.php');
 
         $app_host = parse_url(env('APP_URL'), PHP_URL_HOST);
 
@@ -32,7 +37,7 @@ class DefaultConfigContainsAppUrlTest extends TestCase
         putenv('APP_URL');
         config(['app.url' => null]);
 
-        $config = require __DIR__.'/../config/sanctum.php';
+        $config = require package_path('config/sanctum.php');
 
         $this->assertNull(env('APP_URL'));
         $this->assertNotContains('', $config['stateful']);

@@ -1,31 +1,25 @@
 <?php
 
-namespace Laravel\Sanctum\Tests;
+namespace Laravel\Sanctum\Tests\Feature;
 
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
-use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\Http\Middleware\CheckAbilities;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyScope;
 use Laravel\Sanctum\Http\Middleware\CheckScopes;
 use Laravel\Sanctum\Sanctum;
-use Laravel\Sanctum\SanctumServiceProvider;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use Workbench\App\Models\User;
 
 class ActingAsTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
-    {
-        $app['config']->set('database.default', 'testbench');
+    use WithWorkbench;
 
-        $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
-        ]);
+    protected function defineEnvironment($app)
+    {
+        $app['config']->set('database.default', 'testing');
     }
 
     public function testActingAsWhenTheRouteIsProtectedByAuthMiddlware()
@@ -36,7 +30,7 @@ class ActingAsTest extends TestCase
             return 'bar';
         })->middleware('auth:sanctum');
 
-        Sanctum::actingAs($user = new SanctumUser);
+        Sanctum::actingAs($user = new User);
         $user->id = 1;
 
         $response = $this->get('/foo');
@@ -53,7 +47,7 @@ class ActingAsTest extends TestCase
             return 'bar';
         })->middleware(CheckScopes::class.':admin,footest');
 
-        Sanctum::actingAs(new SanctumUser(), ['admin', 'footest']);
+        Sanctum::actingAs(new User(), ['admin', 'footest']);
 
         $response = $this->get('/foo');
         $response->assertSuccessful();
@@ -68,7 +62,7 @@ class ActingAsTest extends TestCase
             return 'bar';
         })->middleware(CheckForAnyScope::class.':admin,footest');
 
-        Sanctum::actingAs(new SanctumUser(), ['footest']);
+        Sanctum::actingAs(new User(), ['footest']);
 
         $response = $this->get('/foo');
         $response->assertSuccessful();
@@ -83,7 +77,7 @@ class ActingAsTest extends TestCase
             return 'bar';
         })->middleware(CheckAbilities::class.':admin,footest');
 
-        Sanctum::actingAs(new SanctumUser(), ['admin', 'footest']);
+        Sanctum::actingAs(new User(), ['admin', 'footest']);
 
         $response = $this->get('/foo');
         $response->assertSuccessful();
@@ -98,7 +92,7 @@ class ActingAsTest extends TestCase
             return 'bar';
         })->middleware(CheckForAnyAbility::class.':admin,footest');
 
-        Sanctum::actingAs(new SanctumUser(), ['footest']);
+        Sanctum::actingAs(new User(), ['footest']);
 
         $response = $this->get('/foo');
         $response->assertSuccessful();
@@ -107,7 +101,7 @@ class ActingAsTest extends TestCase
 
     public function testActingAsWhenTheRouteIsProtectedUsingAbilities()
     {
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+        $this->artisan('migrate', ['--database' => 'testing'])->run();
 
         $this->withoutExceptionHandling();
 
@@ -119,7 +113,7 @@ class ActingAsTest extends TestCase
             return response(403);
         })->middleware('auth:sanctum');
 
-        $user = new SanctumUser;
+        $user = new User;
         $user->id = 1;
 
         Sanctum::actingAs($user, ['baz']);
@@ -132,7 +126,7 @@ class ActingAsTest extends TestCase
 
     public function testActingAsWhenKeyHasAnyAbility()
     {
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
+        $this->artisan('migrate', ['--database' => 'testing'])->run();
 
         $this->withoutExceptionHandling();
 
@@ -144,7 +138,7 @@ class ActingAsTest extends TestCase
             return response(403);
         })->middleware('auth:sanctum');
 
-        $user = new SanctumUser;
+        $user = new User;
         $user->id = 1;
 
         Sanctum::actingAs($user, ['*']);
@@ -154,14 +148,4 @@ class ActingAsTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('bar');
     }
-
-    protected function getPackageProviders($app)
-    {
-        return [SanctumServiceProvider::class];
-    }
-}
-
-class SanctumUser extends User implements HasApiTokensContract
-{
-    use HasApiTokens;
 }

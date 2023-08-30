@@ -1,6 +1,46 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v2.15.1...master)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v3.2.1...3.x)
+
+## [v3.2.1](https://github.com/laravel/sanctum/compare/v3.2.0...v3.2.1) - 2023-01-13
+
+### Fixed
+
+- Fix bearer token format validation by @krasucki in https://github.com/laravel/sanctum/pull/417
+
+## [v3.2.0](https://github.com/laravel/sanctum/compare/v3.1.0...v3.2.0) - 2023-01-06
+
+### Added
+
+- Laravel v10 Support by @driesvints in https://github.com/laravel/sanctum/pull/415
+
+## [v3.1.0](https://github.com/laravel/sanctum/compare/v3.0.1...v3.1.0) - 2023-01-03
+
+### Changed
+
+- Uses PHP Native Type Declarations 🐘  by @nunomaduro in https://github.com/laravel/sanctum/pull/405
+
+## [v3.0.1](https://github.com/laravel/sanctum/compare/v3.0.0...v3.0.1) - 2022-07-29
+
+### Changed
+
+- Update migration's primary identifier change by @suyar in https://github.com/laravel/sanctum/pull/386
+- Prune expires_at tokens by @iruoy in https://github.com/laravel/sanctum/pull/385
+
+## [v3.0.0](https://github.com/laravel/sanctum/compare/v2.15.1...v3.0.0) - 2022-07-25
+
+### Added
+
+- Expiration dates for tokens by @bjhijmans in https://github.com/laravel/sanctum/pull/252
+
+### Changed
+
+- Improves console output by @nunomaduro in https://github.com/laravel/sanctum/pull/382
+- Shorter tokens by @taylorotwell in https://github.com/laravel/sanctum/commit/c46fc083ab52f2ddac97ee4510486f90fc94f220
+
+### Removed
+
+- Drop old Laravel and PHP versions by @driesvints in https://github.com/laravel/sanctum/pull/378
 
 ## [v2.15.1](https://github.com/laravel/sanctum/compare/v2.15.0...v2.15.1) - 2022-04-08
 

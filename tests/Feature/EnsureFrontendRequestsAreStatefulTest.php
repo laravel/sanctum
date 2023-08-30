@@ -1,15 +1,17 @@
 <?php
 
-namespace Laravel\Sanctum\Tests;
+namespace Laravel\Sanctum\Tests\Feature;
 
 use Illuminate\Http\Request;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
-use Laravel\Sanctum\SanctumServiceProvider;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
 class EnsureFrontendRequestsAreStatefulTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
+    use WithWorkbench;
+
+    protected function defineEnvironment($app)
     {
         $app['config']->set('sanctum.stateful', ['test.com', '*.test.com']);
     }
@@ -72,10 +74,5 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         $request = Request::create('/');
 
         $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [SanctumServiceProvider::class];
     }
 }

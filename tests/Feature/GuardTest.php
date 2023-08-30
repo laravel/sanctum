@@ -1,43 +1,36 @@
 <?php
 
-namespace Laravel\Sanctum\Tests;
+namespace Laravel\Sanctum\Tests\Feature;
 
 use DateTimeInterface;
 use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Str;
-use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
 use Laravel\Sanctum\Events\TokenAuthenticated;
 use Laravel\Sanctum\Guard;
-use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
-use Laravel\Sanctum\SanctumServiceProvider;
 use Mockery;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 use stdClass;
+use Workbench\App\Models\User;
+use Workbench\Database\Factories\PersonalAccessTokenFactory;
+use Workbench\Database\Factories\UserFactory;
 
 class GuardTest extends TestCase
 {
-    protected function getEnvironmentSetUp($app)
-    {
-        $app['config']->set('database.default', 'testbench');
+    use RefreshDatabase, WithWorkbench;
 
-        $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
+    protected function defineEnvironment($app)
+    {
+        $app['config']->set([
+            'auth.guards.sanctum.provider' => 'users',
+            'auth.providers.users.model' => User::class,
+            'database.default' => 'testing',
         ]);
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-
-        Mockery::close();
     }
 
     public function test_authentication_is_attempted_with_web_middleware()
@@ -62,8 +55,6 @@ class GuardTest extends TestCase
 
     public function test_authentication_is_attempted_with_token_if_no_session_present()
     {
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
         $factory = Mockery::mock(AuthFactory::class);
 
         $guard = new Guard($factory, null, 'users');
@@ -86,9 +77,6 @@ class GuardTest extends TestCase
 
     public function test_authentication_with_token_fails_if_expired()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
         $factory = Mockery::mock(AuthFactory::class);
 
         $guard = new Guard($factory, 1, 'users');
@@ -104,18 +92,10 @@ class GuardTest extends TestCase
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
 
-        $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'remember_token' => Str::random(10),
-        ]);
-
-        $token = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        PersonalAccessTokenFactory::new()->for(
+            $user = UserFactory::new()->create(), 'tokenable'
+        )->create([
             'name' => 'Test',
-            'token' => hash('sha256', 'test'),
             'created_at' => now()->subMinutes(60),
         ]);
 
@@ -126,9 +106,6 @@ class GuardTest extends TestCase
 
     public function test_authentication_with_token_fails_if_expires_at_has_passed()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
         $factory = Mockery::mock(AuthFactory::class);
 
         $guard = new Guard($factory, null, 'users');
@@ -144,18 +121,10 @@ class GuardTest extends TestCase
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
 
-        $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'remember_token' => Str::random(10),
-        ]);
-
-        $token = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        PersonalAccessTokenFactory::new()->for(
+            $user = UserFactory::new()->create(), 'tokenable'
+        )->create([
             'name' => 'Test',
-            'token' => hash('sha256', 'test'),
             'expires_at' => now()->subMinutes(60),
         ]);
 
@@ -166,9 +135,6 @@ class GuardTest extends TestCase
 
     public function test_authentication_with_token_succeeds_if_expires_at_not_passed()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
         $factory = Mockery::mock(AuthFactory::class);
 
         $guard = new Guard($factory, null, 'users');
@@ -184,31 +150,22 @@ class GuardTest extends TestCase
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
 
-        $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'remember_token' => Str::random(10),
-        ]);
-
-        $token = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        $token = PersonalAccessTokenFactory::new()->for(
+            $user = UserFactory::new()->create(), 'tokenable'
+        )->create([
             'name' => 'Test',
-            'token' => hash('sha256', 'test'),
             'expires_at' => now()->addMinutes(60),
         ]);
 
-        $user = $guard->__invoke($request);
+        $returnedUser = $guard->__invoke($request);
 
-        $this->assertNull($user);
+        $this->assertEquals($user->id, $returnedUser->id);
+        $this->assertEquals($token->id, $returnedUser->currentAccessToken()->id);
+        $this->assertInstanceOf(DateTimeInterface::class, $returnedUser->currentAccessToken()->last_used_at);
     }
 
     public function test_authentication_is_successful_with_token_if_no_session_present()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
         $factory = Mockery::mock(AuthFactory::class);
 
         $guard = new Guard($factory, null);
@@ -224,18 +181,10 @@ class GuardTest extends TestCase
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
 
-        $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'remember_token' => Str::random(10),
-        ]);
-
-        $token = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        $token = PersonalAccessTokenFactory::new()->for(
+            $user = UserFactory::new()->create(), 'tokenable'
+        )->create([
             'name' => 'Test',
-            'token' => hash('sha256', 'test'),
         ]);
 
         $returnedUser = $guard->__invoke($request);
@@ -247,10 +196,6 @@ class GuardTest extends TestCase
 
     public function test_authentication_with_token_fails_if_user_provider_is_invalid()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
-        config(['auth.guards.sanctum.provider' => 'users']);
         config(['auth.providers.users.model' => 'App\Models\User']);
 
         $factory = $this->app->make(AuthFactory::class);
@@ -263,18 +208,10 @@ class GuardTest extends TestCase
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
 
-        $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'remember_token' => Str::random(10),
-        ]);
-
-        $token = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        PersonalAccessTokenFactory::new()->for(
+            UserFactory::new(), 'tokenable'
+        )->create([
             'name' => 'Test',
-            'token' => hash('sha256', 'test'),
         ]);
 
         $returnedUser = $requestGuard->setRequest($request)->user();
@@ -284,14 +221,39 @@ class GuardTest extends TestCase
         Event::assertNotDispatched(TokenAuthenticated::class);
     }
 
+    /**
+     * @dataProvider invalidTokenDataProvider
+     */
+    public function test_authentication_with_token_fails_if_token_has_invalid_format($invalidToken)
+    {
+        $factory = Mockery::mock(AuthFactory::class);
+
+        $guard = new Guard($factory, null, 'users');
+
+        $webGuard = Mockery::mock(stdClass::class);
+
+        $factory->shouldReceive('guard')
+            ->with('web')
+            ->andReturn($webGuard);
+
+        $webGuard->shouldReceive('user')->once()->andReturn(null);
+
+        $request = Request::create('/', 'GET');
+
+        PersonalAccessTokenFactory::new()->for(
+            UserFactory::new(), 'tokenable'
+        )->create([
+            'name' => 'Test',
+            'expires_at' => now()->subMinutes(60),
+        ]);
+
+        $request->headers->set('Authorization', $invalidToken);
+        $returnedUser = $guard->__invoke($request);
+        $this->assertNull($returnedUser);
+    }
+
     public function test_authentication_is_successful_with_token_if_user_provider_is_valid()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
-        config(['auth.guards.sanctum.provider' => 'users']);
-        config(['auth.providers.users.model' => User::class]);
-
         $factory = $this->app->make(AuthFactory::class);
         $requestGuard = $factory->guard('sanctum');
 
@@ -302,18 +264,10 @@ class GuardTest extends TestCase
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
 
-        $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'remember_token' => Str::random(10),
-        ]);
-
-        $token = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        PersonalAccessTokenFactory::new()->for(
+            $user = UserFactory::new()->create(), 'tokenable'
+        )->create([
             'name' => 'Test',
-            'token' => hash('sha256', 'test'),
         ]);
 
         $returnedUser = $requestGuard->setRequest($request)->user();
@@ -325,30 +279,16 @@ class GuardTest extends TestCase
 
     public function test_authentication_fails_if_callback_returns_false()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
-        config(['auth.guards.sanctum.provider' => 'users']);
-        config(['auth.providers.users.model' => User::class]);
-
         $factory = $this->app->make(AuthFactory::class);
         $requestGuard = $factory->guard('sanctum');
 
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
 
-        $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'remember_token' => Str::random(10),
-        ]);
-
-        $token = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        PersonalAccessTokenFactory::new()->for(
+            $user = UserFactory::new()->create(), 'tokenable'
+        )->create([
             'name' => 'Test',
-            'token' => hash('sha256', 'test'),
         ]);
 
         Sanctum::authenticateAccessTokensUsing(function ($accessToken, bool $isValid) {
@@ -366,9 +306,6 @@ class GuardTest extends TestCase
 
     public function test_authentication_is_successful_with_token_in_custom_header()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
         $factory = Mockery::mock(AuthFactory::class);
 
         $guard = new Guard($factory, null);
@@ -384,18 +321,10 @@ class GuardTest extends TestCase
         $request = Request::create('/', 'GET');
         $request->headers->set('X-Auth-Token', 'test');
 
-        $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'remember_token' => Str::random(10),
-        ]);
-
-        $token = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        $token = PersonalAccessTokenFactory::new()->for(
+            $user = UserFactory::new()->create(), 'tokenable'
+        )->create([
             'name' => 'Test',
-            'token' => hash('sha256', 'test'),
         ]);
 
         Sanctum::getAccessTokenFromRequestUsing(function (Request $request) {
@@ -413,9 +342,6 @@ class GuardTest extends TestCase
 
     public function test_authentication_fails_with_token_in_authorization_header_when_using_custom_header()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
         $factory = Mockery::mock(AuthFactory::class);
 
         $guard = new Guard($factory, null);
@@ -431,18 +357,10 @@ class GuardTest extends TestCase
         $request = Request::create('/', 'GET');
         $request->headers->set('Authorization', 'Bearer test');
 
-        $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'remember_token' => Str::random(10),
-        ]);
-
-        $token = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        PersonalAccessTokenFactory::new()->for(
+            UserFactory::new(), 'tokenable'
+        )->create([
             'name' => 'Test',
-            'token' => hash('sha256', 'test'),
         ]);
 
         Sanctum::getAccessTokenFromRequestUsing(function (Request $request) {
@@ -458,9 +376,6 @@ class GuardTest extends TestCase
 
     public function test_authentication_fails_with_token_in_custom_header_when_using_default_authorization_header()
     {
-        $this->loadLaravelMigrations(['--database' => 'testbench']);
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
         $factory = Mockery::mock(AuthFactory::class);
 
         $guard = new Guard($factory, null);
@@ -476,18 +391,10 @@ class GuardTest extends TestCase
         $request = Request::create('/', 'GET');
         $request->headers->set('X-Auth-Token', 'test');
 
-        $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-            'remember_token' => Str::random(10),
-        ]);
-
-        $token = PersonalAccessToken::forceCreate([
-            'tokenable_id' => $user->id,
-            'tokenable_type' => get_class($user),
+        PersonalAccessTokenFactory::new()->for(
+            UserFactory::new(), 'tokenable'
+        )->create([
             'name' => 'Test',
-            'token' => hash('sha256', 'test'),
         ]);
 
         $returnedUser = $guard->__invoke($request);
@@ -495,13 +402,21 @@ class GuardTest extends TestCase
         $this->assertNull($returnedUser);
     }
 
-    protected function getPackageProviders($app)
+    public static function invalidTokenDataProvider(): array
     {
-        return [SanctumServiceProvider::class];
+        return [
+            [''],
+            ['|'],
+            ['test'],
+            ['|test'],
+            ['1ABC|test'],
+            ['1ABC|'],
+            ['1,2|test'],
+            ['Bearer'],
+            ['Bearer |test'],
+            ['Bearer 1,2|test'],
+            ['Bearer 1ABC|test'],
+            ['Bearer 1ABC|'],
+        ];
     }
-}
-
-class User extends Model implements HasApiTokensContract
-{
-    use HasApiTokens;
 }
