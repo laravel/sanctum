@@ -1,6 +1,12 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v3.2.6...3.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v3.3.0...3.x)
+
+## [v3.3.0](https://github.com/laravel/sanctum/compare/v3.2.6...v3.3.0) - 2023-09-04
+
+- Use crc32b instead of crc32 by [@marzvrover](https://github.com/marzvrover) in https://github.com/laravel/sanctum/pull/468
+- Ensure device has not been logged out by [@crynobone](https://github.com/crynobone) in https://github.com/laravel/sanctum/pull/467
+- Do not prefix by default by [@taylorotwell](https://github.com/taylorotwell) https://github.com/laravel/sanctum/commit/95a0181900019e2d79acbd3e2ee7d57e3d0a086b
 
 ## [v3.2.6](https://github.com/laravel/sanctum/compare/v3.2.5...v3.2.6) - 2023-08-22
 
