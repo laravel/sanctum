@@ -3,6 +3,8 @@
 namespace Laravel\Sanctum\Tests\Feature;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
@@ -74,5 +76,43 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         $request = Request::create('/');
 
         $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+    }
+
+    public function test_request_stateful_when_token_not_present()
+    {
+        $this->app['config']->set('sanctum.stateful', ['test.com']);
+        $this->app['config']->set('app.key', Str::random(32));
+
+        $request = Request::create('/');
+        $request->headers->set('referer', 'https://test.com');
+
+        $middleware = new EnsureFrontendRequestsAreStateful();
+        $handled = $middleware->handle($request, fn ($request) => $request);
+        if ($handled instanceof Request) {
+            $this->assertNotEmpty($handled->cookies->all());
+        } else {
+            $this->assertNotEmpty($handled->headers->getCookies());
+        }
+    }
+
+    public function test_request_not_stateful_when_token_present()
+    {
+        $this->app['config']->set('sanctum.stateful', ['test.com']);
+        $this->app['config']->set('app.key', Str::random(32));
+
+        $request = Request::create('/');
+        $request->headers->set('Authorization', 'Bearer foobar');
+        $request->headers->set('referer', 'https://test.com');
+
+        Auth::shouldReceive('guard')->andReturnSelf();
+        Auth::shouldReceive('user')->andReturn(true);
+
+        $middleware = new EnsureFrontendRequestsAreStateful();
+        $handled = $middleware->handle($request, fn ($request) => $request);
+        if ($handled instanceof Request) {
+            $this->assertEmpty($handled->cookies->all());
+        } else {
+            $this->assertEmpty($handled->headers->getCookies());
+        }
     }
 }
