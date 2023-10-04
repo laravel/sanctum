@@ -4,6 +4,7 @@ namespace Laravel\Sanctum\Http\Middleware;
 
 use Illuminate\Routing\Pipeline;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class EnsureFrontendRequestsAreStateful
@@ -17,6 +18,10 @@ class EnsureFrontendRequestsAreStateful
      */
     public function handle($request, $next)
     {
+        if ($request->bearerToken() && Auth::guard('sanctum')->user()) {
+            return $next($request);
+        }
+
         $this->configureSecureCookieSessions();
 
         return (new Pipeline(app()))->send($request)->through(
