@@ -2,7 +2,6 @@
 
 namespace Laravel\Sanctum\Tests\Feature;
 
-use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
