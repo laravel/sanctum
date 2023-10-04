@@ -2,6 +2,7 @@
 
 namespace Laravel\Sanctum\Tests\Feature;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -81,23 +82,23 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
     public function test_request_stateful_when_token_not_present()
     {
         $this->app['config']->set('sanctum.stateful', ['test.com']);
+        $this->app['config']->set('sanctum.middleware.encrypt_cookies', \Illuminate\Cookie\Middleware\EncryptCookies::class);
+        $this->app['config']->set('sanctum.middleware.verify_csrf_token', \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
         $this->app['config']->set('app.key', Str::random(32));
 
         $request = Request::create('/');
         $request->headers->set('referer', 'https://test.com');
 
         $middleware = new EnsureFrontendRequestsAreStateful();
-        $handled = $middleware->handle($request, fn ($request) => $request);
-        if ($handled instanceof Request) {
-            $this->assertNotEmpty($handled->cookies->all());
-        } else {
-            $this->assertNotEmpty($handled->headers->getCookies());
-        }
+        $handled = $middleware->handle($request, fn ($request) => new \Symfony\Component\HttpFoundation\Response(''));
+        $this->assertNotEmpty($handled->headers->getCookies());
     }
 
     public function test_request_not_stateful_when_token_present()
     {
         $this->app['config']->set('sanctum.stateful', ['test.com']);
+        $this->app['config']->set('sanctum.middleware.encrypt_cookies', \Illuminate\Cookie\Middleware\EncryptCookies::class);
+        $this->app['config']->set('sanctum.middleware.verify_csrf_token', \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
         $this->app['config']->set('app.key', Str::random(32));
 
         $request = Request::create('/');
@@ -108,11 +109,7 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         Auth::shouldReceive('user')->andReturn(true);
 
         $middleware = new EnsureFrontendRequestsAreStateful();
-        $handled = $middleware->handle($request, fn ($request) => $request);
-        if ($handled instanceof Request) {
-            $this->assertEmpty($handled->cookies->all());
-        } else {
-            $this->assertEmpty($handled->headers->getCookies());
-        }
+        $handled = $middleware->handle($request, fn ($request) => new \Symfony\Component\HttpFoundation\Response(''));
+        $this->assertEmpty($handled->headers->getCookies());
     }
 }
