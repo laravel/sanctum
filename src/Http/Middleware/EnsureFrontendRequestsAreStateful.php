@@ -4,6 +4,7 @@ namespace Laravel\Sanctum\Http\Middleware;
 
 use Illuminate\Routing\Pipeline;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class EnsureFrontendRequestsAreStateful
