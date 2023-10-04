@@ -17,6 +17,10 @@ class EnsureFrontendRequestsAreStateful
      */
     public function handle($request, $next)
     {
+        if ($request->bearerToken() && Auth::guard('sanctum')->user()) {
+            return $next($request);
+        }
+
         $this->configureSecureCookieSessions();
 
         return (new Pipeline(app()))->send($request)->through(
