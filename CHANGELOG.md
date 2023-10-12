@@ -1,6 +1,37 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v3.2.1...3.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v3.3.1...3.x)
+
+## [v3.3.1](https://github.com/laravel/sanctum/compare/v3.3.0...v3.3.1) - 2023-09-07
+
+- Re-arrange middleware by [@taylorotwell](https://github.com/taylorotwell) in https://github.com/laravel/sanctum/commit/d1f8bf7f2bdc39ba2a11f1d067b96d31d18246c8
+
+## [v3.3.0](https://github.com/laravel/sanctum/compare/v3.2.6...v3.3.0) - 2023-09-04
+
+- Use crc32b instead of crc32 by [@marzvrover](https://github.com/marzvrover) in https://github.com/laravel/sanctum/pull/468
+- Ensure device has not been logged out by [@crynobone](https://github.com/crynobone) in https://github.com/laravel/sanctum/pull/467
+- Do not prefix by default by [@taylorotwell](https://github.com/taylorotwell) https://github.com/laravel/sanctum/commit/95a0181900019e2d79acbd3e2ee7d57e3d0a086b
+
+## [v3.2.6](https://github.com/laravel/sanctum/compare/v3.2.5...v3.2.6) - 2023-08-22
+
+- Make tokens identifiable with prefix and checksum by [@marzvrover](https://github.com/marzvrover) in https://github.com/laravel/sanctum/pull/459
+- Add deprecated annotation in `MissingScopeException` by [@hungthai1401](https://github.com/hungthai1401) in https://github.com/laravel/sanctum/pull/462
+
+## [v3.2.5](https://github.com/laravel/sanctum/compare/v3.2.4...v3.2.5) - 2023-05-01
+
+- Fix middleware by @taylorotwell in https://github.com/laravel/sanctum/commit/8ebda85d59d3c414863a7f4d816ef8302faad876
+
+## [v3.2.4](https://github.com/laravel/sanctum/compare/v3.2.3...v3.2.4) - 2023-04-26
+
+- Check for validate CSRF token by @taylorotwell in https://github.com/laravel/sanctum/commit/f5bae6156c760545f368438198327e2609ba7bf1
+
+## [v3.2.3](https://github.com/laravel/sanctum/compare/v3.2.2...v3.2.3) - 2023-04-25
+
+- Revert "check for validate csrf token middleware" by @driesvints in https://github.com/laravel/sanctum/commit/6281ce796d464592867f768eb890642aa1954bd0
+
+## [v3.2.2](https://github.com/laravel/sanctum/compare/v3.2.1...v3.2.2) - 2023-04-21
+
+- Check for validate csrf token middleware by @taylorotwell in https://github.com/laravel/sanctum/commit/bbcb052de3fe075a67446e8c5c8ffcb191a1fb24
 
 ## [v3.2.1](https://github.com/laravel/sanctum/compare/v3.2.0...v3.2.1) - 2023-01-13
 
