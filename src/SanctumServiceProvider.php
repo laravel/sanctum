@@ -40,8 +40,6 @@ class SanctumServiceProvider extends ServiceProvider
     public function boot()
     {
         if (app()->runningInConsole()) {
-            $this->registerMigrations();
-
             $this->publishesMigrations([
                 __DIR__.'/../database/migrations' => database_path('migrations'),
             ], 'sanctum-migrations');
