@@ -9,5 +9,3 @@ parameters:
   ignoreErrors:
     - "#Unsafe usage of new static\\(\\)#"
     - "#\\(void\\) is used.#"
-    - "#Class App\\\\Http\\\\Middleware\\\\VerifyCsrfToken not found#"
-    - "#Class App\\\\Http\\\\Middleware\\\\EncryptCookies not found#"
