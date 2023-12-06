@@ -24,7 +24,8 @@
     "require-dev": {
         "mockery/mockery": "^1.0",
         "orchestra/testbench": "^9.0",
-        "phpstan/phpstan": "^1.10"
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^10.4"
     },
     "autoload": {
         "psr-4": {
