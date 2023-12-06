@@ -1,5 +1,2 @@
 providers:
   - Laravel\Sanctum\SanctumServiceProvider
-
-migrations:
-  - database/migrations
