@@ -6,3 +6,6 @@ parameters:
 
   level: 0
 
+  ignoreErrors:
+    - "#Unsafe usage of new static\\(\\)#"
+    - "#\\(void\\) is used.#"
