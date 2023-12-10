@@ -42,8 +42,8 @@ class GuardTest extends TestCase
         $webGuard = Mockery::mock(stdClass::class);
 
         $factory->shouldReceive('guard')
-            ->with('web')
-            ->andReturn($webGuard);
+                ->with('web')
+                ->andReturn($webGuard);
 
         $webGuard->shouldReceive('user')->once()->andReturn($fakeUser = new User);
 
@@ -62,8 +62,8 @@ class GuardTest extends TestCase
         $webGuard = Mockery::mock(stdClass::class);
 
         $factory->shouldReceive('guard')
-            ->with('web')
-            ->andReturn($webGuard);
+                ->with('web')
+                ->andReturn($webGuard);
 
         $webGuard->shouldReceive('user')->once()->andReturn(null);
 
@@ -84,8 +84,8 @@ class GuardTest extends TestCase
         $webGuard = Mockery::mock(stdClass::class);
 
         $factory->shouldReceive('guard')
-            ->with('web')
-            ->andReturn($webGuard);
+                ->with('web')
+                ->andReturn($webGuard);
 
         $webGuard->shouldReceive('user')->once()->andReturn(null);
 
@@ -93,8 +93,7 @@ class GuardTest extends TestCase
         $request->headers->set('Authorization', 'Bearer test');
 
         PersonalAccessTokenFactory::new()->for(
-            $user = UserFactory::new()->create(),
-            'tokenable'
+            $user = UserFactory::new()->create(), 'tokenable'
         )->create([
             'name' => 'Test',
             'created_at' => now()->subMinutes(60),
@@ -123,8 +122,7 @@ class GuardTest extends TestCase
         $request->headers->set('Authorization', 'Bearer test');
 
         PersonalAccessTokenFactory::new()->for(
-            $user = UserFactory::new()->create(),
-            'tokenable'
+            $user = UserFactory::new()->create(), 'tokenable'
         )->create([
             'name' => 'Test',
             'expires_at' => now()->subMinutes(60),
@@ -153,8 +151,7 @@ class GuardTest extends TestCase
         $request->headers->set('Authorization', 'Bearer test');
 
         $token = PersonalAccessTokenFactory::new()->for(
-            $user = UserFactory::new()->create(),
-            'tokenable'
+            $user = UserFactory::new()->create(), 'tokenable'
         )->create([
             'name' => 'Test',
             'expires_at' => now()->addMinutes(60),
@@ -209,8 +206,8 @@ class GuardTest extends TestCase
         $webGuard = Mockery::mock(stdClass::class);
 
         $factory->shouldReceive('guard')
-            ->with('web')
-            ->andReturn($webGuard);
+                ->with('web')
+                ->andReturn($webGuard);
 
         $webGuard->shouldReceive('user')->once()->andReturn(null);
 
@@ -218,8 +215,7 @@ class GuardTest extends TestCase
         $request->headers->set('Authorization', 'Bearer test');
 
         $token = PersonalAccessTokenFactory::new()->for(
-            $user = UserFactory::new()->create(),
-            'tokenable'
+            $user = UserFactory::new()->create(), 'tokenable'
         )->create([
             'name' => 'Test',
         ]);
@@ -246,8 +242,7 @@ class GuardTest extends TestCase
         $request->headers->set('Authorization', 'Bearer test');
 
         PersonalAccessTokenFactory::new()->for(
-            UserFactory::new(),
-            'tokenable'
+            UserFactory::new(), 'tokenable'
         )->create([
             'name' => 'Test',
         ]);
@@ -279,8 +274,7 @@ class GuardTest extends TestCase
         $request = Request::create('/', 'GET');
 
         PersonalAccessTokenFactory::new()->for(
-            UserFactory::new(),
-            'tokenable'
+            UserFactory::new(), 'tokenable'
         )->create([
             'name' => 'Test',
             'expires_at' => now()->subMinutes(60),
@@ -304,8 +298,7 @@ class GuardTest extends TestCase
         $request->headers->set('Authorization', 'Bearer test');
 
         PersonalAccessTokenFactory::new()->for(
-            $user = UserFactory::new()->create(),
-            'tokenable'
+            $user = UserFactory::new()->create(), 'tokenable'
         )->create([
             'name' => 'Test',
         ]);
@@ -326,8 +319,7 @@ class GuardTest extends TestCase
         $request->headers->set('Authorization', 'Bearer test');
 
         PersonalAccessTokenFactory::new()->for(
-            $user = UserFactory::new()->create(),
-            'tokenable'
+            $user = UserFactory::new()->create(), 'tokenable'
         )->create([
             'name' => 'Test',
         ]);
@@ -354,8 +346,8 @@ class GuardTest extends TestCase
         $webGuard = Mockery::mock(stdClass::class);
 
         $factory->shouldReceive('guard')
-            ->with('web')
-            ->andReturn($webGuard);
+                ->with('web')
+                ->andReturn($webGuard);
 
         $webGuard->shouldReceive('user')->once()->andReturn(null);
 
@@ -363,8 +355,7 @@ class GuardTest extends TestCase
         $request->headers->set('X-Auth-Token', 'test');
 
         $token = PersonalAccessTokenFactory::new()->for(
-            $user = UserFactory::new()->create(),
-            'tokenable'
+            $user = UserFactory::new()->create(), 'tokenable'
         )->create([
             'name' => 'Test',
         ]);
@@ -391,8 +382,8 @@ class GuardTest extends TestCase
         $webGuard = Mockery::mock(stdClass::class);
 
         $factory->shouldReceive('guard')
-            ->with('web')
-            ->andReturn($webGuard);
+                ->with('web')
+                ->andReturn($webGuard);
 
         $webGuard->shouldReceive('user')->once()->andReturn(null);
 
@@ -400,8 +391,7 @@ class GuardTest extends TestCase
         $request->headers->set('Authorization', 'Bearer test');
 
         PersonalAccessTokenFactory::new()->for(
-            UserFactory::new(),
-            'tokenable'
+            UserFactory::new(), 'tokenable'
         )->create([
             'name' => 'Test',
         ]);
@@ -426,8 +416,8 @@ class GuardTest extends TestCase
         $webGuard = Mockery::mock(stdClass::class);
 
         $factory->shouldReceive('guard')
-            ->with('web')
-            ->andReturn($webGuard);
+                ->with('web')
+                ->andReturn($webGuard);
 
         $webGuard->shouldReceive('user')->once()->andReturn(null);
 
@@ -435,8 +425,7 @@ class GuardTest extends TestCase
         $request->headers->set('X-Auth-Token', 'test');
 
         PersonalAccessTokenFactory::new()->for(
-            UserFactory::new(),
-            'tokenable'
+            UserFactory::new(), 'tokenable'
         )->create([
             'name' => 'Test',
         ]);
