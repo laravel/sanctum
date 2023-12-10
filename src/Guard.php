@@ -19,7 +19,7 @@ class Guard
     /**
      * The number of minutes tokens should be allowed to remain valid.
      *
-     * @var int
+     * @var int|float
      */
     protected $expiration;
 
@@ -156,7 +156,7 @@ class Guard
         }
 
         $isValid =
-            (! $this->expiration || $accessToken->created_at->gt(now()->subMinutes($this->expiration)))
+            (! $this->expiration || $accessToken->created_at->gt(now()->subSeconds($this->expiration * 60)))
             && (! $accessToken->expires_at || ! $accessToken->expires_at->isPast())
             && $this->hasValidProvider($accessToken->tokenable);
 

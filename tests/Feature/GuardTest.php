@@ -164,6 +164,39 @@ class GuardTest extends TestCase
         $this->assertInstanceOf(DateTimeInterface::class, $returnedUser->currentAccessToken()->last_used_at);
     }
 
+    public function test_authentication_with_token_succeeds_if_expires_at_not_passed_by_seconds()
+    {
+        $factory = Mockery::mock(AuthFactory::class);
+
+        $expiration = 1 / 60 * 10;
+        $guard = new Guard($factory, $expiration, 'users');
+
+        $webGuard = Mockery::mock(stdClass::class);
+
+        $factory->shouldReceive('guard')
+            ->with('web')
+            ->andReturn($webGuard);
+
+        $webGuard->shouldReceive('user')->once()->andReturn(null);
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer test');
+
+        $token = PersonalAccessTokenFactory::new()->for(
+            $user = UserFactory::new()->create(),
+            'tokenable'
+        )->create([
+            'name' => 'Test',
+            'expires_at' => now()->addSeconds(3),
+        ]);
+
+        $returnedUser = $guard->__invoke($request);
+
+        $this->assertEquals($user->id, $returnedUser->id);
+        $this->assertEquals($token->id, $returnedUser->currentAccessToken()->id);
+        $this->assertInstanceOf(DateTimeInterface::class, $returnedUser->currentAccessToken()->last_used_at);
+    }
+
     public function test_authentication_is_successful_with_token_if_no_session_present()
     {
         $factory = Mockery::mock(AuthFactory::class);

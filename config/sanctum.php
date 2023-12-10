@@ -44,6 +44,8 @@ return [
     | considered expired. This will override any values set in the token's
     | "expires_at" attribute, but first-party sessions are not affected.
     |
+    | To set the number of seconds, use decimal.
+    |
     */
 
     'expiration' => null,
