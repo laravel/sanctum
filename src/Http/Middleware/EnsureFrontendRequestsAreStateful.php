@@ -72,7 +72,7 @@ class EnsureFrontendRequestsAreStateful
      */
     public static function fromFrontend($request)
     {
-        $domain = $request->headers->get('referer') ?: $request->headers->get('origin');
+        $domain = $request->headers->get('referer') ?: $request->headers->get('origin') ?: $request->headers->get('host');
 
         if (is_null($domain)) {
             return false;
