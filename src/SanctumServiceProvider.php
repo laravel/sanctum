@@ -40,9 +40,7 @@ class SanctumServiceProvider extends ServiceProvider
     public function boot()
     {
         if (app()->runningInConsole()) {
-            $this->registerMigrations();
-
-            $this->publishes([
+            $this->publishesMigrations([
                 __DIR__.'/../database/migrations' => database_path('migrations'),
             ], 'sanctum-migrations');
 
@@ -58,18 +56,6 @@ class SanctumServiceProvider extends ServiceProvider
         $this->defineRoutes();
         $this->configureGuard();
         $this->configureMiddleware();
-    }
-
-    /**
-     * Register Sanctum's migration files.
-     *
-     * @return void
-     */
-    protected function registerMigrations()
-    {
-        if (Sanctum::shouldRunMigrations()) {
-            return $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        }
     }
 
     /**

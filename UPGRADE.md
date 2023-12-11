@@ -1,20 +1,20 @@
 # Upgrade Guide
 
-## Upgrading To 3.0 From 2.x
+## Upgrading To 4.0 From 3.x
 
-### Minimum Versions
+### Migration Changes
 
-The following dependency versions have been updated:
+Sanctum 4.0 no longer automatically loads migrations from its own migrations directory. Instead, you should run the following command to publish Sanctum's migrations to your application:
 
-- The minimum PHP version is now v8.0.2
-- The minimum Laravel version is now v9.21
-
-### New `expires_at` Column
-
-Sanctum now supports expiring tokens. To support this feature, a new `expires_at` column must be added to your application's `personal_access_tokens` table. To add the column to your table, create a migration with the following schema change:
-
-```php
-Schema::table('personal_access_tokens', function (Blueprint $table) {
-    $table->timestamp('expires_at')->nullable()->after('last_used_at');
-});
+```bash
+php artisan vendor:publish --tag=sanctum-migrations
 ```
+
+### Minimum PHP Version
+
+PHP 8.2 is now the minimum required version.
+
+### Minimum Laravel Version
+
+Laravel 11.0 is now the minimum required version.
+
