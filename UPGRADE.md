@@ -4,7 +4,7 @@
 
 ### Migration Changes
 
-Sanctum 4.0 no longer automatically loads migrations from its own migrations directory, so be sure to run the following command to publish Sanctum's migrations to your application:
+Sanctum 4.0 no longer automatically loads migrations from its own migrations directory. Instead, you should run the following command to publish Sanctum's migrations to your application:
 
 ```bash
 php artisan vendor:publish --tag=sanctum-migrations
