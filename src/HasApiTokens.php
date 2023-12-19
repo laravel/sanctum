@@ -37,7 +37,7 @@ trait HasApiTokens
 
     /**
      * Generate plain text token.
-     * 
+     *
      * @return string
      */
     public function generatePlainToken()
