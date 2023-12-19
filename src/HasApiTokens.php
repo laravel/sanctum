@@ -36,7 +36,7 @@ trait HasApiTokens
     }
 
     /**
-     * Generate Plain Text Token
+     * Generate plain text token.
      * 
      * @return string
      */
