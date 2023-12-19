@@ -36,6 +36,21 @@ trait HasApiTokens
     }
 
     /**
+     * Generate Plain Text Token
+     * 
+     * @return string
+     */
+    public function generatePlainToken()
+    {
+        return sprintf(
+            '%s%s%s',
+            config('sanctum.token_prefix', ''),
+            $tokenEntropy = Str::random(40),
+            hash('crc32b', $tokenEntropy)
+        );
+    }
+
+    /**
      * Create a new personal access token for the user.
      *
      * @param  string  $name
@@ -45,12 +60,7 @@ trait HasApiTokens
      */
     public function createToken(string $name, array $abilities = ['*'], DateTimeInterface $expiresAt = null)
     {
-        $plainTextToken = sprintf(
-            '%s%s%s',
-            config('sanctum.token_prefix', ''),
-            $tokenEntropy = Str::random(40),
-            hash('crc32b', $tokenEntropy)
-        );
+        $plainTextToken = $this->generatePlainToken();
 
         $token = $this->tokens()->create([
             'name' => $name,
