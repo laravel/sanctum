@@ -3,6 +3,7 @@
 namespace Laravel\Sanctum;
 
 use DateTimeInterface;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 
 trait HasApiTokens
@@ -51,7 +52,7 @@ trait HasApiTokens
             'name' => $name,
             'token' => hash('sha256', $plainTextToken),
             'abilities' => $abilities,
-            'expires_at' => $expiresAt,
+            'expires_at' => $expiresAt ?? Date::now()->addMinutes(config('sanctum.expiration')),
         ]);
 
         return new NewAccessToken($token, $token->getKey().'|'.$plainTextToken);
