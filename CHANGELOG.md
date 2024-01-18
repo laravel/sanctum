@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v3.3.2...3.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v3.3.3...3.x)
+
+## [v3.3.3](https://github.com/laravel/sanctum/compare/v3.3.2...v3.3.3) - 2023-12-19
+
+* Updated `CsrfCookieController` to use named arguments by [@OussamaMater](https://github.com/OussamaMater) in https://github.com/laravel/sanctum/pull/487
+* Extract generate token method by [@mowangjuanzi](https://github.com/mowangjuanzi) in https://github.com/laravel/sanctum/pull/488
 
 ## [v3.3.2](https://github.com/laravel/sanctum/compare/v3.3.1...v3.3.2) - 2023-11-03
 
