@@ -1,6 +1,6 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v3.3.3...3.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v3.3.3...4.x)
 
 ## [v3.3.3](https://github.com/laravel/sanctum/compare/v3.3.2...v3.3.3) - 2023-12-19
 
