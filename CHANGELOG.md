@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v3.3.3...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.0.0...4.x)
+
+## [v4.0.0](https://github.com/laravel/sanctum/compare/v3.3.3...v4.0.0) - 2024-03-12
+
+* [4.x] Adds Laravel 11 support by [@nunomaduro](https://github.com/nunomaduro) in https://github.com/laravel/sanctum/pull/480
+* Matching method to contract for createToken() by [@gammamatrix](https://github.com/gammamatrix) in https://github.com/laravel/sanctum/pull/498
 
 ## [v3.3.3](https://github.com/laravel/sanctum/compare/v3.3.2...v3.3.3) - 2023-12-19
 
