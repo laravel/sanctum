@@ -4,7 +4,9 @@ namespace Laravel\Sanctum\Console\Commands;
 
 use Illuminate\Console\Command;
 use Laravel\Sanctum\Sanctum;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand(name: 'sanctum:prune-expired')]
 class PruneExpired extends Command
 {
     /**
