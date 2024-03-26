@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.0.0...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.0.1...4.x)
+
+## [v4.0.1](https://github.com/laravel/sanctum/compare/v4.0.0...v4.0.1) - 2024-03-19
+
+* [4.x] Make commands lazy by [@timacdonald](https://github.com/timacdonald) in https://github.com/laravel/sanctum/pull/502
 
 ## [v4.0.0](https://github.com/laravel/sanctum/compare/v3.3.3...v4.0.0) - 2024-03-12
 
