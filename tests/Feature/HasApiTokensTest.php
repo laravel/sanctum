@@ -39,6 +39,31 @@ class HasApiTokensTest extends TestCase
         );
     }
 
+    public function test_tokens_can_be_regenerated()
+    {
+        $class = new ClassThatHasApiTokens;
+        $time = Carbon::now();
+
+        $regeneratedToken = $class->regenerateToken('test', ['foo'], $time);
+
+        [$id, $token] = explode('|', $regeneratedToken->plainTextToken);
+
+        $this->assertEquals(
+            $regeneratedToken->accessToken->token,
+            hash('sha256', $token)
+        );
+
+        $this->assertEquals(
+            $regeneratedToken->accessToken->id,
+            $id
+        );
+
+        $this->assertEquals(
+            $time->toDateTimeString(),
+            $regeneratedToken->accessToken->expires_at->toDateTimeString()
+        );
+    }
+
     public function test_can_check_token_abilities()
     {
         $class = new ClassThatHasApiTokens;
@@ -79,6 +104,11 @@ class ClassThatHasApiTokens implements HasApiTokensContract
             public function create(array $attributes)
             {
                 return new PersonalAccessToken($attributes);
+            }
+
+            public function delete()
+            {
+                return 1;
             }
         };
     }
