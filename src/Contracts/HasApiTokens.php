@@ -32,6 +32,16 @@ interface HasApiTokens
     public function createToken(string $name, array $abilities = ['*'], DateTimeInterface $expiresAt = null);
 
     /**
+     * Regenerate new personal access token for the user.
+     *
+     * @param  string  $name
+     * @param  array  $abilities
+     * @param  \DateTimeInterface|null  $expiresAt
+     * @return \Laravel\Sanctum\NewAccessToken
+     */
+    public function regenerateToken(string $name, array $abilities = ['*'], DateTimeInterface $expiresAt = null);
+
+    /**
      * Get the access token currently associated with the user.
      *
      * @return \Laravel\Sanctum\Contracts\HasAbilities

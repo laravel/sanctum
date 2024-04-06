@@ -58,6 +58,21 @@ trait HasApiTokens
     }
 
     /**
+     * Regenerate new personal access token for the user.
+     *
+     * @param  string  $name
+     * @param  array  $abilities
+     * @param  \DateTimeInterface|null  $expiresAt
+     * @return \Laravel\Sanctum\NewAccessToken
+     */
+    public function regenerateToken(string $name, array $abilities = ['*'], DateTimeInterface $expiresAt = null)
+    {
+        $this->tokens()->delete();
+
+        return $this->createToken($name, $abilities, $expiresAt);
+    }
+
+    /**
      * Generate the token string.
      *
      * @return string
