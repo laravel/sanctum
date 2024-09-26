@@ -1,4 +1,4 @@
-<p align="center"><img src="/art/logo.svg" alt="Logo Laravel Sanctum"></p>
+<p align="center"><img width="307" height="63" src="/art/logo.svg" alt="Logo Laravel Sanctum"></p>
 
 <p align="center">
 <a href="https://github.com/laravel/sanctum/actions"><img src="https://github.com/laravel/sanctum/workflows/tests/badge.svg" alt="Build Status"></a>
