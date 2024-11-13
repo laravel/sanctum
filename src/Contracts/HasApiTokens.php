@@ -29,7 +29,7 @@ interface HasApiTokens
      * @param  \DateTimeInterface|null  $expiresAt
      * @return \Laravel\Sanctum\NewAccessToken
      */
-    public function createToken(string $name, array $abilities = ['*'], DateTimeInterface $expiresAt = null);
+    public function createToken(string $name, array $abilities = ['*'], ?DateTimeInterface $expiresAt = null);
 
     /**
      * Get the access token currently associated with the user.
