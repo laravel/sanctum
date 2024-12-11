@@ -39,6 +39,17 @@ trait HasApiTokens
     }
 
     /**
+     * Determine if the current API token does not have a given scope.
+     *
+     * @param  string  $ability
+     * @return bool
+     */
+    public function tokenCant(string $ability)
+    {
+        return $this->accessToken && $this->accessToken->cant($ability);
+    }
+
+    /**
      * Create a new personal access token for the user.
      *
      * @param  string  $name

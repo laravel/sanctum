@@ -48,6 +48,20 @@ class HasApiTokensTest extends TestCase
         $this->assertTrue($class->tokenCan('foo'));
     }
 
+    public function test_check_token_cant_ability()
+    {
+        $class = new ClassThatHasApiTokens;
+
+        $newToken = $class->createToken('test', ['foo']);
+
+        $class->withAccessToken($newToken->accessToken);
+
+        $this->assertTrue($class->tokenCant('bar'));
+
+        $this->assertFalse($class->tokenCant('foo'));
+    }
+
+
     public function test_token_checksum_is_valid()
     {
         $config = require __DIR__.'/../../config/sanctum.php';
