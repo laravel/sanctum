@@ -61,7 +61,6 @@ class HasApiTokensTest extends TestCase
         $this->assertFalse($class->tokenCant('foo'));
     }
 
-
     public function test_token_checksum_is_valid()
     {
         $config = require __DIR__.'/../../config/sanctum.php';
