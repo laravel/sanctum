@@ -46,7 +46,7 @@ trait HasApiTokens
      */
     public function tokenCant(string $ability)
     {
-        return $this->accessToken && $this->accessToken->cant($ability);
+        return ! $this->tokenCan($ability);
     }
 
     /**
