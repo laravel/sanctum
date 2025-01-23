@@ -16,17 +16,17 @@
     "require": {
         "php": "^8.2",
         "ext-json": "*",
-        "illuminate/console": "^11.0",
-        "illuminate/contracts": "^11.0",
-        "illuminate/database": "^11.0",
-        "illuminate/support": "^11.0",
+        "illuminate/console": "^11.0|^12.0",
+        "illuminate/contracts": "^11.0|^12.0",
+        "illuminate/database": "^11.0|^12.0",
+        "illuminate/support": "^11.0|^12.0",
         "symfony/console": "^7.0"
     },
     "require-dev": {
         "mockery/mockery": "^1.6",
-        "orchestra/testbench": "^9.0",
+        "orchestra/testbench": "^9.0|^10.0",
         "phpstan/phpstan": "^1.10",
-        "phpunit/phpunit": "^10.5"
+        "phpunit/phpunit": "^11.3"
     },
     "autoload": {
         "psr-4": {
