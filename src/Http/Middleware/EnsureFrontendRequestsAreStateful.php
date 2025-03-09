@@ -48,8 +48,8 @@ class EnsureFrontendRequestsAreStateful
     {
         $middleware = array_values(array_filter(array_unique([
             config('sanctum.middleware.encrypt_cookies', \Illuminate\Cookie\Middleware\EncryptCookies::class),
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
+            config('sanctum.middleware.add_queued_cookies_to_response', \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class),
+            config('sanctum.middleware.start_session', \Illuminate\Session\Middleware\StartSession::class),
             config('sanctum.middleware.validate_csrf_token', config('sanctum.middleware.verify_csrf_token', \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class)),
             config('sanctum.middleware.authenticate_session'),
         ])));
