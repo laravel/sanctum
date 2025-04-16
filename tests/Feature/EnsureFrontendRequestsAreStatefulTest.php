@@ -59,6 +59,19 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
     }
 
+    public function test_same_domain_stateful()
+    {
+        $request = Request::create('https://app-domain.com/');
+        $request->headers->set('origin', 'app-domain.com');
+
+        config(['sanctum.same_domain_stateful' => false]);
+        $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+
+        config(['sanctum.same_domain_stateful' => true]);
+        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+
+    }
+
     public function test_wildcard_matching()
     {
         $request = Request::create('/');

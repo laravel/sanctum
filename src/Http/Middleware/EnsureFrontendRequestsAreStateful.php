@@ -83,6 +83,10 @@ class EnsureFrontendRequestsAreStateful
 
         $stateful = array_filter(config('sanctum.stateful', []));
 
+        if(config('sanctum.same_domain_stateful')) {
+            $stateful[] = $request->getHttpHost();
+        }
+
         return Str::is(Collection::make($stateful)->map(function ($uri) {
             return trim($uri).'/*';
         })->all(), $domain);

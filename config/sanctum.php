@@ -23,6 +23,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Include Request Host as stateful domain
+    |--------------------------------------------------------------------------
+    |
+    | In most cases frontend SPA implementations call API endpoints on the
+    | same domain name the SPA is hosted from.  This parameter enables
+    | you to dynamically include the request host as stateful domain.
+    |
+    */
+
+    'same_domain_stateful' => env('SANCTUM_SAME_DOMAIN_STATEFUL', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Sanctum Guards
     |--------------------------------------------------------------------------
     |
