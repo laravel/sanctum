@@ -69,7 +69,6 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
 
         config(['sanctum.same_domain_stateful' => true]);
         $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
-
     }
 
     public function test_wildcard_matching()
