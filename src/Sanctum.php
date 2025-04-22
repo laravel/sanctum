@@ -43,7 +43,7 @@ class Sanctum
     }
 
     /**
-     * Get a fixed token instructing Sanctum to include the current request Url in the list of stateful domains.
+     * Get a fixed token instructing Sanctum to include the current request host in the list of stateful domains.
      *
      * @return string
      */
