@@ -43,6 +43,16 @@ class Sanctum
     }
 
     /**
+     * Get a fixed token instructing Sanctum to include the current request host in the list of stateful domains.
+     *
+     * @return string
+     */
+    public static function currentRequestHost()
+    {
+        return '__SANCTUM_CURRENT_REQUEST_HOST__';
+    }
+
+    /**
      * Set the current user for the application with the given abilities.
      *
      * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laravel\Sanctum\HasApiTokens  $user
