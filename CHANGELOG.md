@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.0.8...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.1.0...4.x)
+
+## [v4.1.0](https://github.com/laravel/sanctum/compare/v4.0.8...v4.1.0) - 2025-04-22
+
+* Update logo by [@iamdavidhill](https://github.com/iamdavidhill) in https://github.com/laravel/sanctum/pull/562
+* Feature to treat same domain requests to be from frontend and make stateful by [@denjaland](https://github.com/denjaland) in https://github.com/laravel/sanctum/pull/564
 
 ## [v4.0.8](https://github.com/laravel/sanctum/compare/v4.0.7...v4.0.8) - 2025-01-26
 
