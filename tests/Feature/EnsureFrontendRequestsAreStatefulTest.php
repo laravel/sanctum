@@ -4,6 +4,7 @@ namespace Laravel\Sanctum\Tests\Feature;
 
 use Illuminate\Http\Request;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use Laravel\Sanctum\Sanctum;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
@@ -64,10 +65,10 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         $request = Request::create('https://app-domain.com/');
         $request->headers->set('origin', 'app-domain.com');
 
-        config(['sanctum.same_domain_stateful' => false]);
+        config(['sanctum.stateful' => []]);
         $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
 
-        config(['sanctum.same_domain_stateful' => true]);
+        config(['sanctum.stateful' => [Sanctum::currentRequestHost()]]);
         $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
     }
 

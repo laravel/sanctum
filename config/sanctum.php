@@ -12,27 +12,17 @@ return [
     | Requests from the following domains / hosts will receive stateful API
     | authentication cookies. Typically, these should include your local
     | and production domains which access your API via a frontend SPA.
+    | Sanctum::currentRequestHost() instructs Sanctum to include the
+    | request host from the current request in the stateful list.
     |
     */
 
     'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
         '%s%s',
         'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
-        Sanctum::currentApplicationUrlWithPort()
+        Sanctum::currentApplicationUrlWithPort(),
+        // Sanctum::currentRequestHost(),
     ))),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Include Request Host as stateful domain
-    |--------------------------------------------------------------------------
-    |
-    | In most cases frontend SPA implementations call API endpoints on the
-    | same domain name the SPA is hosted from.  This parameter enables
-    | you to dynamically include the request host as stateful domain.
-    |
-    */
-
-    'same_domain_stateful' => env('SANCTUM_SAME_DOMAIN_STATEFUL', false),
 
     /*
     |--------------------------------------------------------------------------
