@@ -68,7 +68,7 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         config(['sanctum.stateful' => []]);
         $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
 
-        config(['sanctum.stateful' => [Sanctum::currentRequestHost()]]);
+        config(['sanctum.stateful' => [Sanctum::$currentRequestHostPlaceholder]]);
         $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
     }
 
