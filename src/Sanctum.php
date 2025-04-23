@@ -56,7 +56,7 @@ class Sanctum
      */
     public static function currentRequestHost()
     {
-        return ',' . static::$currentRequestHostPlaceholder;
+        return ','.static::$currentRequestHostPlaceholder;
     }
 
     /**
