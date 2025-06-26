@@ -178,7 +178,7 @@ class Guard
     /**
      * Store the time the token was last used.
      *
-     * @param \Laravel\Sanctum\PersonalAccessToken $accessToken
+     * @param  \Laravel\Sanctum\PersonalAccessToken  $accessToken
      * @return void
      */
     protected function updateLastUsedAt($accessToken)
