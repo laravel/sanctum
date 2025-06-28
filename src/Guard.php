@@ -128,7 +128,7 @@ class Guard
      * @param  string|null  $token
      * @return bool
      */
-    protected function isValidBearerToken(string $token = null)
+    protected function isValidBearerToken(?string $token = null)
     {
         if (! is_null($token) && str_contains($token, '|')) {
             $model = new Sanctum::$personalAccessTokenModel;
