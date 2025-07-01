@@ -3,7 +3,6 @@
 namespace Laravel\Sanctum\Http\Middleware;
 
 use Illuminate\Routing\Pipeline;
-use Illuminate\Support\Arr;
 
 class EnsureFrontendRequestsAreStateful
 {
