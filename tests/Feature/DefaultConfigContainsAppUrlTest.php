@@ -3,7 +3,7 @@
 namespace Laravel\Sanctum\Tests\Feature;
 
 use Illuminate\Http\Request;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use Laravel\Sanctum\Http\Middleware\FrontendRequestChecker;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 
@@ -52,6 +52,6 @@ class DefaultConfigContainsAppUrlTest extends TestCase
 
         $request->headers->set('referer', config('app.url'));
 
-        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+        $this->assertTrue(FrontendRequestChecker::isFromFrontend($request));
     }
 }

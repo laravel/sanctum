@@ -3,7 +3,7 @@
 namespace Laravel\Sanctum\Tests\Feature;
 
 use Illuminate\Http\Request;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use Laravel\Sanctum\Http\Middleware\FrontendRequestChecker;
 use Laravel\Sanctum\Sanctum;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
@@ -22,22 +22,22 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         $request = Request::create('/');
         $request->headers->set('referer', 'https://test.com');
 
-        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+        $this->assertTrue(FrontendRequestChecker::isFromFrontend($request));
 
         $request = Request::create('/');
         $request->headers->set('referer', 'https://wrong.com');
 
-        $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+        $this->assertFalse(FrontendRequestChecker::isFromFrontend($request));
 
         $request = Request::create('/');
         $request->headers->set('referer', 'https://test.com.x');
 
-        $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+        $this->assertFalse(FrontendRequestChecker::isFromFrontend($request));
 
         $request = Request::create('/');
         $request->headers->set('referer', 'https://foobar.test.com/');
 
-        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+        $this->assertTrue(FrontendRequestChecker::isFromFrontend($request));
     }
 
     public function test_request_origin_fallback()
@@ -45,19 +45,19 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         $request = Request::create('/');
         $request->headers->set('origin', 'test.com');
 
-        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+        $this->assertTrue(FrontendRequestChecker::isFromFrontend($request));
 
         $request = Request::create('/');
         $request->headers->set('referer', null);
         $request->headers->set('origin', 'test.com');
 
-        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+        $this->assertTrue(FrontendRequestChecker::isFromFrontend($request));
 
         $request = Request::create('/');
         $request->headers->set('referer', '');
         $request->headers->set('origin', 'test.com');
 
-        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+        $this->assertTrue(FrontendRequestChecker::isFromFrontend($request));
     }
 
     public function test_same_domain_stateful()
@@ -66,10 +66,10 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         $request->headers->set('origin', 'app-domain.com');
 
         config(['sanctum.stateful' => []]);
-        $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+        $this->assertFalse(FrontendRequestChecker::isFromFrontend($request));
 
         config(['sanctum.stateful' => [Sanctum::$currentRequestHostPlaceholder]]);
-        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+        $this->assertTrue(FrontendRequestChecker::isFromFrontend($request));
     }
 
     public function test_wildcard_matching()
@@ -77,7 +77,7 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
         $request = Request::create('/');
         $request->headers->set('referer', 'https://foo.test.com');
 
-        $this->assertTrue(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+        $this->assertTrue(FrontendRequestChecker::isFromFrontend($request));
     }
 
     public function test_requests_are_not_stateful_without_referer()
@@ -86,6 +86,6 @@ class EnsureFrontendRequestsAreStatefulTest extends TestCase
 
         $request = Request::create('/');
 
-        $this->assertFalse(EnsureFrontendRequestsAreStateful::fromFrontend($request));
+        $this->assertFalse(FrontendRequestChecker::isFromFrontend($request));
     }
 }
