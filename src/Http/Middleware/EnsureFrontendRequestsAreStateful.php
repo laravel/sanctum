@@ -3,9 +3,7 @@
 namespace Laravel\Sanctum\Http\Middleware;
 
 use Illuminate\Routing\Pipeline;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use Laravel\Sanctum\Sanctum;
+use Illuminate\Support\Arr;
 
 class EnsureFrontendRequestsAreStateful
 {
@@ -20,11 +18,16 @@ class EnsureFrontendRequestsAreStateful
     {
         $this->configureSecureCookieSessions();
 
-        return (new Pipeline(app()))->send($request)->through(
-            static::fromFrontend($request) ? $this->frontendMiddleware() : []
-        )->then(function ($request) use ($next) {
-            return $next($request);
-        });
+        $middleware = FrontendRequestChecker::isFromFrontend($request)
+            ? $this->frontendMiddleware()
+            : [];
+
+        return (new Pipeline(app()))
+            ->send($request)
+            ->through($middleware)
+            ->then(function ($request) use ($next) {
+                return $next($request);
+            });
     }
 
     /**
@@ -62,32 +65,5 @@ class EnsureFrontendRequestsAreStateful
         });
 
         return $middleware;
-    }
-
-    /**
-     * Determine if the given request is from the first-party application frontend.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
-     */
-    public static function fromFrontend($request)
-    {
-        $domain = $request->headers->get('referer') ?: $request->headers->get('origin');
-
-        if (is_null($domain)) {
-            return false;
-        }
-
-        $domain = Str::replaceFirst('https://', '', $domain);
-        $domain = Str::replaceFirst('http://', '', $domain);
-        $domain = Str::endsWith($domain, '/') ? $domain : "{$domain}/";
-
-        $stateful = array_filter(config('sanctum.stateful', []));
-
-        return Str::is(Collection::make($stateful)->map(function ($uri) use ($request) {
-            $uri = $uri === Sanctum::$currentRequestHostPlaceholder ? $request->getHttpHost() : $uri;
-
-            return trim($uri).'/*';
-        })->all(), $domain);
     }
 }
