@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.1.1...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.1.2...4.x)
+
+## [v4.1.2](https://github.com/laravel/sanctum/compare/v4.1.1...v4.1.2) - 2025-07-01
+
+* [4.x] Factor token `last_used_at` update into separate method by [@cosmastech](https://github.com/cosmastech) in https://github.com/laravel/sanctum/pull/567
+* refactor: use text for name column by [@reidsolon](https://github.com/reidsolon) in https://github.com/laravel/sanctum/pull/570
 
 ## [v4.1.1](https://github.com/laravel/sanctum/compare/v4.1.0...v4.1.1) - 2025-04-23
 
