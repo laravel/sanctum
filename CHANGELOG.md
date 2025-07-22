@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.1.2...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.2.0...4.x)
+
+## [v4.2.0](https://github.com/laravel/sanctum/compare/v4.1.2...v4.2.0) - 2025-07-09
+
+* [Refactor] Add indexes to personal_access_tokens by [@keshav-k3](https://github.com/keshav-k3) in https://github.com/laravel/sanctum/pull/571
 
 ## [v4.1.2](https://github.com/laravel/sanctum/compare/v4.1.1...v4.1.2) - 2025-07-01
 
