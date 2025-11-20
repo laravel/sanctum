@@ -23,7 +23,6 @@ class MissingScopeException extends AuthorizationException
      *
      * @param  array|string  $scopes
      * @param  string  $message
-     * @return void
      */
     public function __construct($scopes = [], $message = 'Invalid scope(s) provided.')
     {
