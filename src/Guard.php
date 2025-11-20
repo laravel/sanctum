@@ -36,7 +36,6 @@ class Guard
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @param  int  $expiration
      * @param  string  $provider
-     * @return void
      */
     public function __construct(AuthFactory $auth, $expiration = null, $provider = null)
     {
