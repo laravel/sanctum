@@ -8,6 +8,7 @@ use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Laravel\Sanctum\Sanctum;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Workbench\App\Models\User;
 use Workbench\Database\Factories\PersonalAccessTokenFactory;
 use Workbench\Database\Factories\UserFactory;
@@ -56,9 +57,7 @@ class AuthenticateRequestsTest extends TestCase
             ->assertSee($user->email);
     }
 
-    /**
-     * @dataProvider sanctumGuardsDataProvider
-     */
+    #[DataProvider('sanctumGuardsDataProvider')]
     public function test_can_authorize_valid_user_using_sanctum_acting_as($guard)
     {
         PersonalAccessTokenFactory::new()->for(

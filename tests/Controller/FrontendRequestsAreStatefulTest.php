@@ -8,6 +8,7 @@ use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Laravel\Sanctum\Sanctum;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Workbench\App\Models\User;
 use Workbench\Database\Factories\UserFactory;
 
@@ -97,9 +98,7 @@ class FrontendRequestsAreStatefulTest extends TestCase
             ->assertSee($user->email);
     }
 
-    /**
-     * @dataProvider sanctumGuardsDataProvider
-     */
+    #[DataProvider('sanctumGuardsDataProvider')]
     public function test_middleware_can_deauthorize_valid_user_using_acting_as_after_password_change_from_sanctum_guard($guard)
     {
         $user = UserFactory::new()->create();

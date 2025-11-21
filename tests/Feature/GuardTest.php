@@ -15,6 +15,7 @@ use Laravel\Sanctum\Sanctum;
 use Mockery;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 use Workbench\App\Models\User;
 use Workbench\Database\Factories\PersonalAccessTokenFactory;
@@ -221,9 +222,7 @@ class GuardTest extends TestCase
         Event::assertNotDispatched(TokenAuthenticated::class);
     }
 
-    /**
-     * @dataProvider invalidTokenDataProvider
-     */
+    #[DataProvider('invalidTokenDataProvider')]
     public function test_authentication_with_token_fails_if_token_has_invalid_format($invalidToken)
     {
         $factory = Mockery::mock(AuthFactory::class);
