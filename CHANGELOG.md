@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.2.0...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.2.1...4.x)
+
+## [v4.2.1](https://github.com/laravel/sanctum/compare/v4.2.0...v4.2.1) - 2025-11-21
+
+* [4.x] Remove `@return` docblocks on constructors by [@CasEbb](https://github.com/CasEbb) in https://github.com/laravel/sanctum/pull/575
+* [4.x] PHP 8.5 Compatibility by [@crynobone](https://github.com/crynobone) in https://github.com/laravel/sanctum/pull/576
 
 ## [v4.2.0](https://github.com/laravel/sanctum/compare/v4.1.2...v4.2.0) - 2025-07-09
 
