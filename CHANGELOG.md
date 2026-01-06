@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.2.1...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.2.2...4.x)
+
+## [v4.2.2](https://github.com/laravel/sanctum/compare/v4.2.1...v4.2.2) - 2026-01-06
+
+* Support HMAC password hash format from Laravel 12.45.0+ by [@ams-ryanolson](https://github.com/ams-ryanolson) in https://github.com/laravel/sanctum/pull/578
 
 ## [v4.2.1](https://github.com/laravel/sanctum/compare/v4.2.0...v4.2.1) - 2025-11-21
 
