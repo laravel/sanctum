@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.2.2...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.2.3...4.x)
+
+## [v4.2.3](https://github.com/laravel/sanctum/compare/v4.2.2...v4.2.3) - 2026-01-11
+
+* Allow null password hash by [@patrickomeara](https://github.com/patrickomeara) in https://github.com/laravel/sanctum/pull/581
 
 ## [v4.2.2](https://github.com/laravel/sanctum/compare/v4.2.1...v4.2.2) - 2026-01-06
 
