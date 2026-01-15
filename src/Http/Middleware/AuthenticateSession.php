@@ -124,6 +124,6 @@ class AuthenticateSession
         }
 
         // Fall back to raw password hash format for backward compatibility...
-        return hash_equals($passwordHash, $storedValue);
+        return hash_equals($passwordHash ?? '', $storedValue);
     }
 }
