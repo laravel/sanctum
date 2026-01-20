@@ -51,6 +51,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Track Last Used At
+    |--------------------------------------------------------------------------
+    |
+    | This value controls whether Sanctum will track the last time a token
+    | was used. When enabled, each token authentication will update the
+    | "last_used_at" timestamp. Disable this to reduce database writes
+    | in high-traffic applications with millions of users.
+    |
+    */
+
+    'track_last_used_at' => env('SANCTUM_TRACK_LAST_USED_AT', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Token Prefix
     |--------------------------------------------------------------------------
     |
