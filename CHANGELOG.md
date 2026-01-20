@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.2.3...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.2.4...4.x)
+
+## [v4.2.4](https://github.com/laravel/sanctum/compare/v4.2.3...v4.2.4) - 2026-01-15
+
+* Allow nullable $passwordHash by [@BnitoBzh](https://github.com/BnitoBzh) in https://github.com/laravel/sanctum/pull/582
 
 ## [v4.2.3](https://github.com/laravel/sanctum/compare/v4.2.2...v4.2.3) - 2026-01-11
 
