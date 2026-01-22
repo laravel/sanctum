@@ -14,7 +14,7 @@ class MissingScopeException extends AuthorizationException
     /**
      * Create a new missing scope exception.
      *
-     * @param  array|string  $scopes The scopes that the user did not have.
+     * @param  array|string  $scopes  The scopes that the user did not have.
      * @param  string  $message
      */
     public function __construct(protected $scopes = [], $message = 'Invalid scope(s) provided.')

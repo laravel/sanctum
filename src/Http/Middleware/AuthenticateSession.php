@@ -16,7 +16,7 @@ class AuthenticateSession
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth The authentication factory implementation.
+     * @param  \Illuminate\Contracts\Auth\Factory  $auth  The authentication factory implementation.
      */
     public function __construct(protected AuthFactory $auth)
     {
