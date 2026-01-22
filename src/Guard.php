@@ -9,48 +9,17 @@ use Laravel\Sanctum\Events\TokenAuthenticated;
 
 class Guard
 {
-    /**
-     * The authentication factory implementation.
-     *
-     * @var \Illuminate\Contracts\Auth\Factory
-     */
-    protected $auth;
-
-    /**
-     * The number of minutes tokens should be allowed to remain valid.
-     *
-     * @var int
-     */
-    protected $expiration;
-
-    /**
-     * The provider name.
-     *
-     * @var string
-     */
-    protected $provider;
-
-    /**
-     * Whether to track the last used timestamp.
-     *
-     * @var bool
-     */
-    protected $trackLastUsedAt;
 
     /**
      * Create a new guard instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
-     * @param  int  $expiration
-     * @param  string  $provider
-     * @param  bool  $trackLastUsedAt
+     * @param  \Illuminate\Contracts\Auth\Factory  $auth The authentication factory implementation
+     * @param  int  $expiration The number of minutes tokens should be allowed to remain valid.
+     * @param  string  $provider The provider name.
+     * @param  bool  $trackLastUsedAt Whether to track the last used timestamp.
      */
-    public function __construct(AuthFactory $auth, $expiration = null, $provider = null, $trackLastUsedAt = true)
+    public function __construct(protected AuthFactory $auth, protected $expiration = null, protected $provider = null, protected $trackLastUsedAt = true)
     {
-        $this->auth = $auth;
-        $this->expiration = $expiration;
-        $this->provider = $provider;
-        $this->trackLastUsedAt = $trackLastUsedAt;
     }
 
     /**

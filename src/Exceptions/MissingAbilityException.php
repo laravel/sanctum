@@ -8,19 +8,12 @@ use Illuminate\Support\Arr;
 class MissingAbilityException extends AuthorizationException
 {
     /**
-     * The abilities that the user did not have.
-     *
-     * @var array
-     */
-    protected $abilities;
-
-    /**
      * Create a new missing scope exception.
      *
-     * @param  array|string  $abilities
+     * @param  array|string  $abilities The abilities that the user did not have
      * @param  string  $message
      */
-    public function __construct($abilities = [], $message = 'Invalid ability provided.')
+    public function __construct(protected $abilities = [], $message = 'Invalid ability provided.')
     {
         parent::__construct($message);
 
