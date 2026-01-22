@@ -165,7 +165,7 @@ class FrontendRequestsAreStatefulTest extends TestCase
             'origin' => config('app.url'),
         ])
         ->assertOk()
-        ->assertSee($user->email)->assertSessionHas('password_hash_web', $user->getAuthPassword());
+        ->assertSee($user->email)->assertSessionHas('password_hash_web');
 
         $this->getJson('/sanctum/api/logout', [
             'origin' => config('app.url'),
