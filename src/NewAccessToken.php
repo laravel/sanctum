@@ -10,8 +10,8 @@ class NewAccessToken implements Arrayable, Jsonable
     /**
      * Create a new access token result.
      *
-     * @param  \Laravel\Sanctum\PersonalAccessToken  $accessToken The access token instance
-     * @param  string  $plainTextToken The plain text version of the token
+     * @param  \Laravel\Sanctum\PersonalAccessToken  $accessToken The access token instance.
+     * @param  string  $plainTextToken The plain text version of the token.
      */
     public function __construct(public PersonalAccessToken $accessToken, public string $plainTextToken)
     {
