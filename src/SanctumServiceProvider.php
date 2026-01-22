@@ -107,7 +107,7 @@ class SanctumServiceProvider extends ServiceProvider
                 $auth,
                 config('sanctum.expiration'),
                 $config['provider'],
-                config('sanctum.track_last_used_at', true)
+                config('sanctum.last_used_at', true)
             ),
             request(),
             $auth->createUserProvider($config['provider'] ?? null)
