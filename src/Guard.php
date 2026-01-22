@@ -31,17 +31,26 @@ class Guard
     protected $provider;
 
     /**
+     * Whether to track the last used timestamp.
+     *
+     * @var bool
+     */
+    protected $trackLastUsedAt;
+
+    /**
      * Create a new guard instance.
      *
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @param  int  $expiration
      * @param  string  $provider
+     * @param  bool  $trackLastUsedAt
      */
-    public function __construct(AuthFactory $auth, $expiration = null, $provider = null)
+    public function __construct(AuthFactory $auth, $expiration = null, $provider = null, $trackLastUsedAt = true)
     {
         $this->auth = $auth;
         $this->expiration = $expiration;
         $this->provider = $provider;
+        $this->trackLastUsedAt = $trackLastUsedAt;
     }
 
     /**
@@ -76,7 +85,9 @@ class Guard
 
             event(new TokenAuthenticated($accessToken));
 
-            $this->updateLastUsedAt($accessToken);
+            if ($this->trackLastUsedAt) {
+                $this->updateLastUsedAt($accessToken);
+            }
 
             return $tokenable;
         }

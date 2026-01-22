@@ -418,4 +418,65 @@ class GuardTest extends TestCase
             ['Bearer 1ABC|'],
         ];
     }
+
+    public function test_last_used_at_is_not_tracked_when_disabled()
+    {
+        $factory = Mockery::mock(AuthFactory::class);
+
+        $guard = new Guard($factory, null, 'users', false);
+
+        $webGuard = Mockery::mock(stdClass::class);
+
+        $factory->shouldReceive('guard')
+            ->with('web')
+            ->andReturn($webGuard);
+
+        $webGuard->shouldReceive('user')->once()->andReturn(null);
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer test');
+
+        $token = PersonalAccessTokenFactory::new()->for(
+            $user = UserFactory::new()->create(), 'tokenable'
+        )->create([
+            'name' => 'Test',
+            'last_used_at' => null,
+        ]);
+
+        $returnedUser = $guard->__invoke($request);
+
+        $this->assertEquals($user->id, $returnedUser->id);
+        $this->assertEquals($token->id, $returnedUser->currentAccessToken()->id);
+        $this->assertNull($returnedUser->currentAccessToken()->last_used_at);
+    }
+
+    public function test_last_used_at_is_tracked_when_enabled()
+    {
+        $factory = Mockery::mock(AuthFactory::class);
+
+        $guard = new Guard($factory, null, 'users', true);
+
+        $webGuard = Mockery::mock(stdClass::class);
+
+        $factory->shouldReceive('guard')
+            ->with('web')
+            ->andReturn($webGuard);
+
+        $webGuard->shouldReceive('user')->once()->andReturn(null);
+
+        $request = Request::create('/', 'GET');
+        $request->headers->set('Authorization', 'Bearer test');
+
+        $token = PersonalAccessTokenFactory::new()->for(
+            $user = UserFactory::new()->create(), 'tokenable'
+        )->create([
+            'name' => 'Test',
+        ]);
+
+        $returnedUser = $guard->__invoke($request);
+
+        $this->assertEquals($user->id, $returnedUser->id);
+        $this->assertEquals($token->id, $returnedUser->currentAccessToken()->id);
+        $this->assertInstanceOf(DateTimeInterface::class, $returnedUser->currentAccessToken()->last_used_at);
+    }
 }
