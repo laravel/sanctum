@@ -1,6 +1,13 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.2.4...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.3.0...4.x)
+
+## [v4.3.0](https://github.com/laravel/sanctum/compare/v4.2.4...v4.3.0) - 2026-01-22
+
+* Add optional last_used_at tracking configuration by [@MElkmeshi](https://github.com/MElkmeshi) in https://github.com/laravel/sanctum/pull/583
+* [4.x] Fix tests by [@jackbayliss](https://github.com/jackbayliss) in https://github.com/laravel/sanctum/pull/584
+* [4.x] Fix failing test on Laravel > 11 by [@jackbayliss](https://github.com/jackbayliss) in https://github.com/laravel/sanctum/pull/585
+* [4.x] Use property promotion by [@jackbayliss](https://github.com/jackbayliss) in https://github.com/laravel/sanctum/pull/586
 
 ## [v4.2.4](https://github.com/laravel/sanctum/compare/v4.2.3...v4.2.4) - 2026-01-15
 
