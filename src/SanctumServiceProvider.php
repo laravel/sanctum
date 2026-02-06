@@ -96,10 +96,9 @@ class SanctumServiceProvider extends ServiceProvider
                         ),
                         request(),
                         $auth->createUserProvider($config['provider'] ?? null)
-                    )
-                , function ($guard) {
-                    app()->refresh('request', $guard, 'setRequest');
-                });
+                    ), function ($guard) {
+                        app()->refresh('request', $guard, 'setRequest');
+                    });
             });
         });
     }
