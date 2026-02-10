@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.3.0...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.3.1...4.x)
+
+## [v4.3.1](https://github.com/laravel/sanctum/compare/v4.3.0...v4.3.1) - 2026-02-07
+
+* [4.x] Supports Laravel 13 by [@crynobone](https://github.com/crynobone) in https://github.com/laravel/sanctum/pull/587
 
 ## [v4.3.0](https://github.com/laravel/sanctum/compare/v4.2.4...v4.3.0) - 2026-01-22
 
