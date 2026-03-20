@@ -25,7 +25,7 @@ class FrontendRequestsAreStatefulTest extends TestCase
             'auth.providers.users.model' => User::class,
             'database.default' => 'testing',
             'sanctum.middleware.encrypt_cookies' => \Illuminate\Cookie\Middleware\EncryptCookies::class,
-            'sanctum.middleware.verify_csrf_token' => \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
+            'sanctum.middleware.prevent_request_forgery' => \Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class,
         ]);
     }
 
