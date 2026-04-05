@@ -10,7 +10,7 @@ interface HasAbilities
      * @param  string  $ability
      * @return bool
      */
-    public function can($ability);
+    public function can(array $ability);
 
     /**
      * Determine if the token is missing a given ability.
@@ -18,5 +18,5 @@ interface HasAbilities
      * @param  string  $ability
      * @return bool
      */
-    public function cant($ability);
+    public function cant(array $ability);
 }
