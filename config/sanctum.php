@@ -66,6 +66,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Sanctum Route Registration
+    |--------------------------------------------------------------------------
+    |
+    | By setting this value to false, you are instructing Sanctum to ignore
+    | its default route registration. This is useful when you are using
+    | purely token-based authentication and do not need CSRF protection.
+    |
+    */
+    'routes' => env('SANCTUM_REGISTER_ROUTES', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Sanctum Middleware
     |--------------------------------------------------------------------------
     |
