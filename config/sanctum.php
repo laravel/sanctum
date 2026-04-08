@@ -66,6 +66,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Update Last Used At Timestamp
+    |--------------------------------------------------------------------------
+    |
+    | This option controls whether Sanctum updates the 'last_used_at' column
+    | in the database every time a personal access token is used. Disabling
+    | this feature can significantly reduce database write operations and
+    | improve overall API performance for high-concurrency environments.
+    |
+    */
+
+    'last_used_at' => env('SANCTUM_UPDATE_LAST_USED_AT', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Sanctum Middleware
     |--------------------------------------------------------------------------
     |
