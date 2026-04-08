@@ -74,6 +74,7 @@ return [
     | purely token-based authentication and do not need CSRF protection.
     |
     */
+
     'routes' => env('SANCTUM_REGISTER_ROUTES', true),
 
     /*
