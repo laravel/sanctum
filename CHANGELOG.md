@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.3.1...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.3.2...4.x)
+
+## [v4.3.2](https://github.com/laravel/sanctum/compare/v4.3.1...v4.3.2) - 2026-04-30
+
+* [4.x] Update `config/sanctum.php` to follow skeleton `laravel/pint` format by [@crynobone](https://github.com/crynobone) in https://github.com/laravel/sanctum/pull/597
 
 ## [v4.3.1](https://github.com/laravel/sanctum/compare/v4.3.0...v4.3.1) - 2026-02-07
 
