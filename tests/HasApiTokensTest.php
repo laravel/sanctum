@@ -37,7 +37,8 @@ class ClassThatHasApiTokens
 
     public function tokens()
     {
-        return new class {
+        return new class
+        {
             public function create(array $attributes)
             {
                 return new PersonalAccessToken($attributes);
