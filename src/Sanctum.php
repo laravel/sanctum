@@ -38,6 +38,24 @@ class Sanctum
     public static $currentRequestHostPlaceholder = '__SANCTUM_CURRENT_REQUEST_HOST__';
 
     /**
+     * Get the default CSRF middleware class for the installed Laravel version.
+     *
+     * @return class-string
+     */
+    public static function csrfMiddleware(): string
+    {
+        if (class_exists(\Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class)) {
+            return \Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class;
+        }
+
+        if (class_exists(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class)) {
+            return \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class;
+        }
+
+        return \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class;
+    }
+
+    /**
      * Get the current application URL from the "APP_URL" environment variable - with port.
      *
      * @return string
