@@ -99,11 +99,11 @@ class Guard
      */
     protected function isValidBearerToken(?string $token = null)
     {
-        if (! is_null($token) && str_contains($token, '|')) {
+        if (! is_null($token) && str_contains($token, '.')) {
             $model = new Sanctum::$personalAccessTokenModel;
 
             if ($model->getKeyType() === 'int') {
-                [$id, $token] = explode('|', $token, 2);
+                [$id, $token] = explode('.', $token, 2);
 
                 return ctype_digit($id) && ! empty($token);
             }

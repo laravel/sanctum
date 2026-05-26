@@ -21,7 +21,7 @@ class HasApiTokensTest extends TestCase
 
         $newToken = $class->createToken('test', ['foo'], $time);
 
-        [$id, $token] = explode('|', $newToken->plainTextToken);
+        [$id, $token] = explode('.', $newToken->plainTextToken);
 
         $this->assertEquals(
             $newToken->accessToken->token,
@@ -70,7 +70,7 @@ class HasApiTokensTest extends TestCase
 
         $newToken = $class->createToken('test', ['foo']);
 
-        [$id, $token] = explode('|', $newToken->plainTextToken);
+        [$id, $token] = explode('.', $newToken->plainTextToken);
         $splitToken = explode('_', $token);
         $tokenEntropy = substr(end($splitToken), 0, -8);
 
