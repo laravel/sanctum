@@ -27,4 +27,14 @@ class PersonalAccessTokenTest extends TestCase
         $this->assertTrue($token->can('foo'));
         $this->assertTrue($token->can('bar'));
     }
+
+    public function test_can_uses_strict_comparison_for_abilities()
+    {
+        $token = new PersonalAccessToken;
+
+        $token->abilities = [true];
+
+        $this->assertFalse($token->can('foo'));
+        $this->assertFalse($token->can('*'));
+    }
 }
