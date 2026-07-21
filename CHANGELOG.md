@@ -1,6 +1,17 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.3.2...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.3.3...4.x)
+
+## [v4.3.3](https://github.com/laravel/sanctum/compare/v4.3.2...v4.3.3) - 2026-06-23
+
+* Pin GitHub Actions to commit SHAs and add Dependabot config by [@joetannenbaum](https://github.com/joetannenbaum) in https://github.com/laravel/sanctum/pull/598
+* Bump shivammathur/setup-php from 2.37.0 to 2.37.1 in the github-actions group by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/sanctum/pull/602
+* Pin pull requests and issues workflows to latest laravel/.github by [@nunomaduro](https://github.com/nunomaduro) in https://github.com/laravel/sanctum/pull/605
+* Add Dependabot cooldown of 5 days by [@nunomaduro](https://github.com/nunomaduro) in https://github.com/laravel/sanctum/pull/606
+* Enable Dependabot auto-merge by [@nunomaduro](https://github.com/nunomaduro) in https://github.com/laravel/sanctum/pull/610
+* Bump actions/checkout from 6.0.2 to 6.0.3 in the github-actions group by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/sanctum/pull/611
+* Bump shivammathur/setup-php from 2.37.1 to 2.37.2 in the github-actions group by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/sanctum/pull/612
+* Bump actions/checkout from 6.0.3 to 7.0.0 in the github-actions group by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/sanctum/pull/613
 
 ## [v4.3.2](https://github.com/laravel/sanctum/compare/v4.3.1...v4.3.2) - 2026-04-30
 
