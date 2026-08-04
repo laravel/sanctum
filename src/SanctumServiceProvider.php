@@ -7,6 +7,7 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Doctor\Doctor;
 use Laravel\Sanctum\Console\Commands\PruneExpired;
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
@@ -39,6 +40,8 @@ class SanctumServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerDiagnostics();
+
         if (app()->runningInConsole()) {
             $this->publishesMigrations([
                 __DIR__.'/../database/migrations' => database_path('migrations'),
@@ -56,6 +59,23 @@ class SanctumServiceProvider extends ServiceProvider
         $this->defineRoutes();
         $this->configureGuard();
         $this->configureMiddleware();
+    }
+
+    /**
+     * Register the package's Doctor diagnostics.
+     *
+     * @return void
+     */
+    protected function registerDiagnostics()
+    {
+        if ($this->app->bound(Doctor::class)) {
+            $this->app->make(Doctor::class)->diagnostics([
+                Diagnostics\SanctumSchemaIsReady::class,
+                Diagnostics\SanctumExpiredTokensArePruned::class,
+                Diagnostics\SanctumStatefulDomainsCoverAppUrl::class,
+                Diagnostics\SanctumSessionDomainCoversFrontend::class,
+            ]);
+        }
     }
 
     /**

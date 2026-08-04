@@ -23,9 +23,10 @@
         "symfony/console": "^7.0|^8.0"
     },
     "require-dev": {
+        "laravel/doctor": "^0.1",
         "mockery/mockery": "^1.6",
         "orchestra/testbench": "^9.15|^10.8|^11.0",
-        "phpstan/phpstan": "^1.10"
+        "phpstan/phpstan": "^2.2"
     },
     "autoload": {
         "psr-4": {
