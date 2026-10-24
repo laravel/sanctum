@@ -76,8 +76,8 @@ class PersonalAccessToken extends Model implements HasAbilities
      */
     public function can($ability)
     {
-        return in_array('*', $this->abilities) ||
-               array_key_exists($ability, array_flip($this->abilities));
+        return in_array('*', $this->abilities, true) ||
+               in_array($ability, $this->abilities, true);
     }
 
     /**
