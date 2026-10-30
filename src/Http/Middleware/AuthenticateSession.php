@@ -44,7 +44,7 @@ class AuthenticateSession
         )->filter(
             fn ($guard, $driver) => ! $this->validatePasswordHash(
                 $guard,
-                $request->user()->getAuthPassword(),
+                $request->user($driver)?->getAuthPassword(),
                 $request->session()->get('password_hash_'.$driver)
             )
         );
