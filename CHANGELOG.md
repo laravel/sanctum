@@ -1,6 +1,25 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.3.3...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.4.0...4.x)
+
+## [v4.4.0](https://github.com/laravel/sanctum/compare/v4.3.3...v4.4.0) - 2026-11-02
+
+### What's Changed
+
+* Bump actions/checkout from 7.0.0 to 7.0.1 in the github-actions group by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/sanctum/pull/614
+* Migration from Mockery to Double by [@jasonmccreary](https://github.com/jasonmccreary) in https://github.com/laravel/sanctum/pull/618
+* Bump to Double v1 by [@jasonmccreary](https://github.com/jasonmccreary) in https://github.com/laravel/sanctum/pull/620
+* Remove security policy in favor of the org-wide default by [@pushpak1300](https://github.com/pushpak1300) in https://github.com/laravel/sanctum/pull/621
+* Bump shivammathur/setup-php from 2.37.2 to 2.40.0 in the github-actions group by [@dependabot](https://github.com/dependabot)[bot] in https://github.com/laravel/sanctum/pull/622
+* Possible fix for cases where a SPA has more than one guard simultaneously by [@sandcore-dev](https://github.com/sandcore-dev) in https://github.com/laravel/sanctum/pull/624
+
+### New Contributors
+
+* [@jasonmccreary](https://github.com/jasonmccreary) made their first contribution in https://github.com/laravel/sanctum/pull/618
+* [@pushpak1300](https://github.com/pushpak1300) made their first contribution in https://github.com/laravel/sanctum/pull/621
+* [@sandcore-dev](https://github.com/sandcore-dev) made their first contribution in https://github.com/laravel/sanctum/pull/624
+
+**Full Changelog**: https://github.com/laravel/sanctum/compare/v4.3.3...v4.4.0
 
 ## [v4.3.3](https://github.com/laravel/sanctum/compare/v4.3.2...v4.3.3) - 2026-06-23
 
