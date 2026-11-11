@@ -161,14 +161,10 @@ class Guard
      */
     protected function updateLastUsedAt($accessToken)
     {
-        if (method_exists($accessToken->getConnection(), 'hasModifiedRecords') &&
-            method_exists($accessToken->getConnection(), 'setRecordModificationState')) {
-            $hasModifiedRecords = $accessToken->getConnection()->hasModifiedRecords();
-            $accessToken->forceFill(['last_used_at' => now()])->save();
+        $hasModifiedRecords = $accessToken->getConnection()->hasModifiedRecords();
 
-            $accessToken->getConnection()->setRecordModificationState($hasModifiedRecords);
-        } else {
-            $accessToken->forceFill(['last_used_at' => now()])->save();
-        }
+        $accessToken->forceFill(['last_used_at' => now()])->save();
+
+        $accessToken->getConnection()->setRecordModificationState($hasModifiedRecords);
     }
 }
