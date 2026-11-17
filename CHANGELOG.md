@@ -1,6 +1,14 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/sanctum/compare/v4.4.0...4.x)
+## [Unreleased](https://github.com/laravel/sanctum/compare/v4.5.0...4.x)
+
+## [v4.5.0](https://github.com/laravel/sanctum/compare/v4.4.0...v4.5.0) - 2026-11-11
+
+### What's Changed
+
+* Dependency floor bump by [@pushpak1300](https://github.com/pushpak1300) in https://github.com/laravel/sanctum/pull/625
+
+**Full Changelog**: https://github.com/laravel/sanctum/compare/v4.4.0...v4.5.0
 
 ## [v4.4.0](https://github.com/laravel/sanctum/compare/v4.3.3...v4.4.0) - 2026-11-02
 
